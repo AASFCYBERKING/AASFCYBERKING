@@ -1,54 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>✧∘* ೃ 𝐋𝐨𝐠𝐢𝐧 ೃ *∘✧</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body bgcolor="black">
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-4">
-					<div class="login-wrap py-5">
-		      	<div class="img d-flex align-items-center justify-content-center" style="background-image: url(images/bg.jpg);"></div>
-		      	<h3 class="text-center mb-0">Welcome</h3>
-		      	<p class="text-center">Sign in by entering the information below</p>
-						<form action="#" class="login-form">
-		      		<div class="form-group">
-		      			<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-		      			<input type="text" class="form-control" placeholder="Username" required>
-		      		</div>
-	            <div class="form-group">
-	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-	              <input type="password" class="form-control" placeholder="Password" required>
-	            </div>
-	            <div class="form-group d-md-flex">
-								<div class="w-100 text-md-right">
-									<a href="#">Forgot Password</a>
-								</div>
-	            </div>
-	            <div class="form-group">
-	            	<button type="submit" class="btn form-control btn-primary rounded submit px-3">Get Started</button>
-	            </div>
-	          </form>
-	          <div class="w-100 text-center mt-4 text">
-	          	<p class="mb-0">Don't have an account?</p>
-		          <a href="#">Sign Up</a>
-	          </div>
-	        </div>
-				</div>
+<html>
+<head>
+	<title>Kishore | キショア | 키쇼어</title>
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/URiIL9g.jpeg">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+	<style>
+		/* Add your CSS styles here */
+		body {
+			background-color: #121212;
+			color: #f5f5f5;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			margin: 0;
+			padding: 0;
+			overflow-x: hidden;
+		}
+
+		.container {
+			position: relative;
+			margin: 0 auto;
+			width: 350px;
+			padding: 60px 30px;
+			background-color: rgba(0, 0, 0, 0.6);
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
+			margin-top: 100px;
+			box-sizing: border-box;
+		}
+
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		.input-field {
+			background-color: #1a1a1a;
+			color: #f5f5f5;
+			border: none;
+			padding: 10px;
+			margin: 10px 0;
+			border-radius: 5px;
+			width: 100%;
+			font-size: 16px;
+			box-sizing: border-box;
+			outline: none; /* Remove default outline */
+		}
+
+		.input-field:focus,
+		.input-field:active {
+			box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.1);
+            outline: 2px solid #ff0066; /* Add outline on focus and active */
+		}
+
+		.btn {
+			background-color: #ff0066;
+			color: #ffffff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			font-size: 16px;
+			margin-top: 10px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.btn:hover {
+			background-color: #e00050;
+		}
+
+		.forgot-password {
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 20px;
+			font-size: 14px;
+			color: #ffffff;
+		}
+
+		.forgot-password a {
+			color: #ff0066;
+			text-decoration: none;
+		}
+
+		.signup-link {
+			text-align: center;
+			margin-top: 20px;
+			font-size: 14px;
+			color: #ffffff;
+		}
+
+		.signup-link a {
+			color: #ff0066;
+			text-decoration: none;
+}
+
+		.circle-image {
+			position: absolute;
+			top: -50px;
+		right: 0;
+			width: 100px;
+			height: 100px;
+			background-color: #ff0066;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
+			cursor: pointer;
+		}
+
+		.circle-image img {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+
+		.about-container {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			background-color: transparent;
+			width: 200px;
+			height: 150px;
+			padding: 15px;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #ffffff;
+			transform: translateY(-10px);
+			opacity: 0;
+			transition: transform 0.3s ease, opacity 0.3s ease;
+		}
+
+		.about-container.visible {
+			transform: translateY(0);
+			opacity: 1;
+		}
+
+		.about-inner {
+			display: inline-block;
+			text-align: left;
+			vertical-align: middle;
+			background-color: rgba(0, 0, 0, 0.6);
+			padding: 10px 15px;
+			border-radius: 5px;
+			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
+		}
+
+		@media (max-width: 768px) {
+			.circle-image {
+				top: -30px;
+			}
+			.about-container {
+				top: 100%;
+				transform: translateY(calc(100% + 10px));
+				opacity: 0;
+				transition: none;
+			}
+			.container:hover .about-container {
+				opacity: 1;
+				transform: translateY(0);
+				transition: transform 0.3s ease, opacity 0.3s ease;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="circle-image" id="circleImage">
+			<img src="https://i.imgur.com/URiIL9g.jpeg" alt="AASF">
+		</div>
+		<h1>Login</h1>
+		<form id="loginForm" method="post" action="{{ url_for('authentication.login') }}">
+			<div class="form-group">
+				<label for="username" class="ri-user-line"></label>
+				<input type="text" class="input-field" id="username" placeholder="Enter your username" required title="Please enter your username">
+			</div>
+			<div class="form-group">
+				<label for="password" class="ri-lock-password-line"></label>
+                <input type="password" class="input-field" id="password" placeholder="Enter your password" required title="Please enter your password">
+			</div>
+			<button type="submit" class="btn">Login</button>
+	</form>
+		<div class="forgot-password">
+			<a href="#">Forgot your password?</a>
+		</div>
+		<div class="signup-link">
+			<a href="signup.html">Don't have an account? Sign up</a>
+		</div>
+		<div class="about-container">
+			<div class="about-inner">
+				<p>Site created by Kishore</p>
+				<p>Contact: <a href="mailto:kishore@example.com">kishore@example.com</a></p>
 			</div>
 		</div>
-	</section>
+	</div>
+	<!-- Add your JavaScript code here -->
+	<script>
+	document.getElementById('loginForm').addEventListener('submit', function(event) {
+		event.preventDefault();
 
-	<script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
+		const username = document.getElementById('username').value;
+		const password = document.getElementById('password').value;
 
-	</body>
+		// You can replace the following line with your own authentication logic.
+		if (username === 'test' && password === 'test') {
+			document.getElementById('loginForm').action = "{{ url_for('authentication.login') }}";
+			form.submit();
+			// Redirect to another page, or perform other actions upon successful login.
+		} else {
+			alert('Invalid username or password.');
+		}
+	});
+
+	// Add event listener for circle image mouseenter
+	const circleImage = document.getElementById('circleImage');
+	circleImage.addEventListener('mouseenter', function() {
+		// Show the about-container
+		const aboutContainer = circleImage.nextElementSibling;
+		aboutContainer.classList.add('visible');
+	});
+
+	// Add event listener for about-container mouseleave
+	const aboutContainer = document.querySelector('.about-container');
+	aboutContainer.addEventListener('mouseleave', function() {
+		// Hide the about-container
+		aboutContainer.classList.remove('visible');
+	});
+	</script>
+</body>
 </html>
