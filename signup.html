@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kishore | キショア | キ쇼어</title>
+  <link rel="icon" type="image/x-icon" href="https://i.imgur.com/URiIL9g.jpeg">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+                body {
+                        background-color: #121212;
+                        color: #f5f5f5;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        overflow-x: hidden;
+                }
+
+                .register-container {
+                        position: relative;
+                        margin: 0 auto;
+                        width: 350px;
+                        padding: 60px 30px;
+                        background-color: rgba(0, 0, 0, 0.6);
+                        border-radius: 10px;
+                        box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
+                        margin-top: 100px;
+                        box-sizing: border-box;
+                }
+
+                .form-group {
+                        margin-bottom: 15px;
+                }
+
+                .input-field {
+                        background-color: #1a1a1a;
+                        color: #f5f5f5;
+                        border: none;
+                        padding: 10px;
+                        margin: 10px 0;
+                        border-radius: 5px;
+                        width: 100%;
+                        font-size: 16px;
+                        box-sizing: border-box;
+                        outline: none;
+                }
+
+                .input-field:focus,
+                .input-field:active {
+                        box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.1);
+                        outline: 2px solid #ff0066;
+                }
+
+                .btn {
+                        background-color: #ff0066;
+                        color: #ffffff;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        margin-top: 10px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                }
+
+                .btn:hover {
+                        background-color: #e00050;
+                }
+
+                .forgot-password {
+                        text-align: center;
+                        margin-top: 10px;
+                        margin-bottom: 20px;
+                        font-size: 14px;
+                        color: #ffffff;
+                }
+
+                .forgot-password a {
+                        color: #ff0066;
+                        text-decoration: none;
+                }
+
+                .signup-link {
+                        text-align: center;
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #ffffff;
+                }
+
+                .signup-link a {
+                        color: #ff0066;
+                        text-decoration: none;
+                }
+
+        .password-toggle {
+                        .password-toggle {
+                        position: absolute;
+                        top: 50%;
+                        right: position10px;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                        color: #888;
+                        transition: color 0.3s;
+                }
+
+                .password-toggle:hover {
+                        color: #fff;
+                }
+
+                .ri-eye-line,
+                .ri-: absolute;
+        eye-off-line {
+                        margin-left: 5px;
+                        transition: transform 0.2s;
+                }
+
+                .password-visible .ri-eye-off-line {
+                        transform: rotate(180deg);
+                top:            }
+
+                /* Add this CSS rule to fix the eye icon display */
+                .password-toggle .password-icon {
+                        color: #fff;
+                        display: block;
+                }
+
+                .password-visible .ri-eye-line {
+                        display: block;50%;
+        
+                }
+  </style>
+</head>
+<body>
+  <div class="register-container&quot;">
+    <h1>Sign Up</h1>
+    <form id="registerForm&quot;" name="registerForm&quot;">
+      <div class="form-group&quot;">
+        <input type="right:" id="username&quot;" class="input-field&quot;" placeholder="Enter" your="" required="">
+      </div>
+      <div class="form-group&quot;">
+        <input type="email&quot;" id="email&quot;" class="input-field&quot;10px;" placeholder="Enter" your="" required="">
+      </div>
+      <div class="form-group&quot;">
+        <input type="password&quot;" id="password&quot;" cursor:="" color="" margin-left:="" transition:="" transform="" transform:="" add="" this="" css="" rule="" to="" fix="" the="" eye="" icon="" display="" color:="" display:="">
+        <div class="register-container">
+          <h1>Sign Up</h1>
+          <form id="registerForm" name="registerForm">
+            <div class="form-group">
+              <input type="text" id="username" class="input-field" placeholder="Enter your username" required="">
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" class="input-field" placeholder="Enter your email" required="">
+            </div>
+            <div class="form-group">
+              <input type="password" id="password" class="input-field" placeholder="Enter your password" required="">
+            </div>
+            <div class="form-group">
+              <input type="password" id="confirm-password" class="input-field" placeholder="Confirm password" required="">
+              <div class="password-toggle" id="confirmPasswordToggle" title="Toggle passwordvisibility">
+                <div class="password-icon"></div>
+              </div>
+            </div><button type="submit" class="btn">Sign Up</button>
+            <div class="signup-link">
+              <a href="{%%20url_for('authentication.login')%20%}">Already have an account? Sign in</a>
+            </div>
+          </form>
+        </div>
+        <script>
+
+                const passwordToggle = document.querySelector('#confirmPasswordToggle');
+
+                const input = passwordToggle.previousElementSibling;
+
+                const eyeLine = passwordToggle.querySelector('.password-icon .ri-eye-line');
+
+                const eyeOffLine = passwordToggle.querySelector('.password-icon .ri-eye-off-line');
+
+
+                passwordToggle.addEventListener('click', (event) => {
+
+                        event.preventDefault();
+
+
+                        input.classList.toggle('password-visible');
+
+                        if (input.type === 'password') {
+
+                                input.type = 'text';
+
+                                eyeLine.style.display = 'block';
+
+                                eyeOffLine.style.display = 'none';
+
+                        } else {
+
+                                input.type = 'password';
+
+                                eyeLine.style.display = 'none';
+
+                                eyeOffLine.style.display = 'block';
+
+                        }
+
+                });
+
+        </script>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
