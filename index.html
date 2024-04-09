@@ -1,232 +1,273 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Kishore | キショア | 키쇼어</title>
-    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/URiIL9g.jpeg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/images/favicon.webp" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-	<style>
-		/* Add your CSS styles here */
-		body {
-			background-color: #121212;
-			color: #f5f5f5;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			margin: 0;
-			padding: 0;
-			overflow-x: hidden;
-		}
-
-		.container {
-			position: relative;
-			margin: 0 auto;
-			width: 350px;
-			padding: 60px 30px;
-			background-color: rgba(0, 0, 0, 0.6);
-			border-radius: 10px;
-			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
-			margin-top: 100px;
-			box-sizing: border-box;
-		}
-
-		.form-group {
-			margin-bottom: 15px;
-		}
-
-		.input-field {
-			background-color: #1a1a1a;
-			color: #f5f5f5;
-			border: none;
-			padding: 10px;
-			margin: 10px 0;
-			border-radius: 5px;
-			width: 100%;
-			font-size: 16px;
-			box-sizing: border-box;
-			outline: none; /* Remove default outline */
-		}
-
-		.input-field:focus,
-		.input-field:active {
-			box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.1);
-            outline: 2px solid #ff0066; /* Add outline on focus and active */
-		}
-
-		.btn {
-			background-color: #ff0066;
-			color: #ffffff;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 5px;
-			font-size: 16px;
-			margin-top: 10px;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
-
-		.btn:hover {
-			background-color: #e00050;
-		}
-
-		.forgot-password {
-			text-align: center;
-			margin-top: 10px;
-			margin-bottom: 20px;
-			font-size: 14px;
-			color: #ffffff;
-		}
-
-		.forgot-password a {
-			color: #ff0066;
-			text-decoration: none;
-		}
-
-		.signup-link {
-			text-align: center;
-			margin-top: 20px;
-			font-size: 14px;
-			color: #ffffff;
-		}
-
-		.signup-link a {
-			color: #ff0066;
-			text-decoration: none;
-}
-
-		.circle-image {
-			position: absolute;
-			top: -50px;
-		right: 0;
-			width: 100px;
-			height: 100px;
-			background-color: #ff0066;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
-			cursor: pointer;
-		}
-
-		.circle-image img {
-			width: 70px;
-			height: 70px;
-			border-radius: 50%;
-			object-fit: cover;
-		}
-
-
-		.about-container {
-			position: absolute;
-			top: 100%;
-			right: 0;
-			background-color: transparent;
-			width: 200px;
-			height: 150px;
-			padding: 15px;
-			box-sizing: border-box;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			color: #ffffff;
-			transform: translateY(-10px);
-			opacity: 0;
-			transition: transform 0.3s ease, opacity 0.3s ease;
-		}
-
-		.about-container.visible {
-			transform: translateY(0);
-			opacity: 1;
-		}
-
-		.about-inner {
-			display: inline-block;
-			text-align: left;
-			vertical-align: middle;
-			background-color: rgba(0, 0, 0, 0.6);
-			padding: 10px 15px;
-			border-radius: 5px;
-			box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.1);
-		}
-
-		@media (max-width: 768px) {
-			.circle-image {
-				top: -30px;
-			}
-			.about-container {
-				top: 100%;
-				transform: translateY(calc(100% + 10px));
-				opacity: 0;
-				transition: none;
-			}
-			.container:hover .about-container {
-				opacity: 1;
-				transform: translateY(0);
-				transition: transform 0.3s ease, opacity 0.3s ease;
-			}
-		}
-	</style>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/URiIL9g.jpeg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <title>Kishore | キショア | 키쇼어</title>
 </head>
+
 <body>
-	<div class="container">
-		<div class="circle-image" id="circleImage">
-			<img src="https://i.imgur.com/URiIL9g.jpeg" alt="AASF">
-		</div>
-		<h1>Login</h1>
-		<form id="loginForm" method="post" action="{{ url_for('authentication.login') }}">
-			<div class="form-group">
-				<label for="username" class="ri-user-line"></label>
-				<input type="text" class="input-field" id="username" placeholder="Enter your username" required title="Please enter your username">
-			</div>
-			<div class="form-group">
-				<label for="password" class="ri-lock-password-line"></label>
-                <input type="password" class="input-field" id="password" placeholder="Enter your password" required title="Please enter your password">
-			</div>
-			<button type="submit" class="btn">Login</button>
-	</form>
-		<div class="forgot-password">
-			<a href="#">Forgot your password?</a>
-		</div>
-		<div class="signup-link">
-			<a href="signup.html">Don't have an account? Sign up</a>
-		</div>
-		<div class="about-container">
-			<div class="about-inner">
-				<p>Site created by Kishore</p>
-				<p>Contact: <a href="mailto:kishore@example.com">kishore@example.com</a></p>
-			</div>
-		</div>
-	</div>
-	<!-- Add your JavaScript code here -->
-	<script>
-	document.getElementById('loginForm').addEventListener('submit', function(event) {
-		event.preventDefault();
+    <!--=============== HEADER ===============-->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__data">
+                <a href="#" class="nav__logo">
+                    <i class="ri-code-s-slash-line"></i> CodeBox
+                </a>
 
-		const username = document.getElementById('username').value;
-		const password = document.getElementById('password').value;
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line nav__toggle-menu"></i>
+                    <i class="ri-close-line nav__toggle-close"></i>
+                </div>
+            </div>
 
-		// You can replace the following line with your own authentication logic.
-		if (username === 'test' && password === 'test') {
-			document.getElementById('loginForm').action = "{{ url_for('authentication.login') }}";
-			form.submit();
-			// Redirect to another page, or perform other actions upon successful login.
-		} else {
-			alert('Invalid username or password.');
-		}
-	});
+            <!--=============== NAV MENU ===============-->
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li>
+                        <a href="#" class="nav__link">Home</a>
+                    </li>
 
-	// Add event listener for circle image mouseenter
-	const circleImage = document.getElementById('circleImage');
-	circleImage.addEventListener('mouseenter', function() {
-		// Show the about-container
-		const aboutContainer = circleImage.nextElementSibling;
-		aboutContainer.classList.add('visible');
-	});
+                    <!--=============== DROPDOWN 1 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Discover <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
 
-	// Add event listener for about-container mouseleave
-	const aboutContainer = document.querySelector('.about-container');
-	aboutContainer.addEventListener('mouseleave', function() {
-		// Hide the about-container
-		aboutContainer.classList.remove('visible');
-	});
-	</script>
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-flashlight-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Most viewed courses</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">HTML for beginners</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Advanced CSS</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">JavaScript OOP</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-heart-3-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Popular courses</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Development with Flutter</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Web development with React</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Backend development expert</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-book-mark-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Careers</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Web development</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Applications development</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">UI/UX design</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Informatic security</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-file-paper-2-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Certifications</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Course certificates</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Free certifications</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!--=============== DROPDOWN 2 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Resources <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-code-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Web templates</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Free templates</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Premium templates</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-pen-nib-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Designs</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Web designs</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">App designs</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Component design</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-apps-2-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Others</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Recent blogs</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Tutorial videos</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Webinar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#" class="nav__link">Pricing</a>
+                    </li>
+
+                    <!--=============== DROPDOWN 3 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Company <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-community-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">About us</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">About us</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Support</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Contact us</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-shield-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Safety and quality</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="#" class="dropdown__link">Cookie settings</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="dropdown__link">Privacy Policy</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="js/main.js"></script>
 </body>
+
 </html>
