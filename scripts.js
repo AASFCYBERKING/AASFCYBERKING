@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    // Simulate loading time (for demo purposes)
-    setTimeout(() => {
+    // Loading animation visibility toggle
+    window.addEventListener('load', function() {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-    }, 1500);
+    });
 });
