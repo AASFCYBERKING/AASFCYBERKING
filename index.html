@@ -3,58 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Anime Lofi Login Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <button class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+    <div class="main">
+    <header class="header">
+        <a href="#" class="logo">Logo</a>
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Portfolio</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
         </nav>
     </header>
-    <main>
-        <section id="about">
-            <h1>About Me</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-            <img src="profile-pic.jpg" alt="Profile Picture">
-        </section>
-        <section id="projects">
-            <h1>My Projects</h1>
-            <div class="project-grid">
-                <div class="project-panel">
-                    <img src="project1.jpg" alt="Project 1">
-                    <h2>Project 1</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div class="project-panel">
-                    <img src="project2.jpg" alt="Project 2">
-                    <h2>Project 2</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <!-- Add more project panels here -->
+<video autoplay loop muted plays-inline class="vid" >
+    <source src="./sharecs.net-xNap-After-School.mp4" >
+</video>
+    <div class="card">
+          <form>
+            <h1>Login Here</h1>
+            <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" required>
+                <label for="">Email</label>
             </div>
-        </section>
-        <section id="contact">
-            <h1>Get in Touch</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-            <form>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <textarea placeholder="Message"></textarea>
-                <button>Send</button>
-            </form>
-            <p>Or email me directly at <a href="mailto:aasfvl@gmail.com">aasfvl@gmail.com</a></p>
-        </section>
-    </main>
-    <script src="script.js"></script>
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" required>
+                <label for="">Password</label>
+            </div>
+            <div class="forget">
+                <label for=""><input type="checkbox">Remember Me</label>
+              <a href="#">Forget Password</a>
+            </div>
+            <button>Log in</button>
+            <div class="register">
+                <p>Don't have a account <a href="#">Register</a></p>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
