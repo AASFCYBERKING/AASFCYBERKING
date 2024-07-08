@@ -3,47 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Lofi Login Page</title>
+    <title>Kishore's Anime Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 </head>
 <body>
-    <div class="main">
-    <header class="header">
-        <a href="#" class="logo">Logo</a>
-        <nav class="navbar">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Portfolio</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
-<video autoplay loop muted plays-inline class="vid" >
-    <source src="./VID_20240708_170231_494.mp4" >
-</video>
-    <div class="card">
-          <form>
-            <h1>Login Here</h1>
-            <div class="inputbox">
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" required>
-                <label for="">Email</label>
-            </div>
-            <div class="inputbox">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" required>
-                <label for="">Password</label>
-            </div>
-            <div class="forget">
-                <label for=""><input type="checkbox">Remember Me</label>
-              <a href="#">Forget Password</a>
-            </div>
-            <button>Log in</button>
-            <div class="register">
-                <p>Don't have a account <a href="#">Register</a></p>
-            </div>
-        </form>
+    <div id="loading">
+        <div class="spinner"></div>
     </div>
-</div>
+    <div id="content" style="display: none;">
+        <header>
+            <h1>Kishore's Anime Portfolio</h1>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Welcome to my anime-themed portfolio. I am Kishore, a passionate anime fan and web developer.</p>
+        </section>
+        <section id="gallery">
+            <h2>Gallery</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Add your images with quotes here -->
+                    <div class="swiper-slide">
+                        <div class="gallery-item">
+                            <img src="image1.jpg" alt="Anime Image 1">
+                            <p class="quote">"To know sorrow is not terrifying. What is terrifying is to know you can't go back to happiness you could have." - Matsumoto Rangiku</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-item">
+                            <img src="image2.jpg" alt="Anime Image 2">
+                            <p class="quote">"No matter how deep the night, it always turns to day, eventually." - Brook</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-item">
+                            <img src="image3.jpg" alt="Anime Image 3">
+                            <p class="quote">"If you don't share someone's pain, you can never understand them." - Nagato</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <p>Feel free to <a href="mailto:kishore@example.com">reach out</a> to me!</p>
+        </section>
+    </div>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
