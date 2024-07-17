@@ -1,11 +1,12 @@
 body {
-  background-color: #2f2f2f;
+  background-color: #1a1a1a;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
+  overflow-x: hidden;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   background-color: #333;
@@ -22,10 +23,16 @@ body {
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: 36px;
   color: #fff;
   margin: 0;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.header p {
+  font-size: 18px;
+  color: #ccc;
+  margin: 10px 0;
 }
 
 .nav {
@@ -58,16 +65,46 @@ body {
 }
 
 .content {
+  position: relative;
   padding: 20px;
   text-align: center;
 }
 
-.content img {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  margin: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+.bg-image {
+  background-image: url('https://placekitten.com/1200/800');
+  background-size: cover;
+  background-position: center;
+  height: 800px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.overlay h2 {
+  font-size: 24px;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.overlay p {
+  font-size: 18px;
+  color: #ccc;
+  margin: 10px 0;
 }
 
 .dark-btn {
@@ -92,7 +129,4 @@ body {
 }
 
 .footer p {
-  font-size: 14px;
-  color: #fff;
-  margin: 0;
-}
+  font-size:
