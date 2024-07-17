@@ -3,67 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kishore's Anime Portfolio</title>
+    <title>Bestie Divorce Certificate</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
 </head>
 <body>
-    <div id="loading">
-        <div class="loading-spinner"></div>
-    </div>
-    <div id="content">
-        <header>
-            <h1>Kishore's Anime Portfolio</h1>
-            <nav>
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>Welcome to my anime-themed portfolio. I am Kishore, a passionate anime fan and web developer.</p>
-        </section>
-        <section id="gallery">
-            <h2>Gallery</h2>
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <!-- Add your images with quotes here -->
-                    <div class="swiper-slide">
-                        <div class="gallery-item">
-                            <img src="image1.jpg" alt="Anime Image 1">
-                            <p class="quote">"To know sorrow is not terrifying. What is terrifying is to know you can't go back to happiness you could have." - Matsumoto Rangiku</p>
-                        </div>
+    <header>
+        <h1>Bestie Divorce Certificate</h1>
+    </header>
+    <main>
+        <section class="certificate">
+            <div class="tom-jerry-container">
+                <img src="tom-jerry-divorce.jpg" alt="Tom and Jerry Divorce" class="tom-jerry-img">
+                <div class="signatures">
+                    <div class="signature">
+                        <img src="tom-signature.png" alt="Tom's Signature">
+                        <p>Tom (The Plaintiff)</p>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="gallery-item">
-                            <img src="image2.jpg" alt="Anime Image 2">
-                            <p class="quote">"No matter how deep the night, it always turns to day, eventually." - Brook</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="gallery-item">
-                            <img src="image3.jpg" alt="Anime Image 3">
-                            <p class="quote">"If you don't share someone's pain, you can never understand them." - Nagato</p>
-                        </div>
+                    <div class="signature">
+                        <img src="jerry-signature.png" alt="Jerry's Signature">
+                        <p>Jerry (The Defendant)</p>
                     </div>
                 </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
-                <!-- Add Navigation -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
+            <h2>Certificate of Bestie Separation [Divorce]</h2>
+            <p>This is to certify that Kishore 😺 and Darshu 🐁 have decided to go their separate ways as besties.</p>
+            <p>Reason for separation: darshu got new bestie 😏😌</p>
+            <div class="buttons">
+                <button id="yes-btn">Will you be my bestie forever?</button>
+                <button id="no-btn">Nah, I'm good</button>
+            </div>
+            <div class="response"></div>
+            <p>Why did you choose me as your bestie? 🥺</p>
+            <textarea id="msg-txtarea" placeholder="Type your message here..."></textarea>
+            <button id="send-msg-btn">Send Message</button>
         </section>
-        <section id="contact">
-            <h2>Contact Me</h2>
-            <p>Feel free to <a href="mailto:kishore@example.com">reach out</a> to me!</p>
-        </section>
-    </div>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="scripts.js"></script>
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
