@@ -1,60 +1,33 @@
-// Get the elements
-const certificate = document.getElementById('certificate');
-const tomJerryContainer = document.getElementById('tom-jerry-container');
-const tomImg = document.getElementById('tom-img');
-const jerryImg = document.getElementById('jerry-img');
-const signatures = document.getElementById('signatures');
-const tomSignature = document.getElementById('tom-signature');
-const jerrySignature = document.getElementById('jerry-signature');
-const buttons = document.getElementById('buttons');
-const response = document.getElementById('response');
-const msgTextarea = document.getElementById('msg-txtarea');
-const sendMsgBtn = document.getElementById('send-msg-btn');
+// script.js
 
-// Telegram Bot API settings
-const telegramBotToken = '6690815586:AAFh5kcrmt7Heggp-Syg66FDlGP9idUzQEI';
-const telegramChatId = '5456798232';
+let animationContainer = document.querySelector('.animation-container');
+let yesBtn = document.querySelector('#yes-btn');
+let noBtn = document.querySelector('#no-btn');
+let certificateContainer = document.querySelector('.certificate-container');
+let yesCertBtn = document.querySelector('#yes-cert-btn');
+let noCertBtn = document.querySelector('#no-cert-btn');
+let finalMsg = document.querySelector('.final-msg');
 
-// Add event listeners
-sendMsgBtn.addEventListener('click', sendMessage);
+animationContainer.addEventListener('animationend', () => {
+    yesBtn.style.display = 'block';
+    noBtn.style.display = 'block';
+});
 
-// Function to send message to Telegram bot
-function sendMessage() {
-  const message = msgTextarea.value.trim();
-  if (message!== '') {
-    fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        chat_id: telegramChatId,
-        text: message
-      })
-    })
-   .then(response => response.json())
-   .then(data => {
-      console.log(data);
-      response.innerHTML = `Message sent to Telegram bot!`;
-      msgTextarea.value = '';
-    })
-   .catch(error => {
-      console.error(error);
-      response.innerHTML = `Error sending message to Telegram bot: ${error.message}`;
-    });
-  }
-}
+yesBtn.addEventListener('click', () => {
+    certificateContainer.style.display = 'block';
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+});
 
-// Run animation on page load
-animateTomJerry();
+noBtn.addEventListener('click', () => {
+    alert("Aww, come on! Click yes! 😏");
+});
 
-// Run animation on button click
-buttons.addEventListener('click', animateTomJerry);
+yesCertBtn.addEventListener('click', () => {
+    finalMsg.style.display = 'block';
+    certificateContainer.style.display = 'none';
+});
 
-// Function to animate Tom and Jerry
-function animateTomJerry() {
-  tomJerryContainer.classList.add('animate');
-  setTimeout(() => {
-    tomJerryContainer.classList.remove('animate');
-  }, 2000);
-}
+noCertBtn.addEventListener('click', () => {
+    alert("No way! You have to say yes! 😂");
+});
