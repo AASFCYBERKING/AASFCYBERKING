@@ -8,24 +8,27 @@
 </head>
 <body>
     <div class="container">
-        <div class="animation-container">
-            <img src="https://graph.org/file/95407856d90d07698abf4.jpg" alt="Kishore" class="tom-img animated">
-            <img src="https://graph.org/file/fe1eafb93b8afbac157f6.jpg" alt="Darshu Nursu" class="jerry-img animated">
-            <h1 class="animated">So Are You My Bestie?</h1>
+        <div class="header">
+            <img src="https://graph.org/file/95407856d90d07698abf4.jpg" alt="Kishore" class="profile-pic">
+            <img src="https://graph.org/file/fe1eafb93b8afbac157f6.jpg" alt="Darshu Nursu" class="profile-pic">
         </div>
-        <div class="buttons">
-            <button id="yes-btn" class="cute-btn">Yes 😩</button>
-            <button id="no-btn" class="cute-btn">No 🥺</button>
+        <div class="content">
+            <h1>So Are You My Bestie? 🤔</h1>
+            <p>Let's be besties forever! 💕</p>
+            <div class="buttons">
+                <button id="yes-btn" class="cute-btn">Yes! 😊</button>
+                <button id="no-btn" class="cute-btn">No... 😔</button>
+            </div>
         </div>
         <div class="certificate-container" style="display: none;">
-            <h1>Bestie Certificate? 👉👈😌</h1>
-            <div class="buttons">
-                <button id="yes-cert-btn" class="cute-btn">Yes 😻</button>
-                <button id="no-cert-btn" class="cute-btn">No 😿</button>
-            </div>
+            <h1>Bestie Certificate? 🎉</h1>
+            <p>Sign your name to make it official! 🖋️</p>
+            <canvas id="signature-canvas" width="300" height="100"></canvas>
+            <button id="sign-btn" class="cute-btn">Sign & Send! 📨</button>
         </div>
         <div class="final-msg" style="display: none;">
             <h1>Yay! You're my bestie! 💕</h1>
+            <p>Thanks for being an amazing bestie! 🤗</p>
         </div>
 
         <script src="script.js"></script>
