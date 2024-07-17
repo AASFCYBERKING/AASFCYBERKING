@@ -1,57 +1,59 @@
-// Get elements
-const container = document.querySelector('.container');
-const header = document.querySelector('.header');
-const profilePic = document.querySelector('.profile-pic');
-const profileName = document.querySelector('.profile-name');
-const content = document.querySelector('.content');
-const buttons = document.querySelector('.buttons');
-const certificateContainer = document.querySelector('.certificate-container');
-const signatureCanvas = document.querySelector('#signature-canvas');
-const finalMsg = document.querySelector('.final-msg');
+// Get the certificate container element
+const certificateContainer = document.getElementById('certificate-container');
 
-// Set up signature canvas
-const signaturePad = new SignaturePad(signatureCanvas);
-signaturePad.clear();
+// Function to generate the certificate
+function generateCertificate(name1, name2, tomImageSrc, jerryImageSrc) {
+  // Create the Tom and Jerry images
+  const tomImage = document.createElement('img');
+  tomImage.src = tomImageSrc;
+  tomImage.className = 'tom-image';
 
-// Add event listeners
-buttons.addEventListener('click', (e) => {
-  if (e.target.classList.contains('cute-btn')) {
-    generateCertificate();
-  }
-});
+  const jerryImage = document.createElement('img');
+  jerryImage.src = jerryImageSrc;
+  jerryImage.className = 'jerry-image';
 
-// Generate certificate function
-function generateCertificate() {
-  // Get user input
-  const userName = profileName.textContent;
-  const userPic = profilePic.src;
+  // Create the certificate header
+  const certificateHeader = document.createElement('div');
+  certificateHeader.className = 'certificate-header';
 
-  // Create certificate HTML
-  const certificateHTML = `
-    <h1>Congratulations, ${userName}!</h1>
-    <p>You have completed the course!</p>
-    <img src="${userPic}" alt="Profile Picture">
-    <canvas id="signature-canvas" width="300" height="100"></canvas>
-  `;
+  const headerText = document.createElement('h1');
+  headerText.textContent = 'Bestie Certificate';
+  certificateHeader.appendChild(headerText);
 
-  // Add certificate HTML to container
-  certificateContainer.innerHTML = certificateHTML;
+  // Create the certificate content
+  const certificateContent = document.createElement('div');
+  certificateContent.className = 'certificate-content';
 
-  // Show certificate container
-  certificateContainer.style.display = 'block';
+  const contentText = document.createElement('p');
+  contentText.textContent = `This is to certify that ${name1} and ${name2} are the best of friends.`;
+  certificateContent.appendChild(contentText);
 
-  // Animate certificate container
-  certificateContainer.classList.add('animate-certificate');
+  // Create the signature section
+  const signatureSection = document.createElement('div');
+  signatureSection.className = 'signature-section';
 
-  // Wait for animation to finish
-  setTimeout(() => {
-    // Show final message
-    finalMsg.style.display = 'block';
-    finalMsg.classList.add('animate-final-msg');
-  }, 1000);
+  const signatureText = document.createElement('h2');
+  signatureText.textContent = 'Signatures';
+  signatureSection.appendChild(signatureText);
+
+  const signature1 = document.createElement('div');
+  signature1.className = 'signature';
+  signature1.textContent = name1;
+
+  const signature2 = document.createElement('div');
+  signature2.className = 'signature';
+  signature2.textContent = name2;
+
+  signatureSection.appendChild(signature1);
+  signatureSection.appendChild(signature2);
+
+  // Add the elements to the certificate container
+  certificateContainer.appendChild(tomImage);
+  certificateContainer.appendChild(jerryImage);
+  certificateContainer.appendChild(certificateHeader);
+  certificateContainer.appendChild(certificateContent);
+  certificateContainer.appendChild(signatureSection);
 }
 
-// Final message function
-function showFinalMessage() {
-  finalMsg.textContent = 'You did it!';
-}
+// Call the function to generate the certificate
+generateCertificate('Kishore', 'Darshu Nursu', 'https://graph.org/file/95407856d90d07698abf4.jpg', 'https://graph.org/file/fe1eafb93b8afbac157f6.jpg');
