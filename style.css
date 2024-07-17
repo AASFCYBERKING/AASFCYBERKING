@@ -1,130 +1,98 @@
-/* Global Styles */
+body {
+  background-color: #2f2f2f;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+}
 
-* {
-  box-sizing: border-box;
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  background-color: #444;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #555;
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav {
+  background-color: #333;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #555;
+}
+
+.nav ul {
+  list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-body {
-  font-family: 'Comic Sans MS', cursive;
-  background-color: #F7F7F7;
+.nav li {
+  margin-right: 20px;
 }
 
-/* Certificate Container */
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
 
-.certificate-container {
-  width: 800px;
-  height: 600px;
-  background-color: #FFFFFF;
-  border: 1px solid #CCCCCC;
-  border-radius: 10px;
+.nav a:hover {
+  color: #ccc;
+}
+
+.content {
   padding: 20px;
-  margin: 40px auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Tom and Jerry Images */
-
-.tom-image {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 20px;
-  float: left;
-}
-
-.jerry-image {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 20px;
-  float: right;
-}
-
-/* Certificate Header */
-
-.certificate-header {
   text-align: center;
-  margin-bottom: 20px;
 }
 
-.certificate-header h1 {
-  font-size: 36px;
-  color: #333333;
-  text-shadow: 2px 2px 4px #CCCCCC;
+.content img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Certificate Content */
-
-.certificate-content {
-  clear: both;
-  padding: 20px;
-}
-
-.certificate-content h2 {
-  font-size: 24px;
-  color: #666666;
-  margin-bottom: 10px;
-}
-
-.certificate-content p {
-  font-size: 18px;
-  color: #999999;
-  margin-bottom: 20px;
-}
-
-/* Signature Section */
-
-.signature-section {
-  padding: 20px;
-  border-top: 1px solid #CCCCCC;
-}
-
-.signature-section h2 {
-  font-size: 24px;
-  color: #666666;
-  margin-bottom: 10px;
-}
-
-.signature-section .signature {
-  width: 200px;
-  height: 50px;
-  border: 1px solid #CCCCCC;
+.dark-btn {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
   border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dark-btn:hover {
+  background-color: #666;
+}
+
+.footer {
+  background-color: #333;
   padding: 10px;
-  margin: 20px auto;
+  text-align: center;
+  border-top: 1px solid #555;
 }
 
-.signature-section .signature::before {
-  content: "Signature";
-  font-size: 18px;
-  color: #999999;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-/* Custom Styles */
-
-.bestie-certificate {
-  background-image: url('https://graph.org/file/fe1eafb93b8afbac157f6.jpg');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.bestie-certificate .certificate-header h1 {
-  color: #FF69B4;
-}
-
-.bestie-certificate .certificate-content h2 {
-  color: #FFC5C5;
-}
-
-.bestie-certificate .signature-section .signature {
-  border-color: #FF69B4;
-}
-
-.bestie-certificate .signature-section .signature::before {
-  color: #FFC5C5;
+.footer p {
+  font-size: 14px;
+  color: #fff;
+  margin: 0;
 }
