@@ -1,8 +1,11 @@
 /* style.css */
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Pacifico', cursive; /* Cute font */
     background-color: #f7f7f7;
+    background-image: url('https://graph.org/file/95407856d90d07698abf4.jpg'); /* Cute background image */
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
@@ -30,6 +33,12 @@ body {
     margin: 10px;
 }
 
+.profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
 .content {
     padding: 20px;
 }
@@ -47,6 +56,7 @@ body {
     font-size: 18px;
     cursor: pointer;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .cute-btn:hover {
@@ -62,13 +72,38 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 10px;
-}
-
-#sign-btn {
     margin-top: 20px;
+    background-color: #f7f7f7;
 }
 
 .final-msg {
-    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
     display: none;
+}
+
+.animate-certificate {
+    animation: slideInFromBottom 1s ease-out;
+}
+
+.animate-final-msg {
+    animation: slideInFromTop 1s ease-out;
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
