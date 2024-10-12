@@ -1,0 +1,84 @@
+/* styles.css */
+
+.chat-container {
+    max-width: 800px;
+    margin : 40px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mode-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.mode-toggle button {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.mode-toggle button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-mode {
+    --primary-color: #fff;
+    --secondary-color: #ccc;
+    --background-color: #f7f7f7;
+}
+
+.dark-mode {
+    --primary-color: #333;
+    --secondary-color: #666;
+    --background-color: #333;
+}
+
+.input-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.input-field input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.input-field button {
+    width: 20%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.response-area {
+    padding: 20px;
+}
+
+.response-area p {
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
