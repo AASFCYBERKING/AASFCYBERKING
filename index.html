@@ -31,6 +31,24 @@
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
+            overflow-y: auto; /* Add scroll for chat history */
+            height: 300px; /* Set a fixed height for the chat box */
+        }
+
+        .chat-message {
+            background-color: #484c54; /* Dark mode message background */
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .bot-message {
+            text-align: left;
         }
 
         /* Light mode styles */
@@ -39,7 +57,7 @@
             color: #333;
         }
 
-        .container.light-mode {
+        .container.light -mode {
             background-color: #fff;
         }
 
@@ -97,7 +115,27 @@
             </button>
         </div>
         <div class="chat-box">
-            <!-- Your chatbot conversation will go here -->
+            <div class="chat-message user-message">
+                <p>Hello!</p>
+            </div>
+            <div class="chat-message bot-message">
+                <p>Hello! How can I assist you today?</p>
+            </div>
+            <div class="chat-message user-message">
+                <p>I need help with my project.</p>
+            </div>
+            <div class="chat-message bot-message">
+                <p>What kind of project are you working on? I'd be happy to help.</p>
+            </div>
+            <div class="chat-message user-message">
+                <p>It's a web development project.</p>
+            </div>
+            <div class="chat-message bot-message">
+                <p>That sounds interesting! What specific issues are you facing with your web development project?</p>
+            </div>
+            <!-- Add more chat messages here -->
+            <input id="user-input" type="text" placeholder="Type a message...">
+            <button id="send-button">Send</button>
         </div>
     </div>
 
@@ -105,6 +143,9 @@
         const darkModeButton = document.getElementById('dark-mode');
         const lightModeButton = document.getElementById('light-mode');
         const body = document.body;
+        const chatBox = document.querySelector('.chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
 
         darkModeButton.addEventListener('click', () => {
             body.classList.remove('light-mode');
@@ -113,6 +154,18 @@
         lightModeButton.addEventListener('click', () => {
             body.classList.add('light-mode');
         });
+
+        sendButton.addEventListener('click', () => {
+            const userMessage = userInput.value.trim();
+            if (userMessage !== '') {
+                const userMessageElement = document.createElement('div');
+                userMessageElement.className = 'chat-message user-message';
+                userMessageElement.innerHTML = `<p>${userMessage}</p>`;
+                chatBox.appendChild(userMessageElement);
+                userInput.value = '';
+                // Add bot response logic here
+            }
+        });
     </script>
-</body>
+</ body>
 </html>
