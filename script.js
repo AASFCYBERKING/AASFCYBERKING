@@ -1,17 +1,15 @@
-// Add event listener to dark button
-document.addEventListener("DOMContentLoaded", function() {
-  const darkBtn = document.querySelector(".dark-btn");
-  darkBtn.addEventListener("click", function() {
-    // Toggle dark mode
-    document.body.classList.toggle("dark-mode");
-  });
+// script.js
+
+const lightModeButton = document.getElementById('light-mode');
+const darkModeButton = document.getElementById('dark-mode');
+const chatContainer = document.querySelector('.chat-container');
+
+lightModeButton.addEventListener('click', () => {
+    chatContainer.classList.add('light-mode');
+    chatContainer.classList.remove('dark-mode');
 });
 
-// Add animation to overlay
-document.addEventListener("DOMContentLoaded", function() {
-  const overlay = document.querySelector(".overlay");
-  overlay.style.opacity = 0;
-  setTimeout(function() {
-    overlay.style.opacity = 1;
-  }, 500);
+darkModeButton.addEventListener('click', () => {
+    chatContainer.classList.add('dark-mode');
+    chatContainer.classList.remove('light-mode');
 });
