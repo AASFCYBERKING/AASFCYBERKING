@@ -24,6 +24,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: background-color 0.5s ease;
+            position: relative; /* To position the input bar */
+            width: 400px; /* Adjust width as needed */
+            max-width: 90%; /* Limit width for smaller screens */
         }
 
         .chat-box {
@@ -48,7 +51,7 @@
         }
 
         .bot-message {
-            text-align: left;
+            text-align: left ;
         }
 
         /* Light mode styles */
@@ -57,7 +60,7 @@
             color: #333;
         }
 
-        .container.light -mode {
+        .container.light-mode {
             background-color: #fff;
         }
 
@@ -98,6 +101,51 @@
         .mode-switch button svg.moon {
             fill: #333;
         }
+
+        /* Input bar styles */
+        .input-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #383c44; /* Dark mode input bar */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-bar.light-mode {
+            background-color: #f5f5f5;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        #send-button {
+            background-color: #484c54; /* Dark mode send button */
+            color: #eee;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #333;
+        }
+
+        #send-button.light-mode {
+            background-color: #333;
+            color: #eee;
+        }
     </style>
 </head>
 <body>
@@ -128,12 +176,14 @@
                 <p>What kind of project are you working on? I'd be happy to help.</p>
             </div>
             <div class="chat-message user-message">
-                <p>It's a web development project.</p>
+                <p >It's a web development project.</p>
             </div>
             <div class="chat-message bot-message">
                 <p>That sounds interesting! What specific issues are you facing with your web development project?</p>
             </div>
             <!-- Add more chat messages here -->
+        </div>
+        <div class="input-bar">
             <input id="user-input" type="text" placeholder="Type a message...">
             <button id="send-button">Send</button>
         </div>
@@ -146,13 +196,17 @@
         const chatBox = document.querySelector('.chat-box');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const inputBar = document.querySelector('.input-bar');
 
         darkModeButton.addEventListener('click', () => {
             body.classList.remove('light-mode');
+            inputBar.classList.remove('light-mode');
         });
 
         lightModeButton.addEventListener('click', () => {
             body.classList.add('light-mode');
+            inputBar.classList.add('light-mode');
+            sendButton.classList.add('light-mode');
         });
 
         sendButton.addEventListener('click', () => {
@@ -167,5 +221,5 @@
             }
         });
     </script>
-</ body>
+</body>
 </html>
