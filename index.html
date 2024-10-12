@@ -3,36 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL Chatbot</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Chatbot UI</title>
+    <style>
+        body {
+            background-color: #181818; /* Dark mode background */
+            color: #eee;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            background-color: #282c34; /* Dark mode container */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: background-color 0.5s ease;
+        }
+
+        .chat-box {
+            background-color: #383c44; /* Dark mode chat box */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Light mode styles */
+        body.light-mode {
+            background-color: #eee;
+            color: #333;
+        }
+
+        .container.light-mode {
+            background-color: #fff;
+        }
+
+        .chat-box.light-mode {
+            background-color: #f5f5f5;
+        }
+
+        .mode-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .mode-switch button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mode-switch button:hover {
+            background-color: #333;
+            color: #eee;
+        }
+
+        .mode-switch button svg {
+            width: 20px;
+            height: 20px;
+            fill: #eee;
+        }
+
+        .mode-switch button svg.sun {
+            fill: #f7dc6f;
+        }
+
+        .mode-switch button svg.moon {
+            fill: #333;
+        }
+    </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="mode-toggle">
-            <button id="light-mode" aria-label="Toggle light mode">
-                <i class="fas fa-sun"></i>
+    <div class="container">
+        <div class="mode-switch">
+            <button id="dark-mode" aria-label="Dark mode">
+                <svg class="moon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" />
+                </svg>
             </button>
-            <button id="dark-mode" aria-label="Toggle dark mode">
-                <i class="fas fa-moon"></i>
+            <button id="light-mode" aria-label="Light mode">
+                <svg class="sun" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" />
+                </svg>
             </button>
         </div>
-        <div class="input-field">
-            <input type="text" id="user-input" placeholder="Type a message...">
-            <button id="send-button">Send</button>
+        <div class="chat-box">
+            <!-- Your chatbot conversation will go here -->
         </div>
-        <div class="response-area">
-            <p id="chatbot-response"></p>
-        </div>
-        <footer>
-            <p>DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-            <p>No.19, Poonthottam Street,</p>
-            <p>Tiruvottiyur, Chennai - 600 019</p>
-            <p>Tamilnadu</p>
-            <p>P: (044) 2572-7553, +91 9025218724</p>
-            <p>E: dharam_hinduja@yahoo.com</p>
-        </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const darkModeButton = document.getElementById('dark-mode');
+        const lightModeButton = document.getElementById('light-mode');
+        const body = document.body;
+
+        darkModeButton.addEventListener('click', () => {
+            body.classList.remove('light-mode');
+        });
+
+        lightModeButton.addEventListener('click', () => {
+            body.classList.add('light-mode');
+        });
+    </script>
 </body>
 </html>
