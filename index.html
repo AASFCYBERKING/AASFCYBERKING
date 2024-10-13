@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 </head>
 <body>
     <div class="flex flex-col h-screen bg-black text-white">
@@ -12,13 +13,9 @@
         <header class="flex items-center justify-between p-4 bg-zinc-900 border-b border-zinc-800">
             <div class="flex items-center">
                 <button class="mr-2 md:hidden">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24">
-                        <!-- Menu icon -->
-                    </svg>
+                    <i class="fas fa-bars"></i>
                 </button>
-                <svg class="h-8 w-8 text-white mr-2" viewBox="0 0 24 24">
-                    <!-- MessageCircle icon -->
-                </svg>
+                <i class="fas fa-comment-circle text-white mr-2"></i>
                 <span class="text-xl font-semibold">AI Chat</span>
             </div>
         </header>
@@ -29,28 +26,20 @@
                 <div class="flex justify-between items-center mb-8">
                     <span class="text-xl font-semibold">Menu</span>
                     <button class="mr-2">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24">
-                            <!-- X icon -->
-                        </svg>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="space-y-4">
                     <button class="w-full justify-start text-white bg-zinc-800">
-                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
-                            <!-- Home icon -->
-                        </svg>
+                        <i class="fas fa-home mr-3"></i>
                         Home
                     </button>
                     <button class="w-full justify-start text-white hover:bg-zinc-800">
-                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
-                            <!-- Info icon -->
-                        </svg>
+                        <i class="fas fa-info-circle mr-3"></i>
                         About
                     </button>
                     <button class="w-full justify-start text-white hover:bg-zinc-800">
-                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
-                            <!-- Phone icon -->
-                        </svg>
+                        <i class="fas fa-phone mr-3"></i>
                         Contact
                     </button>
                 </div>
@@ -62,6 +51,38 @@
             <!-- Chat Area -->
             <div class="flex-1 p-4 space-y-4 scroll-area">
                 <!-- Message list will be rendered here -->
+                <div class="flex justify-start mb-4">
+                    <div class="bg-zinc-800 p-4 rounded-full">
+                        <p class="text-sm">Hello, how can I assist you today?</p>
+                    </div>
+                    <div class="ml-2">
+                        <i class="fas fa-user-circle text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="flex justify-end mb-4">
+                    <div class="ml-2">
+                        <i class="fas fa-user-circle text-white text-2xl"></i>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-full">
+                        <p class="text-sm">I need help with my math homework.</p>
+                    </div>
+                </div>
+                <div class="flex justify-start mb-4">
+                    <div class="bg-zinc-800 p-4 rounded-full">
+                        <p class="text-sm">What kind of math do you need help with?</p>
+                    </div>
+                    <div class="ml-2">
+                        <i class="fas fa-user-circle text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="flex justify-end mb-4">
+                    <div class="ml-2">
+                        <i class="fas fa-user-circle text-white text-2xl"></i>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-full">
+                        <p class="text-sm">I need help with algebra.</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Input Area -->
@@ -69,9 +90,7 @@
                 <form>
                     <input type="text" class="flex-1 bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400 text-sm md:text-base rounded-full px-4 py-2" placeholder="Type your message here...">
                     <button type="submit" class="bg-white text-black hover:bg-zinc-200 rounded-full px-4 py-2 transition-colors duration-200">
-                        <svg class="h-4 w-4 md:mr-2" viewBox="0 0 24 24">
-                            <!-- Send icon -->
-                        </svg>
+                        <i class="fas fa-paper-plane mr-2"></i>
                         <span class="hidden md:inline">Send</span>
                     </button>
                 </form>
