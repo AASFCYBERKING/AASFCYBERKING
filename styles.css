@@ -138,3 +138,28 @@ body {
 .font-semibold {
     font-weight: bold;
 }
+
+/* Additional styles for chat messages */
+
+.message {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+}
+
+.message-sent {
+    margin-left: auto;
+}
+
+.message-received {
+    margin-right: auto;
+}
+
+.message-icon {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    margin: 0 0.5rem;
+}
