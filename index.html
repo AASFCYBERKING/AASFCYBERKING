@@ -3,223 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot UI</title>
-    <style>
-        body {
-            background-color: #181818; /* Dark mode background */
-            color: #eee;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            transition: background-color 0.5s ease;
-        }
-
-        .container {
-            background-color: #282c34; /* Dark mode container */
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: background-color 0.5s ease;
-            position: relative; /* To position the input bar */
-            width: 400px; /* Adjust width as needed */
-            max-width: 90%; /* Limit width for smaller screens */
-        }
-
-        .chat-box {
-            background-color: #383c44; /* Dark mode chat box */
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            overflow-y: auto; /* Add scroll for chat history */
-            height: 300px; /* Set a fixed height for the chat box */
-        }
-
-        .chat-message {
-            background-color: #484c54; /* Dark mode message background */
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            word-break: break-word;
-        }
-
-        .user-message {
-            text-align: right;
-        }
-
-        .bot-message {
-            text-align: left ;
-        }
-
-        /* Light mode styles */
-        body.light-mode {
-            background-color: #eee;
-            color: #333;
-        }
-
-        .container.light-mode {
-            background-color: #fff;
-        }
-
-        .chat-box.light-mode {
-            background-color: #f5f5f5;
-        }
-
-        .mode-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .mode-switch button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-        .mode-switch button:hover {
-            background-color: #333;
-            color: #eee;
-        }
-
-        .mode-switch button svg {
-            width: 20px;
-            height: 20px;
-            fill: #eee;
-        }
-
-        .mode-switch button svg.sun {
-            fill: #f7dc6f;
-        }
-
-        .mode-switch button svg.moon {
-            fill: #333;
-        }
-
-        /* Input bar styles */
-        .input-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 10px;
-            background-color: #383c44; /* Dark mode input bar */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .input-bar.light-mode {
-            background-color: #f5f5f5;
-        }
-
-        #user-input {
-            width: 80%;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        #send-button {
-            background-color: #484c54; /* Dark mode send button */
-            color: #eee;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #send-button:hover {
-            background-color: #333;
-        }
-
-        #send-button.light-mode {
-            background-color: #333;
-            color: #eee;
-        }
-    </style>
+    <title>AI Chat</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="mode-switch">
-            <button id="dark-mode" aria-label="Dark mode">
-                <svg class="fa-solid fa-moon" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" />
+    <div class="flex flex-col h-screen bg-black text-white">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 bg-zinc-900 border-b border-zinc-800">
+            <div class="flex items-center">
+                <button class="mr-2 md:hidden">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <!-- Menu icon -->
+                    </svg>
+                </button>
+                <svg class="h-8 w-8 text-white mr-2" viewBox="0 0 24 24">
+                    <!-- MessageCircle icon -->
                 </svg>
-            </button>
-            <button id="light-mode" aria-label="Light mode">
-                <svg class="fa-regular fa-sun" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" />
-                </svg>
-            </button>
+                <span class="text-xl font-semibold">AI Chat</span>
+            </div>
+        </header>
+
+        <!-- Navbar Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 z-50">
+            <nav class="w-64 h-full bg-zinc-900 p-4 flex flex-col">
+                <div class="flex justify-between items-center mb-8">
+                    <span class="text-xl font-semibold">Menu</span>
+                    <button class="mr-2">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24">
+                            <!-- X icon -->
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <button class="w-full justify-start text-white bg-zinc-800">
+                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
+                            <!-- Home icon -->
+                        </svg>
+                        Home
+                    </button>
+                    <button class="w-full justify-start text-white hover:bg-zinc-800">
+                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
+                            <!-- Info icon -->
+                        </svg>
+                        About
+                    </button>
+                    <button class="w-full justify-start text-white hover:bg-zinc-800">
+                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24">
+                            <!-- Phone icon -->
+                        </svg>
+                        Contact
+                    </button>
+                </div>
+            </nav>
         </div>
-        <div class="chat-box">
-            <div class="chat-message user-message">
-                <p>Hello!</p>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Chat Area -->
+            <div class="flex-1 p-4 space-y-4 scroll-area">
+                <!-- Message list will be rendered here -->
             </div>
-            <div class="chat-message bot-message">
-                <p>Hello! How can I assist you today?</p>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-zinc-900 border-t border-zinc-800">
+                <form>
+                    <input type="text" class="flex-1 bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400 text-sm md:text-base rounded-full px-4 py-2" placeholder="Type your message here...">
+                    <button type="submit" class="bg-white text-black hover:bg-zinc-200 rounded-full px-4 py-2 transition-colors duration-200">
+                        <svg class="h-4 w-4 md:mr-2" viewBox="0 0 24 24">
+                            <!-- Send icon -->
+                        </svg>
+                        <span class="hidden md:inline">Send</span>
+                    </button>
+                </form>
             </div>
-            <div class="chat-message user-message">
-                <p>I need help with my project.</p>
-            </div>
-            <div class="chat-message bot-message">
-                <p>What kind of project are you working on? I'd be happy to help.</p>
-            </div>
-            <div class="chat-message user-message">
-                <p >It's a web development project.</p>
-            </div>
-            <div class="chat-message bot-message">
-                <p>That sounds interesting! What specific issues are you facing with your web development project?</p>
-            </div>
-            <!-- Add more chat messages here -->
-        </div>
-        <div class="input-bar">
-            <input id="user-input" type="text" placeholder="Type a message...">
-            <button id="send-button">Send</button>
+
+            <!-- Footer -->
+            <footer class="p-4 bg-zinc-900 border-t border-zinc-800 text-zinc-400 text-xs md:text-sm">
+                <p class="font-semibold">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+                <p>No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
+                <p>P: (044) 2572-7553, +91 9025218724</p>
+                <p>E: dharam_hinduja@yahoo.com</p>
+            </footer>
         </div>
     </div>
-
-    <script>
-        const darkModeButton = document.getElementById('dark-mode');
-        const lightModeButton = document.getElementById('light-mode');
-        const body = document.body;
-        const chatBox = document.querySelector('.chat-box');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        const inputBar = document.querySelector('.input-bar');
-
-        darkModeButton.addEventListener('click', () => {
-            body.classList.remove('light-mode');
-            inputBar.classList.remove('light-mode');
-        });
-
-        lightModeButton.addEventListener('click', () => {
-            body.classList.add('light-mode');
-            inputBar.classList.add('light-mode');
-            sendButton.classList.add('light-mode');
-        });
-
-        sendButton.addEventListener('click', () => {
-            const userMessage = userInput.value.trim();
-            if (userMessage !== '') {
-                const userMessageElement = document.createElement('div');
-                userMessageElement.className = 'chat-message user-message';
-                userMessageElement.innerHTML = `<p>${userMessage}</p>`;
-                chatBox.appendChild(userMessageElement);
-                userInput.value = '';
-                // Add bot response logic here
-            }
-        });
-    </script>
 </body>
 </html>
