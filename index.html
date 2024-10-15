@@ -5,14 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide@latest/dist/icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.27.2/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-hot-toast@2.2.0/dist/react-hot-toast.js"></script>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="app">
+        <header>
+            <nav>
+                <button id="nav-toggle" class="nav-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="#" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link">About</a></li>
+                    <li><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2 class="chat-title">AI Chat</h2>
+                </div>
+                <div class="chat-body">
+                    <div id="messages" class="messages"></div>
+                    <form id="message-form" class="message-form">
+                        <input type="text" id="message-input" class="message-input" placeholder="Type your message here...">
+                        <button id="send-button" class="send-button">Send</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+        </footer>
+    </div>
+
+    <div id="report-dialog" class="report-dialog">
+        <div class="report-dialog-header">
+            <h2 class="report-dialog-title">Report a Problem</h2>
+        </div>
+        <div class="report-dialog-body">
+            <form id="report-form" class="report-form">
+                <input type="email" id="report-email" class="report-email" placeholder="Your Email">
+                <textarea id="report-problem" class="report-problem" placeholder="Describe the problem"></textarea>
+                <button id="report-submit" class="report-submit">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
