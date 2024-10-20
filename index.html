@@ -427,7 +427,6 @@
         async function sendMessage(message) {
             if (message.trim()) {
                 showWelcome = false;
-                chatContainer.innerHTML = ''; // Clear the welcome message
                 addMessage('user', message);
                 setThinking(true);
                 try {
