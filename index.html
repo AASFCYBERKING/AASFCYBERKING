@@ -427,6 +427,7 @@
         async function sendMessage(message) {
             if (message.trim()) {
                 showWelcome = false;
+                chatContainer.innerHTML = ''; // Clear the welcome message
                 addMessage('user', message);
                 setThinking(true);
                 try {
@@ -615,6 +616,7 @@
                 });
 
                 if (response.status === 200) {
+                    
                     addNotification('info', "🎉 Message sent successfully! We'll reply as soon as possible.");
                     document.getElementById('contactEmail').value = '';
                     document.getElementById('contactMessage').value = '';
@@ -626,19 +628,17 @@
         });
 
         // Initial welcome message
-        setTimeout(() => {
-            if (showWelcome) {
-                chatContainer.innerHTML = `
-                    <div class="flex items-center justify-center h-full">
-                        <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">
-                            Hello! How can I assist you today?
-                        </h1>
-                    </div>
-                `;
-            } else {
-                // Existing message rendering code...
-            }
-        }, 1000);
+        function showWelcomeMessage() {
+            chatContainer.innerHTML = `
+                <div class="flex items-center justify-center h-full">
+                    <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">
+                        Hello! How can I assist you today?
+                    </h1>
+                </div>
+            `;
+        }
+
+        showWelcomeMessage();
 
         // Example of adding a notification
         setTimeout(() => {
