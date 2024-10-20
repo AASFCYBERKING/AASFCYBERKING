@@ -1,4 +1,4 @@
-// DOM Elements
+/// DOM Elements
 const menuButton = document.getElementById('menuButton');
 const navbar = document.getElementById('navbar');
 const closeNavButton = document.getElementById('closeNavButton');
