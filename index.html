@@ -3,59 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat</title>
+    <title>AI Chat Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="app">
-        <header>
-            <nav>
-                <button id="nav-toggle" class="nav-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-                <ul id="nav-menu" class="nav-menu">
-                    <li><a href="#" class="nav-link">Home</a></li>
-                    <li><a href="#" class="nav-link">About</a></li>
-                    <li><a href="#" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2 class="chat-title">AI Chat</h2>
-                </div>
-                <div class="chat-body">
-                    <div id="messages" class="messages"></div>
-                    <form id="message-form" class="message-form">
-                        <input type="text" id="message-input" class="message-input" placeholder="Type your message here...">
-                        <button id="send-button" class="send-button">Send</button>
-                    </form>
-                </div>
+<body class="flex flex-col h-screen bg-gradient-to-br from-blue-100 via-white to-blue-100 text-blue-900">
+    <header class="flex items-center justify-between p-4 bg-white bg-opacity-50 backdrop-blur-sm">
+        <div class="flex items-center">
+            <button id="menuButton" class="mr-2 text-blue-900 hover:bg-blue-200 transition-colors duration-300">
+                <i class="fas fa-bars h-6 w-6"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <img src="https://raw.githubusercontent.com/Awesome-Prince/dhs-logo.png/refs/heads/main/Picsart_24-10-14_13-29-40-569.png" alt="Website Logo" class="w-8 h-8 animate-pulse">
+                <span class="text-xl font-semibold text-blue-900">AI Chat</span>
             </div>
-        </main>
-        <footer>
-            <p>&copy; 2023 DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-        </footer>
+        </div>
+    </header>
+
+    <nav id="navbar" class="fixed inset-0 bg-blue-100 bg-opacity-50 backdrop-blur-sm z-50 hidden">
+        <div class="w-64 h-full bg-gradient-to-b from-blue-100 to-white p-4 flex flex-col animate-slide-in-left">
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-xl font-semibold text-blue-900">Menu</span>
+                <button id="closeNavButton" class="text-blue-900 hover:bg-blue-200 transition-colors duration-300">
+                    <i class="fas fa-times h-6 w-6"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-200 hover:bg-opacity-30 transition-colors duration-300" data-section="home">
+                    <i class="fas fa-home h-5 w-5 mr-3"></i>
+                    Home
+                </button>
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-200 hover:bg-opacity-30 transition-colors duration-300" data-section="about">
+                    <i class="fas fa-info-circle h-5 w-5 mr-3"></i>
+                    About
+                </button>
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-200 hover:bg-opacity-30 transition-colors duration-300" data-section="contact">
+                    <i class="fas fa-phone h-5 w-5 mr-3"></i>
+                    Contact
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="mainContent" class="flex-1 flex flex-col overflow-hidden">
+        <!-- Content will be dynamically inserted here -->
+    </main>
+
+    <footer class="p-4 bg-white bg-opacity-50 backdrop-blur-sm text-blue-900 text-xs md:text-sm">
+        <p class="font-semibold">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+        <p>No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
+        <p>P: (044) 2572-7553, +91 9025218724</p>
+        <p>E: dharam_hinduja@yahoo.com</p>
+    </footer>
+
+    <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white bg-opacity-90 backdrop-blur-sm p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
+            <p class="mb-4">Please provide details about the issue you're experiencing.</p>
+            <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
+            <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"></textarea>
+            <div class="flex justify-end">
+                <button id="submitReportButton" class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white transition-all duration-300 transform hover:scale-105 px-4 py-2 rounded">Submit Report</button>
+            </div>
+        </div>
     </div>
 
-    <div id="report-dialog" class="report-dialog">
-        <div class="report-dialog-header">
-            <h2 class="report-dialog-title">Report a Problem</h2>
-        </div>
-        <div class="report-dialog-body">
-            <form id="report-form" class="report-form">
-                <input type="email" id="report-email" class="report-email" placeholder="Your Email">
-                <textarea id="report-problem" class="report-problem" placeholder="Describe the problem"></textarea>
-                <button id="report-submit" class="report-submit">Submit Report</button>
-            </form>
-        </div>
-    </div>
+    <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
 
-    <div id="toast-container" class="toast-container"></div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
