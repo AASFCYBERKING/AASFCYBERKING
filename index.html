@@ -627,19 +627,17 @@
         });
 
         // Initial welcome message
-        function showWelcomeMessage() {
+        setTimeout(() => {
             if (showWelcome) {
                 chatContainer.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-full">
+                    <div class="flex items-center justify-center h-full">
                         <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">
-                             Hello! How can I assist you today?
+                            Hello! How can I assist you today?
                         </h1>
                     </div>
                 `;
-            }
-        }
-
-        showWelcomeMessage();
+            } 
+        }, 1000);
 
         // Example of adding a notification
         setTimeout(() => {
