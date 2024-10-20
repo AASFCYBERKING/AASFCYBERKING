@@ -6,9 +6,155 @@
     <title>AI Chat Interface</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --background-color: #eff6ff;
+            --text-color: #1e40af;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #ffffff, var(--background-color));
+            color: var(--text-color);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chat-container {
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .message-bubble:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background: linear-gradient(135deg, #93c5fd, var(--secondary-color));
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            justify-content: center;
+        }
+
+        .typing-indicator span {
+            height: 10px;
+            width: 10px;
+            margin: 0 2px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @media (max-width: 640px) {
+            .message-bubble {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body class="flex flex-col h-screen bg-gradient-to-br from-blue-100 via-white to-blue-100 text-blue-900">
+    <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-100 z-50">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+
     <header class="flex items-center justify-between p-4 bg-white bg-opacity-50 backdrop-blur-sm">
         <div class="flex items-center">
             <button id="menuButton" class="mr-2 text-blue-900 hover:bg-blue-200 transition-colors duration-300">
@@ -47,7 +193,94 @@
     </nav>
 
     <main id="mainContent" class="flex-1 flex flex-col overflow-hidden">
-        <!-- Content will be dynamically inserted here -->
+        <div id="homeSection" class="flex-1 flex flex-col">
+            <div id="chatContainer" class="chat-container flex-1 overflow-y-auto p-4 space-y-6"></div>
+            <div class="p-4 bg-white bg-opacity-50 backdrop-blur-sm">
+                <form id="chatForm" class="flex space-x-2">
+                    <input 
+                        id="userInput"
+                        class="flex-1 bg-blue-50 border-blue-200 focus:border-blue-500 text-blue-900 placeholder-blue-400 text-sm md:text-base rounded-full px-4 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-400"
+                        placeholder="Type your message here..."
+                    >
+                    <button type="submit" class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
+                        <span class="hidden md:inline">Send</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="aboutSection" class="hidden flex-1 overflow-y-auto p-8 space-y-8 bg-gradient-to-br from-blue-100 via-white to-blue-100">
+            <h2 class="text-4xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">
+                Meet Your AI Companion
+            </h2>
+            <div class="max-w-3xl mx-auto space-y-6 text-blue-800">
+                <p class="text-lg leading-relaxed animate-fade-in">
+                    Welcome to the cutting-edge of educational technology! I'm not just any chatbot – I'm a personalized AI assistant crafted exclusively for the brilliant minds at DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL.
+                </p>
+                <div class="flex items-center justify-center space-x-4 my-8">
+                    <i class="fas fa-bolt h-12 w-12 text-blue-600 animate-pulse"></i>
+                    <i class="fas fa-code h-12 w-12 text-blue-600 animate-bounce"></i>
+                    <i class="fas fa-magic h-12 w-12 text-blue-600 animate-spin"></i>
+                </div>
+                <p class="text-lg leading-relaxed animate-fade-in">
+                    Born from the innovative spirit of Harish, a visionary student at DHARAM HINDUJA, I represent the perfect fusion of youthful creativity and artificial intelligence. Harish poured his passion for technology and education into every line of my code, crafting an AI companion that understands the unique needs of his fellow students.
+                </p>
+                <p class="text-lg leading-relaxed animate-fade-in">
+                    I'm here to revolutionize your learning experience, providing instant assistance, thought-provoking discussions, and a touch of digital magic to your educational journey. Whether you're tackling complex math problems, exploring the depths of literature, or diving into scientific theories, I'm your round-the-clock study buddy and knowledge enhancer.
+                </p>
+                <div class="text-center mt-8">
+                    <span class="text-2xl font-semibold text-blue-900 animate-pulse">
+                        Empowering Minds, One Conversation at a Time
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div id="contactSection" class="hidden flex-1 overflow-y-auto p-8 bg-gradient-to-br from-blue-100 via-white to-blue-100">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">
+                Get in Touch
+            </h2>
+            <div class="max-w-2xl mx-auto space-y-8">
+                <div class="bg-white bg-opacity-50 p-6 rounded-lg shadow-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">School Contact Information</h3>
+                    <p class="text-blue-700 mb-2">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+                    <p class="text-blue-700 mb-2">No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
+                    <p class="text-blue-700 mb-2">Phone: (044) 2572-7553, +91 9025218724</p>
+                    <p class="text-blue-700">Email: dharam_hinduja@yahoo.com</p>
+                </div>
+                <div class="bg-white bg-opacity-50 p-6 rounded-lg shadow-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800 flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Contact the Developer 🚀
+                    </h3>
+                    <form id="contactForm" class="space-y-4">
+                        <div class="relative">
+                            <input
+                                type="email"
+                                id="contactEmail"
+                                placeholder="Your Gmail 📧"
+                                class="w-full p-2 pl-10 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"
+                            >
+                            <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400"></i>
+                        </div>
+                        <div class="relative">
+                            <textarea
+                                id="contactMessage"
+                                placeholder="Your message 💬"
+                                class="w-full p-2 pl-10 pt-8 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"
+                            ></textarea>
+                            <i class="fas fa-comment absolute left-3 top-8 text-blue-400"></i>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                            
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Send Message 🚀
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="p-4 bg-white bg-opacity-50 backdrop-blur-sm text-blue-900 text-xs md:text-sm">
@@ -60,18 +293,345 @@
     <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white bg-opacity-90 backdrop-blur-sm p-6 rounded-lg max-w-md w-full">
             <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
-            <p class="mb-4">Please provide details about the issue you're experiencing.</p>
             <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
-            <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"></textarea>
+            <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
             <div class="flex justify-end">
-                <button id="submitReportButton" class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white transition-all duration-300 transform hover:scale-105 px-4 py-2 rounded">Submit Report</button>
+                <button id="cancelReport" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                <button id="submitReport" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
             </div>
         </div>
     </div>
 
     <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const chatForm = document.getElementById('chatForm');
+        const menuButton = document.getElementById('menuButton');
+        const navbar = document.getElementById('navbar');
+        const closeNavButton = document.getElementById('closeNavButton');
+        const reportDialog = document.getElementById('reportDialog');
+        const submitReportButton = document.getElementById('submitReport');
+        const cancelReportButton = document.getElementById('cancelReport');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = {
+            home: document.getElementById('homeSection'),
+            about: document.getElementById('aboutSection'),
+            contact: document.getElementById('contactSection')
+        };
+        const notificationsContainer = document.getElementById('notifications');
+        const contactForm = document.getElementById('contactForm');
+
+        let messages = [];
+        let isThinking = false;
+        let activeSection = 'home';
+        let showWelcome = true;
+
+        function switchSection(sectionName) {
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            sections[sectionName].classList.remove('hidden');
+            activeSection = sectionName;
+            navbar.classList.add('hidden');
+        }
+
+        function addMessage(role, content) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
+            
+            const innerDiv = document.createElement('div');
+            innerDiv.className = `flex items-end space-x-2 max-w-[80%] ${role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 rounded-full ${role === 'user' ? 'bg-blue-700' : 'bg-transparent'}`;
+            if (role === 'user') {
+                avatar.innerHTML = '<i class="fas fa-user text-white flex items-center justify-center h-full"></i>';
+            } else {
+                avatar.innerHTML = '<img src="https://raw.githubusercontent.com/Awesome-Prince/dhs-logo.png/refs/heads/main/Picsart_24-10-14_13-29-40-569.png" alt="AI" class="w-full h-full object-cover rounded-full">';
+            }
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = `p-3 rounded-lg ${role === 'user' ? 'bg-gradient-to-r from-blue-400 to-blue-600' : 'bg-gradient-to-r from-blue-300 to-blue-500'} text-sm md:text-base shadow-lg transform hover:scale-105 transition-all duration-300`;
+            messageContent.textContent = content;
+
+            if (role === 'assistant') {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'flex mt-2 space-x-2';
+                actionsDiv.innerHTML = `
+                    <button onclick="handleCopy('${content.replace(/'/g, "\\'")}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button onclick="handleReport('${content.replace(/'/g, "\\'")}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    <button onclick="handleAgain('${content.replace(/'/g, "\\'")}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                `;
+                messageContent.appendChild(actionsDiv);
+            }
+
+            innerDiv.appendChild(avatar);
+            innerDiv.appendChild(messageContent);
+            messageElement.appendChild(innerDiv);
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function setThinking(thinking) {
+            isThinking = thinking;
+            if (thinking) {
+                const thinkingElement = document.createElement('div');
+                thinkingElement.className = 'flex justify-start animate-fade-in-up';
+                thinkingElement.innerHTML = `
+                    <div class="flex items-end space-x-2 max-w-[80%]">
+                        <div class="w-8 h-8 bg-transparent rounded-full">
+                            <img src="https://raw.githubusercontent.com/Awesome-Prince/dhs-logo.png/refs/heads/main/Picsart_24-10-14_13-29-40-569.png" alt="AI" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="p-3 rounded-lg bg-gradient-to-r from-blue-200 to-blue-400 text-sm md:text-base shadow-lg">
+                            <div class="flex space-x-2">
+                                <div class="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatContainer.appendChild(thinkingElement);
+            } else {
+                const thinkingElement = chatContainer.querySelector('.animate-fade-in-up:last-child');
+                if (thinkingElement) {
+                    thinkingElement.remove();
+                }
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            if (message.trim()) {
+                showWelcome = false;
+                addMessage('user', message);
+                setThinking(true);
+                try {
+                    const response = await axios.post('https://api.qewertyy.dev/models', {
+                        messages: [
+                            { role: "system", content: "None" },
+                            { role: "user", content: message }
+                        ],
+                        model_id: 23
+                    });
+                    if (response.data.content && response.data.content[0] && response.data.content[0].text) {
+                        const aiResponse = response.data.content[0].text;
+                        setThinking(false);
+                        addMessage('assistant', aiResponse);
+                    } else {
+                        throw new Error('Unexpected response structure');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    setThinking(false);
+                    addNotification('error', 'Failed to get response. Please try again.');
+                }
+            }
+        }
+
+        function addNotification(type, message) {
+            const notification = document.createElement('div');
+            notification.className = `bg-white bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg flex items-center space-x-3 ${
+                type === 'error' ? 'border-l-4 border-red-500' :
+                type === 'report' ? 'border-l-4 border-green-500' :
+                type === 'info' ? 'border-l-4 border-yellow-500' :
+                'border-l-4 border-blue-500'
+            }`;
+            
+            const iconClass = type === 'error' ? 'fa-exclamation-triangle text-red-500' :
+                              type === 'report' ? 'fa-file-alt text-green-500' :
+                              type === 'info' ? 'fa-info-circle text-yellow-500' :
+                              'fa-bell text-blue-500';
+            
+            notification.innerHTML = `
+                <div class="animate-bounce">
+                    <i class="fas ${iconClass} h-6 w-6"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold ${
+                        type === 'error' ? 'text-red-800' :
+                        type === 'report' ? 'text-green-800' :
+                        type === 'info' ? 'text-yellow-800' :
+                        'text-blue-800'
+                    }">${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                    <p class="text-sm ${
+                        type === 'error' ? 'text-red-600' :
+                        type === 'report' ? 'text-green-600' :
+                        type === 'info' ? 'text-yellow-600' :
+                        'text-blue-600'
+                    }">${message}</p>
+                </div>
+                <button class="text-gray-500 hover:${
+                    type === 'error' ? 'text-red-700' :
+                    type === 'report' ? 'text-green-700' :
+                    type === 'info' ? 'text-yellow-700' :
+                    'text-blue-700'
+                }">
+                    <i class="fas fa-times h-4 w-4"></i>
+                </button>
+            `;
+            
+            notificationsContainer.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function handleCopy(content) {
+            navigator.clipboard.writeText(content).then(() => {
+                addNotification('info', 'Response copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                addNotification('error', 'Failed to copy content.');
+            });
+        }
+
+        function handleReport(content) {
+            reportDialog.classList.remove('hidden');
+            document.getElementById('reportProblem').value = `Reported content: ${content}\n\nPlease describe the issue:`;
+        }
+
+        async function submitReport() {
+            const email = document.getElementById('reportEmail').value;
+            const problem = document.getElementById('reportProblem').value;
+
+            if (!email || !problem) {
+                addNotification('error', 'Please fill in all fields.');
+                return;
+            }
+
+            const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
+            const CHAT_ID = '5629305049';
+            const reportMessage = `Report from ${email}:\n\nProblem: ${problem}`;
+            const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+            try {
+                const response = await axios.post(url, {
+                    chat_id: CHAT_ID,
+                    text: reportMessage,
+                });
+
+                if (response.status === 200) {
+                    addNotification('report', 'Report submitted successfully. Thank you for your feedback!');
+                    reportDialog.classList.add('hidden');
+                    document.getElementById('reportEmail').value = '';
+                    document.getElementById('reportProblem').value = '';
+                } else {
+                    throw new Error('Failed to submit report');
+                }
+            } catch (error) {
+                console.error('Error submitting report:', error);
+                addNotification('error', 'Failed to submit report. Please try again.');
+            }
+        }
+
+        async function handleAgain(content) {
+            setThinking(true);
+            try {
+                const response = await axios.post('https://api.qewertyy.dev/models', {
+                    messages: [
+                        { role: "system", content: "None" },
+                        { role: "user", content: content }
+                    ],
+                    model_id: 23
+                });
+
+                if (response.data.content && response.data.content[0] && response.data.content[0].text) {
+                    const aiResponse = response.data.content[0].text;
+                    setThinking(false);
+                    addMessage('assistant', aiResponse);
+                } else {
+                    throw new Error('Unexpected response structure');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                setThinking(false);
+                addNotification('error', 'Failed to regenerate response. Please try again.');
+            }
+        }
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (message) {
+                sendMessage(message);
+                userInput.value = '';
+            }
+        });
+
+        menuButton.addEventListener('click', () => navbar.classList.remove('hidden'));
+        closeNavButton.addEventListener('click', () => navbar.classList.add('hidden'));
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => switchSection(button.dataset.section));
+        });
+
+        submitReportButton.addEventListener('click', submitReport);
+        cancelReportButton.addEventListener('click', () => reportDialog.classList.add('hidden'));
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (!email || !message) {
+                addNotification('error', 'Please fill in all fields.');
+                return;
+            }
+
+            const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
+            const CHAT_ID = '5629305049';
+            const contactMessage = `📬 New contact from ${email}:\n\n💬 ${message}`;
+            const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+            try {
+                const response = await axios.post(url, {
+                    chat_id: CHAT_ID,
+                    text: contactMessage,
+                });
+
+                if (response.status === 200) {
+                    addNotification('info', "🎉 Message sent successfully! We'll reply as soon as possible.");
+                    document.getElementById('contactEmail').value = '';
+                    document.getElementById('contactMessage').value = '';
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                addNotification('error', '😕 Failed to send message. Please try again later.');
+            }
+        });
+
+        // Initial welcome message
+        setTimeout(() => {
+            if (showWelcome) {
+                chatContainer.innerHTML = `
+                    <div class="flex items-center justify-center h-full">
+                        <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">
+                            Hello! How can I assist you today?
+                        </h1>
+                    </div>
+                `;
+            } else {
+                // Existing message rendering code...
+            }
+        }, 1000);
+
+        // Example of adding a notification
+        setTimeout(() => {
+            addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
+        }, 2000);
+
+        // Remove loading screen
+        window.addEventListener('load', () => {
+            document.getElementById('loadingScreen').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
