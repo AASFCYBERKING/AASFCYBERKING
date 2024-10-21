@@ -416,12 +416,6 @@
         }
 
         function formatMessage(content) {
-            const highlightWords = ['Hi', 'bye', 'Hehe', 'hehe', 'uwu'];
-            highlightWords.forEach(word => {
-            const regex = new RegExp(`\\b(${word})\\b`, 'g'); // Match whole words only
-            content = content.replace(regex, '<mark>$1</mark>'); // Highlight the word
-        });
-
             content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
             content = content.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
             content = content.replace(/`(.*?)`/g, '<code>$1</code>'); // Code
