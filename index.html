@@ -634,11 +634,11 @@
                     document.getElementById('reportProblem').value = '';
                     document.getElementById('reportedContent').value = '';
                 } else {
-                    throw new Error('Failed to submit report', error);
+                    throw new Error('Failed to submit report');
                 }
             } catch (error) {
                 console.error('Error submitting report:', error);
-                addNotification('error', 'Failed to submit report. Please try again.');
+                addNotification('error', `Failed to submit report. Please try again. ${error}`);
             }
         }
 
