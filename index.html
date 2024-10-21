@@ -283,14 +283,14 @@
                 <div class="bg-white bg-opacity-50 p-6 rounded-lg shadow-lg backdrop-filter backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
                     <h3 class="text-xl font-semibold mb-4 text-blue-800 flex items-center">
                         <i class="fas fa-envelope mr-2"></i>
-                        Contact the Developer 🚀
+                        Contact the Developer
                     </h3>
                     <form id="contactForm" class="space-y-4">
                         <div class="relative">
                             <input
                                 type="email"
                                 id="contactEmail"
-                                placeholder="Your Gmail 📧"
+                                placeholder="Your Gmail"
                                 class="w-full p-2 pl-10 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"
                             >
                             <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400"></i>
@@ -298,14 +298,14 @@
                         <div  class="relative">
                             <textarea
                                 id="contactMessage"
-                                placeholder="Your message 💬"
+                                placeholder="Your message"
                                 class="w-full p-2  pl-10 pt-8 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"
                             ></textarea>
                             <i class="fas fa-comment absolute left-3 top-8 text-blue-400"></i>
                         </div>
                         <button type="submit" class="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105  flex items-center justify-center">
                             <i class="fas fa-paper-plane mr-2"></i>
-                            Send Message 🚀
+                            Send Message
                         </button>
                     </form>
                 </div>
@@ -655,22 +655,20 @@
                 });
 
                 if (response.status === 200) {
-                    addNotification('info', "🎉 Message sent successfully! We'll reply as soon as possible.");
+                    addNotification('info', "Message sent successfully! We'll reply as soon as possible.");
                     document.getElementById('contactEmail').value = '';
                     document.getElementById('contactMessage').value = '';
                 }
             } catch (error) {
                 console.error('Error sending message:', error);
-                addNotification('error', '😕 Failed to send message. Please try again later.');
+                addNotification('error', 'Failed to send message. Please try again later.');
             }
         });
 
-        // Example of adding a notification
         setTimeout(() => {
             addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
         }, 2000);
 
-        // Remove loading screen
         window.addEventListener('load', () => {
             document.getElementById('loadingScreen').style.display = 'none';
         });
