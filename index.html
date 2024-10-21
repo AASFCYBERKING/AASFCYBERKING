@@ -572,6 +572,7 @@
             reportDialog.classList.remove('hidden');
             document.getElementById('reportEmail').value = '';
             document.getElementById('reportProblem').value = '';
+            document.getElementById('reportedContent').value = content;
         }
 
         async function handleAgain(content) {
@@ -607,7 +608,8 @@
         async function submitReport() {
             const email = document.getElementById('reportEmail').value;
             const problem = document.getElementById('reportProblem').value;
-
+            const reportedContent = document.getElementById('reportedContent').value;
+            
             if (!email || !problem) {
                 addNotification('error', 'Please fill in both email and problem description.');
                 return;
@@ -615,7 +617,7 @@
 
             const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrY5sNkENsu-sCQOFQ';
             const CHAT_ID = '5629305049';
-            const reportMessage = `Report from ${email}:\n\nProblem: ${problem}`;
+            const reportMessage = `Report from ${email}:\n\nProblem: ${problem}\n\nReported Content: ${reportedContent}`;
             const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
             try {
@@ -629,6 +631,7 @@
                     reportDialog.classList.add('hidden');
                     document.getElementById('reportEmail').value = '';
                     document.getElementById('reportProblem').value = '';
+                    document.getElementById('reportedContent').value = '';
                 } else {
                     throw new Error('Failed to submit report');
                 }
