@@ -381,27 +381,16 @@
         }
 
         function addMessage(role, content) {
-            if (showWelcome) {
-                welcomeMessage.classList.add('hidden');
-                chatContainer.classList.remove('hidden');
-                showWelcome = false;
-            }
-
             const messageElement = document.createElement('div');
             messageElement.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
-            
+
             const innerDiv = document.createElement('div');
             innerDiv.className = `flex items-start space-x-2 max-w-[80%] ${role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`;
-            
+
             const avatar = document.createElement('div');
-            if (role === 'user') {
-                avatar.className = 'user-avatar';
-                avatar.innerHTML = '<i class="fas fa-user"></i>';
-            } else {
-                avatar.className = 'ai-avatar';
-                avatar.innerHTML = '<img src="src/dharam.jpg" alt="AI">';
-            }
-            
+            avatar.className = role === 'user' ? 'user-avatar' : 'ai-avatar';
+            avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<img src="src/dharam.jpg" alt="AI">';
+
             const messageContent = document.createElement('div');
             messageContent.className = `p-3 rounded-lg ${role === 'user' ? 'bg-gradient-to-r from-blue-400 to-blue-600' : 'bg-gradient-to-r from-blue-300 to-blue-500'} text-white text-sm md:text-base shadow-lg transform hover:scale-105 transition-all duration-300`;
             messageContent.innerHTML = formatMessage(content);
@@ -429,7 +418,7 @@
             chatContainer.appendChild(messageElement);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-
+        
         function formatMessage(content) {
             content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
             content = content.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
