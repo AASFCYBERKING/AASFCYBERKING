@@ -1,4 +1,4 @@
-![Dharam Logo](dharam.png)
+![Dharam Logo](src/dharam.png)
 # 🌟 AI Chat Interface 🌟
 
 Welcome to the **AI Chat Interface**, a cutting-edge educational tool designed to assist students at **Dharam Hinduja Matriculation Higher Secondary School**. This project combines modern web technologies with a sleek design to create an interactive chat experience.
@@ -32,5 +32,8 @@ Welcome to the **AI Chat Interface**, a cutting-edge educational tool designed t
   
 ---
 
+## 📸 Screenshots
+### ![Chat Interface](src/screenshot_1.jpg) ![About Section](src/screenshot_2.jpg)
+
 ## 📞 Contact
-### For inquiries, please reach out via email: dharam_hinduja@yahoo.com
+### For inquiries, please reach out via email: dharam_hinduja@yahoo.com or through the website's contact section 
