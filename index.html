@@ -690,6 +690,22 @@
         window.addEventListener('load', () => {
             document.getElementById('loadingScreen').style.display = 'none';
         });
+
+        chatContainer.addEventListener('click', (event) => {
+            if (event.target.closest('button')) {
+                const button = event.target.closest('button');
+                const action = button.getAttribute('data-action');
+                const content = button.getAttribute('data-content');
+
+                if (action === 'copy') {
+                    handleCopy(content);
+                } else if (action === 'report') {
+                    handleReport(content);
+                } else if (action === 'again') {
+                    handleAgain(content);
+                }
+            }
+        });
     </script>
 </body>
 </html>
