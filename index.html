@@ -339,13 +339,14 @@
             <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
             <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
             <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
+            <input type="hidden" id="reportedContent">
             <div class="flex justify-end">
                 <button id="cancelReport" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
                 <button id="submitReport" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
             </div>
         </div>
     </div>
-
+    
     <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
 
     <script>
