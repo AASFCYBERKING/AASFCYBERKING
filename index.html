@@ -187,7 +187,7 @@
                 <i class="fas fa-bars h-6 w-6"></i>
             </button>
             <div class="flex items-center space-x-2">
-                <img href="dharam.png" alt="Website Logo" class="w-8 h-8 animate-pulse">
+                <img src="dharam.png" alt="Website Logo" class="w-8 h-8 animate-pulse">
                 <span class="text-xl font-semibold text-blue-900">AI Chat</span>
             </div>
         </div>
@@ -416,17 +416,32 @@
         }
 
         function formatMessage(content) {
-            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            content = content.replace(/`(.*?)`/g, '<code>$1</code>');
-            content = content.replace(/^(#{1,6})\s(.*)$/gm, (match, hashes, text) => `<h${hashes.length}>${text}</h${hashes.length}>`);
-            content = content.replace(/^\s*[-*+]\s(.*)$/gm, '<li>$1</li>');
-            content = content.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-            content = content.replace(/^\d+\.\s(.*)$/gm, '<li>$1</li>');
-            content = content.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+            const highlightWords = ['Hi', 'bye', 'Hehe', 'hehe', 'uwu'];
+            highlightWords.forEach(word => {
+            const regex = new RegExp(`\\b(${word})\\b`, 'g'); // Match whole words only
+            content = content.replace(regex, '<mark>$1</mark>'); // Highlight the word
+        });
+
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
+            content = content.replace(/`(.*?)`/g, '<code>$1</code>'); // Code
+            content = content.replace(/^(#{1,6})\s(.*)$/gm, (match, hashes, text) => `<h${hashes.length}>${text}</h${hashes.length}>`); // Headings
+            content = content.replace(/^\s*[-*+]\s(.*)$/gm, '<li>$1</li>'); // Unordered list items
+            content = content.replace(/^\d+\.\s(.*)$/gm, '<li>$1</li>'); // Ordered list items
+
+            const orderedList = content.match(/<li>.*<\/li>/g);
+            if (orderedList) {
+                content = content.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+            }
+    
+            const unorderedList = content.match(/<li>.*<\/li>/g);
+            if (unorderedList) {
+                content = content.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            }
+
             return content;
         }
-
+        
         function escapeHtml(unsafe) {
             return unsafe
                  .replace(/&/g, "&amp;")
