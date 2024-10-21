@@ -634,7 +634,7 @@
                     document.getElementById('reportProblem').value = '';
                     document.getElementById('reportedContent').value = '';
                 } else {
-                    throw new Error('Failed to submit report');
+                    throw new Error('Failed to submit report', error);
                 }
             } catch (error) {
                 console.error('Error submitting report:', error);
