@@ -404,18 +404,18 @@
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'flex mt-2 space-x-2';
                 actionsDiv.innerHTML = `
-                    <button onclick="handleCopy('${escapeHtml(content)}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                    <button data-action="copy" data-content="${escapeHtml(content)}" class="text-white hover:text-blue-100 transition-colors duration-300">
                         <i class="fas fa-copy"></i>
                     </button>
-                    <button onclick="handleReport('${escapeHtml(content)}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                    <button data-action="report" data-content="${escapeHtml(content)}" class="text-white hover:text-blue-100 transition-colors duration-300">
                         <i class="fas fa-flag"></i>
                     </button>
-                    <button onclick="handleAgain('${escapeHtml(content)}')" class="text-white hover:text-blue-100 transition-colors duration-300">
+                    <button data-action="again" data-content="${escapeHtml(content)}" class="text-white hover:text-blue-100 transition-colors duration-300">
                         <i class="fas fa-redo"></i>
                     </button>
                 `;
                 messageContent.appendChild(actionsDiv);
-            }
+                }
 
             innerDiv.appendChild(avatar);
             innerDiv.appendChild(messageContent);
