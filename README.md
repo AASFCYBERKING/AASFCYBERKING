@@ -7,9 +7,9 @@
 
 ### Empowering Minds at Dharam Hinduja School
 
-[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/yourusername)
-[![Powered by AI](https://img.shields.io/badge/Powered%20by-AI-blue.svg)](https://github.com/yourusername/ai-chat-interface)
-[![School Project](https://img.shields.io/badge/School-Project-green.svg)](https://dharamhinduja.edu.in)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/Awesome-Prince)
+[![Powered by AI](https://img.shields.io/badge/Powered%20by-AI-blue.svg)](https://github.com/Awesome-Prince/DHS-Chatbot.github.io)
+[![School Project](https://img.shields.io/badge/School-Project-green.svg)](https://dharamhindujaschool.org)
 
 </div>
 
