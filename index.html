@@ -460,6 +460,37 @@
                  .replace(/'/g, "&#039;");
         }
 
+        function setThinking(thinking) {
+            isThinking = thinking;
+            if (thinking) {
+                const thinkingElement = document.createElement('div');
+                thinkingElement.className = 'flex justify-start animate-fade-in-up';
+                thinkingElement.innerHTML = `
+                    <div class="flex items-end space-x-2 max-w-[80%]">
+                        <div class="w-8 h-8 bg-transparent rounded-full">
+                            <img src="src/dharam.jpg" alt="AI" class="ai-logo">
+                        </div>
+                        <div class="p-3 rounded-lg bg-blue-100 text-sm md:text-base shadow-md">
+                            <div class="flex space-x-2">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatContainer.appendChild(thinkingElement);
+                setGenerating(true); // Update the send button's state
+            } else {
+                const thinkingElement = chatContainer.querySelector('.animate-fade-in-up:last-child');
+                if (thinkingElement) {
+                    thinkingElement.remove();
+                }
+                setGenerating(false); // Update the send button's state
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
         function setGenerating(generating) {
             isGenerating = generating;
             if (generating) {
@@ -474,7 +505,7 @@
                 sendButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
             }
         }
-
+        
         function scrollToBottom() {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
