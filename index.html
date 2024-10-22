@@ -425,9 +425,11 @@
             }
             
             function setThinking(thinking) {
-                if (thinking) {
+            const existingThinkingElement = chatContainer.querySelector('.thinking-indicator');
+            if (thinking) {
+                if (!existingThinkingElement) {
                     const thinkingElement = document.createElement('div');
-                    thinkingElement.className = 'flex justify-start animate-fade-in-up';
+                    thinkingElement.className = 'flex justify-start animate-fade-in-up thinking-indicator';
                     thinkingElement.innerHTML = `
                         <div class="flex items-end space-x-2 max-w-[80%]">
                             <div class="w-8 h-8 bg-transparent rounded-full">
@@ -443,15 +445,15 @@
                         </div>
                     `;
                     chatContainer.appendChild(thinkingElement);
-                    setGenerating(true);
-                } else {
-                    const thinkingElement = chatContainer.querySelector('.animate-fade-in-up:last-child');
-                    if (thinkingElement) {
-                        thinkingElement.remove();
-                    }
-                    setGenerating(false);
                 }
-                scrollToBottom();
+                setGenerating(true);
+            } else {
+                if (existingThinkingElement) {
+                    existingThinkingElement.remove();
+                }
+                setGenerating(false);
+            }
+            scrollToBottom();
             }
             
             function setGenerating(generating) {
@@ -474,39 +476,38 @@
             }
             
             async function sendMessage(message) {
-                if (message.trim()) {
-                    addMessage('user', message);
-                    setThinking(true);
-                    try {
-                        currentRequest = axios.CancelToken.source();
-                        const response = await axios.post('https://api.qewertyy.dev/models', {
-                            messages: [
-                                { role: "system", content: "None" },
-                                { role: "user", content: message }
-                            ],
-                            model_id: 23
-                        }, {
-                            cancelToken: currentRequest.token
-                        });
-                        if (response.data.content && response.data.content[0] && response.data.content[0].text) {
-                            const aiResponse = response.data.content[0].text;
-                            setThinking(false);
-                            addMessage('assistant', aiResponse);
-                        } else {
-                            throw new Error('Unexpected response structure');
-                        }
-                    } catch (error) {
-                        if (axios.isCancel(error)) {
-                            console.log('Request canceled:', error.message);
-                        } else {
-                            console.error('Error:', error);
-                            addNotification('error', 'Failed to get response. Please try again.');
-                        }
-                    } finally {
-                        setThinking(false);
-                        currentRequest = null;
+            if (message.trim()) {
+                addMessage('user', message);
+                setThinking(true);
+                try {
+                    currentRequest = axios.CancelToken.source();
+                    const response = await axios.post('https://api.qewertyy.dev/models', {
+                        messages: [
+                            { role: "system", content: "None" },
+                            { role: "user", content: message }
+                        ],
+                        model_id: 23
+                    }, {
+                        cancelToken: currentRequest.token
+                    });
+                    if (response.data.content && response.data.content[0] && response.data.content[0].text) {
+                        const aiResponse = response.data.content[0].text;
+                        addMessage('assistant', aiResponse);
+                    } else {
+                        throw new Error('Unexpected response structure');
                     }
+                } catch (error) {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled:', error.message);
+                    } else {
+                        console.error('Error:', error);
+                        addNotification('error', 'Failed to get response. Please try again.');
+                    }
+                } finally {
+                    setThinking(false);
+                    currentRequest = null;
                 }
+            }
             }
             
             function addNotification(type, message) {
@@ -659,17 +660,22 @@
             }
             
             chatForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const message = userInput.value.trim();
-                if (isGenerating) {
-                    if (currentRequest) {
-                        currentRequest.cancel('Operation canceled by the user.');
-                    }
-                    setThinking(false);
-                } else if (message) {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (isGenerating) {
+                if (currentRequest) {
+                    currentRequest.cancel('Operation canceled by the user.');
+                }
+                setThinking(false);
+
+                if (message) {
                     sendMessage(message);
                     userInput.value = '';
                 }
+            } else if (message) {
+                sendMessage(message);
+                userInput.value = '';
+            }
             });
             
             menuButton.addEventListener('click', () => navbar.classList.remove('hidden'));
