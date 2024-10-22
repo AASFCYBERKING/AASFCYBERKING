@@ -94,7 +94,7 @@
         }
 
         .chat-container {
-            height: calc(100vh - 200px);
+            height: calc(100vh - 144px); /* Adjusted for header and footer height */
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--primary-color) var(--background-color);
@@ -247,9 +247,9 @@
                         class="flex-1 bg-blue-50 border-blue-200 focus:border-blue-500 text-blue-900 placeholder-blue-400 text-sm md:text-base rounded-full px-4 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-400"
                         placeholder="Type your message here..."
                     >
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
-                        <span class="hidden md:inline">Send</span>
+                    <button id="sendButton" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105">
+                        <i id="sendIcon" class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
+                        <span id="sendText" class="hidden md:inline">Send</span>
                     </button>
                 </form>
             </div>
@@ -314,8 +314,9 @@
                                 id="contactMessage"
                                 placeholder="Your message"
                                 class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"
+                            
                             ></textarea>
-                            <i class="fas fa-comment absolute left-3 top-3  text-blue-400"></i>
+                            <i class="fas fa-comment absolute left-3 top-3 text-blue-400"></i>
                         </div>
                         <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
                             <i class="fas fa-paper-plane mr-2"></i>
@@ -368,11 +369,15 @@
         const notificationsContainer = document.getElementById('notifications');
         const contactForm = document.getElementById('contactForm');
         const welcomeMessage = document.getElementById('welcomeMessage');
+        const sendButton = document.getElementById('sendButton');
+        const sendIcon = document.getElementById('sendIcon');
+        const sendText = document.getElementById('sendText');
 
         let messages = [];
-        let isThinking = false;
+        let isGenerating = false;
         let activeSection = 'home';
         let showWelcome = true;
+        let currentRequest = null;
 
         function switchSection(sectionName) {
             Object.values(sections).forEach(section => section.classList.add('hidden'));
@@ -422,7 +427,7 @@
             innerDiv.appendChild(messageContent);
             messageElement.appendChild(innerDiv);
             chatContainer.appendChild(messageElement);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            scrollToBottom();
         }
         
         function formatMessage(content) {
@@ -455,58 +460,57 @@
                  .replace(/'/g, "&#039;");
         }
 
-        function setThinking(thinking) {
-            isThinking = thinking;
-            if (thinking) {
-                const thinkingElement = document.createElement('div');
-                thinkingElement.className = 'flex justify-start animate-fade-in-up';
-                thinkingElement.innerHTML = `
-                    <div class="flex items-end space-x-2 max-w-[80%]">
-                        <div class="w-8 h-8 bg-transparent rounded-full">
-                            <img src="src/dharam.jpg" alt="AI" class="ai-logo">
-                        </div>
-                        <div class="p-3 rounded-lg bg-blue-100 text-sm md:text-base shadow-md">
-                            <div class="flex space-x-2">
-                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                chatContainer.appendChild(thinkingElement);
+        function setGenerating(generating) {
+            isGenerating = generating;
+            if (generating) {
+                sendIcon.className = 'fas fa-stop h-4 w-4 md:mr-2';
+                sendText.textContent = 'Stop';
+                sendButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                sendButton.classList.add('bg-red-500', 'hover:bg-red-600');
             } else {
-                const thinkingElement = chatContainer.querySelector('.animate-fade-in-up:last-child');
-                if (thinkingElement) {
-                    thinkingElement.remove();
-                }
+                sendIcon.className = 'fas fa-paper-plane h-4 w-4 md:mr-2';
+                sendText.textContent = 'Send';
+                sendButton.classList.remove('bg-red-500', 'hover:bg-red-600');
+                sendButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
             }
+        }
+
+        function scrollToBottom() {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
         async function sendMessage(message) {
             if (message.trim()) {
                 addMessage('user', message);
-                setThinking(true);
+                setGenerating(true);
                 try {
+                    currentRequest = axios.CancelToken.source();
                     const response = await axios.post('https://api.qewertyy.dev/models', {
                         messages: [
                             { role: "system", content: "None" },
                             { role: "user", content: message }
                         ],
                         model_id: 23
+                    }, {
+                        cancelToken: currentRequest.token
                     });
                     if (response.data.content && response.data.content[0] && response.data.content[0].text) {
                         const aiResponse = response.data.content[0].text;
-                        setThinking(false);
+                        setGenerating(false);
                         addMessage('assistant', aiResponse);
                     } else {
                         throw new Error('Unexpected response structure');
                     }
                 } catch (error) {
-                    console.error('Error:', error);
-                    setThinking(false);
-                    addNotification('error', 'Failed to get response. Please try again.');
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled:', error.message);
+                    } else {
+                        console.error('Error:', error);
+                        addNotification('error', 'Failed to get response. Please try again.');
+                    }
+                } finally {
+                    setGenerating(false);
+                    currentRequest = null;
                 }
             }
         }
@@ -579,27 +583,36 @@
         async function handleAgain(content) {
             const lastUserMessage = messages.filter(m => m.role === 'user').pop();
             if (lastUserMessage) {
-                setThinking(true);
+                setGenerating(true);
                 try {
+                    currentRequest = axios.CancelToken.source();
                     const response = await axios.post('https://api.qewertyy.dev/models', {
                         messages: [
                             { role: "system", content: "None" },
                             { role: "user", content: lastUserMessage.content }
                         ],
                         model_id: 23
+                    }, {
+                        cancelToken: currentRequest.token
                     });
 
                     if (response.data.content && response.data.content[0] && response.data.content[0].text) {
                         const aiResponse = response.data.content[0].text;
-                        setThinking(false);
+                        setGenerating(false);
                         addMessage('assistant', aiResponse);
                     } else {
                         throw new Error('Unexpected response structure');
                     }
                 } catch (error) {
-                    console.error('Error:', error);
-                    setThinking(false);
-                    addNotification('error', 'Failed to regenerate response. Please try again.');
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled:', error.message);
+                    } else {
+                        console.error('Error:', error);
+                        addNotification('error', 'Failed to regenerate response. Please try again.');
+                    }
+                } finally {
+                    setGenerating(false);
+                    currentRequest = null;
                 }
             } else {
                 addNotification('error', 'No previous user message found to regenerate.');
@@ -645,7 +658,12 @@
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const message = userInput.value.trim();
-            if (message) {
+            if (isGenerating) {
+                if (currentRequest) {
+                    currentRequest.cancel('Operation canceled by the user.');
+                }
+                setGenerating(false);
+            } else if (message) {
                 messages.push({ role: 'user', content: message });
                 sendMessage(message);
                 userInput.value = '';
