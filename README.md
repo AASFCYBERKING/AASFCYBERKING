@@ -62,13 +62,6 @@ The interface uses a soothing blue color scheme by default, but it's highly cust
 }
 ```
 
-## 🚀 Future Enhancements
-
-- **Voice Interaction**: Implement speech recognition for voice-based queries.
-- **Personalized Learning Paths**: AI-driven customized learning experiences.
-- **Multilingual Support**: Extend the AI's capabilities to multiple languages.
-- **Interactive Tutorials**: Guided walkthroughs for complex topics.
-
 ## 👨‍💻 About the Developer
 
 This innovative project was brought to life by **Harish**, a visionary student at Dharam Hinduja Matriculation Higher Secondary School. Harish's passion for technology and education shines through in every aspect of this AI Chat Interface.
