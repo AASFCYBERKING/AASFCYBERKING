@@ -99,10 +99,10 @@ Imagine a world where knowledge is just a chat away. That's what we've created h
 |:--------------------:|:-----------------:|:---------------:|
 | [dharam_hinduja@yahoo.com](mailto:dharam_hinduja@yahoo.com) | [(044) 2572-7553](tel:+914425727553) | [Our Digital Home](https://dharamhindujaschool.org) |
 
+## School Location 📍
+
 **Our Secret Lair (aka School Address):**
 No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu
-
-<img src="src/school-map.png" alt="School Location" width="400">
 
 </div>
 
