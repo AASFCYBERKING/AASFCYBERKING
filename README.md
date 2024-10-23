@@ -81,7 +81,7 @@ Imagine a world where knowledge is just a chat away. That's what we've created h
 
 <div align="center">
   <h3>🌟 Harish: The Code Wizard 🧙‍♂️</h3>
-  <p><em>Turning caffeine into code since 2010</em></p>
+  <p><em>Turning caffeine into code since 2009</em></p>
   
   [![Contact Harish](https://img.shields.io/badge/📧_Contact_Harish-Slide_Into_My_DMs-blue?style=for-the-badge)](https://awesome-prince.github.io)
 </div>
