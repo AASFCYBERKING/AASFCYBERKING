@@ -192,6 +192,90 @@
             overflow-x: hidden;
             word-wrap: break-word;
             }
+            .clear-history-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #ef4444;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            }
+            .clear-history-btn:hover {
+            background-color: #dc2626;
+            transform: scale(1.05);
+            }
+            .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            }
+            .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+            }
+            .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-width: 24rem;
+            width: 100%;
+            margin: 0 1rem;
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+            }
+            .modal-overlay.show .modal-content {
+            transform: scale(1);
+            opacity: 1;
+            }
+            .modal-close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #6b7280;
+            }
+            .modal-close-btn:hover {
+            color: #374151;
+            }
+            .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            }
+            .modal-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+            }
+            .modal-btn:hover {
+            transform: scale(1.05);
+            }
+            .modal-btn-cancel {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            }
+            .modal-btn-cancel:hover {
+            background-color: #d1d5db;
+            }
+            .modal-btn-clear {
+            background-color: #ef4444;
+            color: white;
+            }
+            .modal-btn-clear:hover {
+            background-color: #dc2626;
+            }
         </style>
     </head>
     <body class="flex flex-col min-h-screen bg-white text-blue-900">
@@ -344,6 +428,24 @@
             </div>
         </div>
         <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
+        <button id="clearHistoryBtn" class="clear-history-btn">
+        <i class="fas fa-trash-alt"></i>
+        </button>
+        <div id="clearHistoryModal" class="modal-overlay">
+            <div class="modal-content">
+                <button id="modalCloseBtn" class="modal-close-btn">
+                <i class="fas fa-times"></i>
+                </button>
+                <h2 class="text-2xl font-bold mb-4">Clear Chat History</h2>
+                <p class="mb-6 text-gray-600">
+                    Are you sure you want to clear your chat history? This action cannot be undone. We value your privacy and don't keep any information on our servers - all data is stored locally in your browser.
+                </p>
+                <div class="modal-actions">
+                    <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Cancel</button>
+                    <button id="modalClearBtn" class="modal-btn modal-btn-clear">Clear History</button>
+                </div>
+            </div>
+        </div>
         <script>
             const chatContainer = document.getElementById('chatContainer');
             const userInput = document.getElementById('userInput');
@@ -366,6 +468,12 @@
             const sendButton = document.getElementById('sendButton');
             const sendIcon = document.getElementById('sendIcon');
             const sendText = document.getElementById('sendText');
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+            const clearHistoryModal = document.getElementById('clearHistoryModal');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalClearBtn = document.getElementById('modalClearBtn');
+            
             
             let messages = [];
             let conversationHistory = [];
@@ -480,6 +588,28 @@
                 navbar.classList.add('hidden');
             }
             
+            function showModal() {
+            clearHistoryModal.classList.add('show');
+            }
+            
+            function hideModal() {
+            clearHistoryModal.classList.remove('show');
+            }
+            
+            function clearHistory() {
+            messages = [];
+            conversationHistory = [];
+            localStorage.removeItem('chatHistory');
+            chatContainer.innerHTML = '';
+            hideModal();
+            addNotification('info', 'Chat history has been cleared.');
+            }
+            
+            clearHistoryBtn.addEventListener('click', showModal);
+            modalCloseBtn.addEventListener('click', hideModal);
+            modalCancelBtn.addEventListener('click', hideModal);
+            modalClearBtn.addEventListener('click', clearHistory);
+            
             function addMessage(role, content) {
             if (showWelcome) {
                 welcomeMessage.classList.add('hidden');
@@ -520,6 +650,8 @@
                     </button>
                 `;
                 messageContent.appendChild(actionsDiv);
+                conversationHistory.push({ role, content });
+                localStorage.setItem('chatHistory', JSON.stringify(conversationHistory));
             }
             
             innerDiv.appendChild(avatar);
@@ -890,7 +1022,14 @@
             }, 2000);
             
             window.addEventListener('load', () => {
-                document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'none';
+            const storedHistory = localStorage.getItem('chatHistory');
+            if (storedHistory) {
+                conversationHistory = JSON.parse(storedHistory);
+                conversationHistory.forEach(message => {
+                    addMessage(message.role, message.content);
+                });
+            }
             });
             
             chatContainer.addEventListener('click', (event) => {
