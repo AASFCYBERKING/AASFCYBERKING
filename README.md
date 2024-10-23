@@ -80,9 +80,8 @@ Imagine a world where knowledge is just a chat away. That's what we've created h
 ## 👨‍💻 The Mastermind Behind the Magic
 
 <div align="center">
-  <img src="src/harish.jpg" alt="Harish" width="150" height="150" style="border-radius:50%;">
   <h3>🌟 Harish: The Code Wizard 🧙‍♂️</h3>
-  <p><em>Turning caffeine into code since 2005</em></p>
+  <p><em>Turning caffeine into code since 2010</em></p>
   
   [![Contact Harish](https://img.shields.io/badge/📧_Contact_Harish-Slide_Into_My_DMs-blue?style=for-the-badge)](https://awesome-prince.github.io)
 </div>
