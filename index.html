@@ -1,106 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AI Chat Interface</title>
-        <link rel="icon" type="image/x-icon" href="src/dharam.png">
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        <style>
-            :root {
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Interface</title>
+    <link rel="icon" type="image/x-icon" href="src/dharam.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        :root {
             --primary-color: #3b82f6;
             --secondary-color: #60a5fa;
             --background-color: #eff6ff;
             --text-color: #1e40af;
-            }
-            body {
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--background-color), #ffffff, var(--background-color));
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            }
-            .animate-fade-in-up {
+        }
+
+        .animate-fade-in-up {
             animation: fadeInUp 0.5s ease-out;
-            }
-            .animate-slide-in-left {
+        }
+
+        .animate-slide-in-left {
             animation: slideInLeft 0.3s ease-out;
-            }
-            .animate-pulse {
+        }
+
+        .animate-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-            .animate-bounce {
+        }
+
+        .animate-bounce {
             animation: bounce 1s infinite;
-            }
-            .animate-spin {
+        }
+
+        .animate-spin {
             animation: spin 1s linear infinite;
-            }
-            @keyframes fadeInUp {
+        }
+
+        @keyframes fadeInUp {
             from {
-            opacity: 0;
-            transform: translateY(20px);
+                opacity: 0;
+                transform: translateY(20px);
             }
+
             to {
-            opacity: 1;
-            transform: translateY(0);
+                opacity: 1;
+                transform: translateY(0);
             }
-            }
-            @keyframes slideInLeft {
+        }
+
+        @keyframes slideInLeft {
             from {
-            transform: translateX(-100%);
+                transform: translateX(-100%);
             }
+
             to {
-            transform: translateX(0);
+                transform: translateX(0);
             }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
             }
-            @keyframes pulse {
-            0%, 100% {
-            opacity: 1;
-            }
+
             50% {
-            opacity: 0.5;
+                opacity: 0.5;
             }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
             }
-            @keyframes bounce {
-            0%, 100% {
-            transform: translateY(0);
-            }
+
             50% {
-            transform: translateY(-5px);
+                transform: translateY(-5px);
             }
-            }
-            @keyframes spin {
+        }
+
+        @keyframes spin {
             from {
-            transform: rotate(0deg);
+                transform: rotate(0deg);
             }
+
             to {
-            transform: rotate(360deg);
+                transform: rotate(360deg);
             }
-            }
-            .chat-container {
+        }
+
+        .chat-container {
             height: calc(100vh - 144px);
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--primary-color) var(--background-color);
             word-wrap: break-word;
             overflow-x: hidden;
-            }
-            .chat-container::-webkit-scrollbar {
+        }
+
+        .chat-container::-webkit-scrollbar {
             width: 8px;
-            }
-            .chat-container::-webkit-scrollbar-track {
+        }
+
+        .chat-container::-webkit-scrollbar-track {
             background: var(--background-color);
-            }
-            .chat-container::-webkit-scrollbar-thumb {
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
             background-color: var(--primary-color);
             border-radius: 4px;
-            }
-            .message-bubble {
+        }
+
+        .message-bubble {
             max-width: 80%;
             padding: 0.75rem;
             border-radius: 1rem;
@@ -110,30 +136,36 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             hyphens: auto;
-            }
-            .message-content {
+        }
+
+        .message-content {
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
-            }
-            .message-bubble:hover {
+        }
+
+        .message-bubble:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-            }
-            .user-message {
+        }
+
+        .user-message {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             margin-left: auto;
-            }
-            .ai-message {
+        }
+
+        .ai-message {
             background: linear-gradient(135deg, #93c5fd, var(--secondary-color));
             color: white;
-            }
-            .typing-indicator {
+        }
+
+        .typing-indicator {
             display: flex;
             justify-content: center;
-            }
-            .typing-indicator span {
+        }
+
+        .typing-indicator span {
             height: 10px;
             width: 10px;
             margin: 0 2px;
@@ -141,58 +173,71 @@
             border-radius: 50%;
             display: inline-block;
             animation: bounce 1.4s infinite ease-in-out both;
-            }
-            .typing-indicator span:nth-child(1) {
+        }
+
+        .typing-indicator span:nth-child(1) {
             animation-delay: -0.32s;
-            }
-            .typing-indicator span:nth-child(2) {
+        }
+
+        .typing-indicator span:nth-child(2) {
             animation-delay: -0.16s;
-            }
-            @media (max-width: 640px) {
+        }
+
+        @media (max-width: 640px) {
             .message-bubble {
-            max-width: 90%;
+                max-width: 90%;
             }
-            }
-            .user-avatar, .ai-avatar {
+        }
+
+        .user-avatar,
+        .ai-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
             overflow: hidden;
             flex-shrink: 0;
-            }
-            .user-avatar {
+        }
+
+        .user-avatar {
             background-color: #3b82f6;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            }
-            .ai-avatar img {
+        }
+
+        .ai-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            }
-            .link-preview {
+        }
+
+        .link-preview {
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             padding: 0.5rem;
             margin-top: 0.5rem;
             background-color: #f8fafc;
-            }
-            .flex.items-start.space-x-2 {
+        }
+
+        .flex.items-start.space-x-2 {
             width: 100%;
             max-width: 100%;
-            }
-            pre, code {
+        }
+
+        pre,
+        code {
             white-space: pre-wrap;
             word-wrap: break-word;
-            }
-            .link-preview {
+        }
+
+        .link-preview {
             max-width: 100%;
             overflow-x: hidden;
             word-wrap: break-word;
-            }
-            .clear-history-btn {
+        }
+
+        .clear-history-btn {
             position: fixed;
             bottom: 80px;
             right: 20px;
@@ -202,12 +247,14 @@
             border-radius: 9999px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            }
-            .clear-history-btn:hover {
+        }
+
+        .clear-history-btn:hover {
             background-color: #dc2626;
             transform: scale(1.05);
-            }
-            .modal-overlay {
+        }
+
+        .modal-overlay {
             position: fixed;
             inset: 0;
             background-color: rgba(0, 0, 0, 0.5);
@@ -218,12 +265,14 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            }
-            .modal-overlay.show {
+        }
+
+        .modal-overlay.show {
             opacity: 1;
             pointer-events: auto;
-            }
-            .modal-content {
+        }
+
+        .modal-content {
             background-color: white;
             border-radius: 0.5rem;
             padding: 1.5rem;
@@ -234,250 +283,192 @@
             transform: scale(0.9);
             opacity: 0;
             transition: all 0.3s ease;
-            }
-            .modal-overlay.show .modal-content {
+        }
+
+        .modal-overlay.show .modal-content {
             transform: scale(1);
             opacity: 1;
-            }
-            .modal-close-btn {
+        }
+
+        .modal-close-btn {
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
             color: #6b7280;
-            }
-            .modal-close-btn:hover {
+        }
+
+        .modal-close-btn:hover {
             color: #374151;
-            }
-            .modal-actions {
+        }
+
+        .modal-actions {
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
             margin-top: 1.5rem;
-            }
-            .modal-btn {
+        }
+
+        .modal-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.25rem;
             transition: all 0.3s ease;
-            }
-            .modal-btn:hover {
+        }
+
+        .modal-btn:hover {
             transform: scale(1.05);
-            }
-            .modal-btn-cancel {
+        }
+
+        .modal-btn-cancel {
             background-color: #e5e7eb;
             color: #1f2937;
-            }
-            .modal-btn-cancel:hover {
+        }
+
+        .modal-btn-cancel:hover {
             background-color: #d1d5db;
-            }
-            .modal-btn-clear {
+        }
+
+        .modal-btn-clear {
             background-color: #ef4444;
             color: white;
-            }
-            .modal-btn-clear:hover {
+        }
+
+        .modal-btn-clear:hover {
             background-color: #dc2626;
-            }
-        </style>
-    </head>
-    <body class="flex flex-col min-h-screen bg-white text-blue-900">
-        <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-white z-50">
-            <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen bg-white text-blue-900">
+    <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+    <header class="flex items-center justify-between p-4 bg-white shadow-md">
+        <div class="flex items-center">
+            <button id="menuButton" class="mr-2 text-blue-900 hover:bg-blue-100 transition-colors duration-300"></button>
+            <div class="flex items-center space-x-2">
+                <img src="src/dharam.png" alt="Website Logo" class="w-8 h-8 animate-pulse"> <span class="text-xl font-semibold text-blue-900">AI Chat</span>
+            </div>
         </div>
-        <header class="flex items-center justify-between p-4 bg-white shadow-md">
-            <div class="flex items-center">
-                <button id="menuButton" class="mr-2 text-blue-900 hover:bg-blue-100 transition-colors duration-300">
-                <i class="fas fa-bars h-6 w-6"></i>
-                </button>
-                <div class="flex items-center space-x-2">
-                    <img src="src/dharam.png" alt="Website Logo" class="w-8 h-8 animate-pulse">
-                    <span class="text-xl font-semibold text-blue-900">AI Chat</span>
+    </header>
+    <nav id="navbar" class="fixed inset-0 bg-blue-100 bg-opacity-50 backdrop-filter backdrop-blur-sm z-50 hidden">
+        <div class="w-64 h-full bg-white p-4 flex flex-col animate-slide-in-left">
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-xl font-semibold text-blue-900">Menu</span> <button id="closeNavButton" class="text-blue-900 hover:bg-blue-100 transition-colors duration-300"></button>
+            </div>
+            <div class="space-y-4">
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="home">Home</button> <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="about">About</button> <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="contact">Contact</button>
+            </div>
+        </div>
+    </nav>
+    <main id="mainContent" class="flex-1 flex flex-col overflow-hidden">
+        <div id="homeSection" class="flex-1 flex flex-col">
+            <div id="welcomeMessage" class="flex items-center justify-center flex-1">
+                <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">Hello! How can I assist you today?</h1>
+            </div>
+            <div id="chatContainer" class="chat-container flex-1 overflow-y-auto p-4 space-y-6 hidden"></div>
+            <div class="p-4 bg-white shadow-md">
+                <form id="chatForm" class="flex space-x-2" name="chatForm">
+                    <input id="userInput" class="flex-1 bg-blue-50 border-blue-200 focus:border-blue-500 text-blue-900 placeholder-blue-400 text-sm md:text-base rounded-full px-4 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-400" placeholder="Type your message here..."> <button id="sendButton" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105"><i id="sendIcon" class="fas fa-paper-plane h-4 w-4 md:mr-2"></i> <span id="sendText" class="hidden md:inline">Send</span></button>
+                </form>
+            </div>
+        </div>
+        <div id="aboutSection" class="hidden flex-1 overflow-y-auto p-8 space-y-8 bg-white">
+            <h2 class="text-4xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">Meet Your AI Companion</h2>
+            <div class="max-w-3xl mx-auto space-y-6 text-blue-800">
+                <p class="text-lg leading-relaxed animate-fade-in">Welcome to the cutting-edge of educational technology! I'm not just any chatbot &ndash; I'm a personalized AI assistant crafted exclusively for the brilliant minds at DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL.</p>
+                <div class="flex items-center justify-center space-x-4 my-8"></div>
+                <p class="text-lg leading-relaxed animate-fade-in">Born from the innovative spirit of Harish, a visionary student at DHARAM HINDUJA, I represent the perfect fusion of youthful creativity and artificial intelligence. Harish poured his passion for technology and education into every line of my code, crafting an AI companion that understands the unique needs of his fellow students.</p>
+                <p class="text-lg leading-relaxed animate-fade-in">I'm here to revolutionize your learning experience, providing instant assistance, thought-provoking discussions, and a touch of digital magic to your educational journey. Whether you're tackling complex math problems, exploring the depths of literature, or diving into scientific theories, I'm your round-the-clock study buddy and knowledge enhancer.</p>
+                <div class="text-center mt-8">
+                    <span class="text-2xl font-semibold text-blue-900 animate-pulse">Empowering Minds, One Conversation at a Time</span>
                 </div>
             </div>
-        </header>
-        <nav id="navbar" class="fixed inset-0 bg-blue-100 bg-opacity-50 backdrop-filter backdrop-blur-sm z-50 hidden">
-            <div class="w-64 h-full bg-white p-4 flex flex-col animate-slide-in-left">
-                <div class="flex justify-between items-center mb-8">
-                    <span class="text-xl font-semibold text-blue-900">Menu</span>
-                    <button id="closeNavButton" class="text-blue-900 hover:bg-blue-100 transition-colors duration-300">
-                    <i class="fas fa-times h-6 w-6"></i>
-                    </button>
+        </div>
+        <div id="contactSection" class="hidden flex-1 overflow-y-auto p-8 bg-white">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">Get in Touch</h2>
+            <div class="max-w-2xl mx-auto space-y-8">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">School Contact Information</h3>
+                    <p class="text-blue-700 mb-2">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+                    <p class="text-blue-700 mb-2">No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
+                    <p class="text-blue-700 mb-2">Phone: (044) 2572-7553, +91 9025218724</p>
+                    <p class="text-blue-700">Email: dharam_hinduja@yahoo.com</p>
                 </div>
-                <div class="space-y-4">
-                    <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="home">
-                    <i class="fas fa-home h-5 w-5 mr-3"></i>
-                    Home
-                    </button>
-                    <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="about">
-                    <i class="fas fa-info-circle h-5 w-5 mr-3"></i>
-                    About
-                    </button>
-                    <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="contact">
-                    <i class="fas fa-phone h-5 w-5 mr-3"></i>
-                    Contact
-                    </button>
-                </div>
-            </div>
-        </nav>
-        <main id="mainContent" class="flex-1 flex flex-col overflow-hidden">
-            <div id="homeSection" class="flex-1 flex flex-col">
-                <div id="welcomeMessage" class="flex items-center justify-center flex-1">
-                    <h1 class="text-4xl font-bold text-center text-blue-900 animate-pulse">
-                        Hello! How can I assist you today?
-                    </h1>
-                </div>
-                <div id="chatContainer" class="chat-container flex-1 overflow-y-auto p-4 space-y-6 hidden"></div>
-                <div class="p-4 bg-white shadow-md">
-                    <form id="chatForm" class="flex space-x-2">
-                        <input 
-                            id="userInput"
-                            class="flex-1 bg-blue-50 border-blue-200 focus:border-blue-500 text-blue-900 placeholder-blue-400 text-sm md:text-base rounded-full px-4 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-400"
-                            placeholder="Type your message here..."
-                            >
-                        <button id="sendButton" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105">
-                        <i id="sendIcon" class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
-                        <span id="sendText" class="hidden md:inline">Send</span>
-                        </button>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800 flex items-center">Contact the Developer</h3>
+                    <form id="contactForm" class="space-y-4" name="contactForm">
+                        <div class="relative">
+                            <input type="email" id="contactEmail" placeholder="Your Email" class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
+                        </div>
+                        <div class="relative">
+                            <textarea id="contactMessage" placeholder="Your message" class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">Send Message</button>
                     </form>
                 </div>
             </div>
-            <div id="aboutSection" class="hidden flex-1 overflow-y-auto p-8 space-y-8 bg-white">
-                <h2 class="text-4xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">
-                    Meet Your AI Companion
-                </h2>
-                <div class="max-w-3xl mx-auto space-y-6 text-blue-800">
-                    <p class="text-lg leading-relaxed animate-fade-in">
-                        Welcome to the cutting-edge of educational technology! I'm not just any chatbot – I'm a personalized AI assistant crafted exclusively for the brilliant minds at DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL.
-                    </p>
-                    <div class="flex items-center justify-center space-x-4 my-8">
-                        <i class="fas fa-bolt h-12 w-12 text-blue-600 animate-pulse"></i>
-                        <i class="fas fa-code h-12 w-12 text-blue-600 animate-bounce"></i>
-                        <i class="fas fa-magic h-12 w-12 text-blue-600 animate-spin"></i>
-                    </div>
-                    <p class="text-lg leading-relaxed animate-fade-in">
-                        Born from the innovative spirit of Harish, a visionary student at DHARAM HINDUJA, I represent the perfect fusion of youthful creativity and artificial intelligence. Harish poured his passion for technology and education into every line of my code, crafting an AI companion that understands the unique needs of his fellow students.
-                    </p>
-                    <p class="text-lg leading-relaxed animate-fade-in">
-                        I'm here to revolutionize your learning experience, providing instant assistance, thought-provoking discussions, and a touch of digital magic to your educational journey. Whether you're tackling complex math problems, exploring the depths of literature, or diving into scientific theories, I'm your round-the-clock study buddy and knowledge enhancer.
-                    </p>
-                    <div class="text-center mt-8">
-                        <span class="text-2xl font-semibold text-blue-900 animate-pulse">
-                        Empowering Minds, One Conversation at a Time
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div id="contactSection" class="hidden flex-1 overflow-y-auto p-8 bg-white">
-                <h2 class="text-3xl font-bold mb-6 text-center text-blue-900 animate-fade-in-down">
-                    Get in Touch
-                </h2>
-                <div class="max-w-2xl mx-auto space-y-8">
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-800">School Contact Information</h3>
-                        <p class="text-blue-700 mb-2">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-                        <p class="text-blue-700 mb-2">No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
-                        <p class="text-blue-700 mb-2">Phone: (044) 2572-7553, +91 9025218724</p>
-                        <p class="text-blue-700">Email: dharam_hinduja@yahoo.com</p>
-                    </div>
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-800 flex items-center">
-                            <i class="fas fa-envelope mr-2"></i>
-                            Contact the Developer
-                        </h3>
-                        <form id="contactForm" class="space-y-4">
-                            <div class="relative">
-                                <input
-                                    type="email"
-                                    id="contactEmail"
-                                    placeholder="Your Email"
-                                    class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded"
-                                    >
-                                <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400"></i>
-                            </div>
-                            <div class="relative">
-                                <textarea
-                                    id="contactMessage"
-                                    placeholder="Your message"
-                                    class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"
-                                    ></textarea>
-                                <i class="fas fa-comment absolute left-3 top-3 text-blue-400"></i>
-                            </div>
-                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Send Message
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <footer class="p-4 bg-white shadow-md text-blue-900 text-xs md:text-sm">
-            <p class="font-semibold">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-            <p>No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
-            <p>P: (044) 2572-7553, +91 9025218724</p>
-            <p>E: dharam_hinduja@yahoo.com</p>
-        </footer>
-        <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
-                <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
-                <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
-                <input type="hidden" id="reportedContent">
-                <div class="flex justify-end">
-                    <button id="cancelReport" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
-                    <button id="submitReport" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
-                </div>
+        </div>
+    </main>
+    <footer class="p-4 bg-white shadow-md text-blue-900 text-xs md:text-sm">
+        <p class="font-semibold">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
+        <p>No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
+        <p>P: (044) 2572-7553, +91 9025218724</p>
+        <p>E: dharam_hinduja@yahoo.com</p>
+    </footer>
+    <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
+            <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
+            <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea> <input type="hidden" id="reportedContent">
+            <div class="flex justify-end">
+                <button id="cancelReport" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button> <button id="submitReport" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
             </div>
         </div>
-        <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
-        <button id="clearHistoryBtn" class="clear-history-btn">
-        <i class="fas fa-trash-alt"></i>
-        </button>
-        <div id="clearHistoryModal" class="modal-overlay">
-            <div class="modal-content">
-                <button id="modalCloseBtn" class="modal-close-btn">
-                <i class="fas fa-times"></i>
-                </button>
-                <h2 class="text-2xl font-bold mb-4">Clear Chat History</h2>
-                <p class="mb-6 text-gray-600">
-                    Are you sure you want to clear your chat history? This action cannot be undone. We value your privacy and don't keep any information on our servers - all data is stored locally in your browser.
-                </p>
-                <div class="modal-actions">
-                    <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Cancel</button>
-                    <button id="modalClearBtn" class="modal-btn modal-btn-clear">Clear History</button>
-                </div>
+    </div>
+    <div id="notifications" class="fixed bottom-4 right-4 space-y-4"></div>
+    <button id="clearHistoryBtn" class="clear-history-btn"></button>
+    <div id="clearHistoryModal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modalCloseBtn" class="modal-close-btn"></button>
+            <h2 class="text-2xl font-bold mb-4">Clear Chat History</h2>
+            <p class="mb-6 text-gray-600">Are you sure you want to clear your chat history? This action cannot be undone. We value your privacy and don't keep any information on our servers - all data is stored locally in your browser.</p>
+            <div class="modal-actions">
+                <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Cancel</button> <button id="modalClearBtn" class="modal-btn modal-btn-clear">Clear History</button>
             </div>
         </div>
-        <script>
-            const chatContainer = document.getElementById('chatContainer');
-            const userInput = document.getElementById('userInput');
-            const chatForm = document.getElementById('chatForm');
-            const menuButton = document.getElementById('menuButton');
-            const navbar = document.getElementById('navbar');
-            const closeNavButton = document.getElementById('closeNavButton');
-            const reportDialog = document.getElementById('reportDialog');
-            const submitReportButton = document.getElementById('submitReport');
-            const cancelReportButton = document.getElementById('cancelReport');
-            const navButtons = document.querySelectorAll('.nav-button');
-            const sections = {
-                home: document.getElementById('homeSection'),
-                about: document.getElementById('aboutSection'),
-                contact: document.getElementById('contactSection')
-            };
-            const notificationsContainer = document.getElementById('notifications');
-            const contactForm = document.getElementById('contactForm');
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const sendButton = document.getElementById('sendButton');
-            const sendIcon = document.getElementById('sendIcon');
-            const sendText = document.getElementById('sendText');
-            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-            const clearHistoryModal = document.getElementById('clearHistoryModal');
-            const modalCloseBtn = document.getElementById('modalCloseBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
-            const modalClearBtn = document.getElementById('modalClearBtn');
-            
-            
-            let messages = [];
-            let conversationHistory = [];
-            let schoolData = `
+    </div>
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const chatForm = document.getElementById('chatForm');
+        const menuButton = document.getElementById('menuButton');
+        const navbar = document.getElementById('navbar');
+        const closeNavButton = document.getElementById('closeNavButton');
+        const reportDialog = document.getElementById('reportDialog');
+        const submitReportButton = document.getElementById('submitReport');
+        const cancelReportButton = document.getElementById('cancelReport');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = {
+            home: document.getElementById('homeSection'),
+            about: document.getElementById('aboutSection'),
+            contact: document.getElementById('contactSection')
+        };
+        const notificationsContainer = document.getElementById('notifications');
+        const contactForm = document.getElementById('contactForm');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const sendButton = document.getElementById('sendButton');
+        const sendIcon = document.getElementById('sendIcon');
+        const sendText = document.getElementById('sendText');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const clearHistoryModal = document.getElementById('clearHistoryModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+        const modalClearBtn = document.getElementById('modalClearBtn');
+
+
+        let messages = [];
+        let conversationHistory = [];
+        let schoolData = `
             You are a personalized chatbot created for Dharam Hinduja Matriculation Higher Secondary School, committed to providing smart, specific, and user-friendly responses. You will answer questions related to the school while ensuring your replies are concise and relevant, avoiding unnecessary details or answering unrelated questions. You are here to help and will strive to continuously improve your performance based on user feedback.Our School Located at No. 19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, our school can be reached at dharam_hinduja@yahoo.com or by phone at (044) 2572-7553 and +91 9025218724.
             Our History and Vision
             Established in 1994 by Ashok Leyland, our school was founded with the goal of providing quality education to the children of its employees and the local community. Today, we have grown into one of the best schools in Thiruvottiyur, focusing on academic excellence and extracurricular activities. Our director, N R Sarala, believes that teachers play a vital role in shaping young minds and that they are a bundle of talent who know how to work more with less.
@@ -562,13 +553,13 @@
             Dharam Hinduja Matriculation Higher Secondary School offers various facilities to ensure a comprehensive learning experience. The school library, a treasure trove of knowledge, has state-of-the-art infrastructure. Classrooms are bright, well-ventilated, and spacious, equipped with Smartclass technology for effective and enriching learning experiences. The regularly updated inputs and a wide range of video clippings from the knowledge center make it easier for students to understand difficult and abstract concepts through interactive digital boards. Additionally, the school has full-equipped Physics, Chemistry, Biology, and Computer Science laboratories to encourage students to learn through practice. The school infrastructure is designed to support the students' growth, and RO Water HUB is available to ensure clean drinking water. A Security Room is also present to ensure the safety of the students and staff.
             
             School Timing:-
-            Sunday	Closed
-            Monday	8:30 am–4:30 pm
-            Tuesday	8:30 am–4:30 pm
-            Wednesday	8:30 am–4:30 pm
-            Thursday	8:30 am–4:30 pm
-            Friday	8:30 am–4:30 pm
-            Saturday	8:30 am–4:30 pm
+            Sunday      Closed
+            Monday      8:30&#8239;am&ndash;4:30&#8239;pm
+            Tuesday     8:30&#8239;am&ndash;4:30&#8239;pm
+            Wednesday   8:30&#8239;am&ndash;4:30&#8239;pm
+            Thursday    8:30&#8239;am&ndash;4:30&#8239;pm
+            Friday      8:30&#8239;am&ndash;4:30&#8239;pm
+            Saturday    8:30&#8239;am&ndash;4:30&#8239;pm
             
             
             your school website have lots of images about ur school infrastructure, achivements, celebrations etc but you doesnt have that data even your school website have seperate section called Gallery To View these photos/gifs https://dharamhindujaschool.org/gallery.php
@@ -576,56 +567,65 @@
             
             Don't give unwanted big replies which user does'nt asked, if you have data which user ask try to give it fully even though it was big, don't always say them to visit website untill you don't have acces to the data
             `
-            let isGenerating = false;
-            let activeSection = 'home';
-            let showWelcome = true;
-            let currentRequest = null;
-            
-            function switchSection(sectionName) {
-                Object.values(sections).forEach(section => section.classList.add('hidden'));
-                sections[sectionName].classList.remove('hidden');
-                activeSection = sectionName;
-                navbar.classList.add('hidden');
+        let isGenerating = false;
+        let activeSection = 'home';
+        let showWelcome = true;
+        let currentRequest = null;
+
+        function switchSection(sectionName) {
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            sections[sectionName].classList.remove('hidden');
+            activeSection = sectionName;
+            navbar.classList.add('hidden');
+        }
+
+        function updateClearHistoryButton() {
+            if (messages.length > 0) {
+                clearHistoryBtn.classList.remove('hidden');
+            } else {
+                clearHistoryBtn.classList.add('hidden');
             }
-            
-            function showModal() {
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showModal() {
             clearHistoryModal.classList.add('show');
-            }
-            
-            function hideModal() {
+        }
+
+        function hideModal() {
             clearHistoryModal.classList.remove('show');
-            }
-            
-            function clearHistory() {
+        }
+
+
+        function clearHistory() {
             messages = [];
             conversationHistory = [];
             localStorage.removeItem('chatHistory');
             chatContainer.innerHTML = '';
             hideModal();
             addNotification('info', 'Chat history has been cleared.');
+            updateClearHistoryButton();
+        }
+
+        function switchSection(sectionName) {
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            sections[sectionName].classList.remove('hidden');
+            activeSection = sectionName;
+            navbar.classList.add('hidden');
+            window.location.hash = sectionName;
+        }
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.slice(1);
+            if (sections[hash]) {
+                switchSection(hash);
             }
-            
-            clearHistoryBtn.addEventListener('click', showModal);
-            modalCloseBtn.addEventListener('click', hideModal);
-            modalCancelBtn.addEventListener('click', hideModal);
-            modalClearBtn.addEventListener('click', clearHistory);
-            
-            function switchSection(sectionName) {
-                Object.values(sections).forEach(section => section.classList.add('hidden'));
-                sections[sectionName].classList.remove('hidden');
-                activeSection = sectionName;
-                navbar.classList.add('hidden');
-                window.location.hash = sectionName;
-            }
-            
-            window.addEventListener('hashchange', () => {
-                const hash = window.location.hash.slice(1);
-                if (sections[hash]) {
-                    switchSection(hash);
-                }
-            });
-            
-            function addMessage(role, content) {
+        });
+
+        function addMessage(role, content) {
             if (showWelcome) {
                 welcomeMessage.classList.add('hidden');
                 chatContainer.classList.remove('hidden');
@@ -633,443 +633,538 @@
             }
             const messageElement = document.createElement('div');
             messageElement.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
-            
+
             const innerDiv = document.createElement('div');
             innerDiv.className = `flex items-start space-x-2 max-w-full ${role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`;
-            
+
             const avatar = document.createElement('div');
             avatar.className = role === 'user' ? 'user-avatar' : 'ai-avatar';
-            avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<img src="src/dharam.jpg" alt="AI">';
-            
+            avatar.innerHTML = role === 'user' ? '<i class="fas fa-user">' : '<img src="src/dharam.jpg" alt="AI">';
+
             const messageContent = document.createElement('div');
             messageContent.className = `message-bubble ${role === 'user' ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-900'} text-sm md:text-base shadow-md`;
-            
+
             const contentWrapper = document.createElement('div');
             contentWrapper.className = 'message-content';
             contentWrapper.innerHTML = formatMessage(content);
-            
+
             messageContent.appendChild(contentWrapper);
-            
+
             if (role === 'assistant') {
-            if (role === 'assistant') {
-                const actionsDiv = document.createElement('div');
+                if (role === 'assistant') {
+                    const actionsDiv = document.createElement('div');
                     actionsDiv.className = 'flex mt-2 space-x-2';
                     actionsDiv.innerHTML = `
                         <button data-action="copy" data-content="${escapeHtml(content)}" class="text-blue-500 hover:text-blue-600 transition-colors duration-300">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                            <i class="fas fa-copy">
+                        
                         <button data-action="report" data-content="${escapeHtml(content)}" class="text-blue-500 hover:text-blue-600 transition-colors duration-300">
-                            <i class="fas fa-flag"></i>
-                        </button>
+                            <i class="fas fa-flag">
+                        
                         <button data-action="again" data-content="${escapeHtml(content)}" class="text-blue-500 hover:text-blue-600 transition-colors duration-300">
-                            <i class="fas fa-redo"></i>
-                        </button>
+                            <i class="fas fa-redo">
+                        
                     `;
                     messageContent.appendChild(actionsDiv);
                 }
-            
-            innerDiv.appendChild(avatar);
-            innerDiv.appendChild(messageContent);
-            messageElement.appendChild(innerDiv);
-            chatContainer.appendChild(messageElement);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            scrollToBottom();
-            conversationHistory.push({ role, content });
-            localStorage.setItem('chatHistory', JSON.stringify(conversationHistory))
-            messages.push({ role, content });
+
+                innerDiv.appendChild(avatar);
+                innerDiv.appendChild(messageContent);
+                messageElement.appendChild(innerDiv);
+                chatContainer.appendChild(messageElement);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                scrollToBottom();
+                updateClearHistoryButton();
+                conversationHistory.push({
+                    role,
+                    content
+                });
+                localStorage.setItem('chatHistory', JSON.stringify(conversationHistory))
+                messages.push({
+                    role,
+                    content
+                });
             }
-            
+
             window.addEventListener('load', () => {
-            const storedHistory = localStorage.getItem('chatHistory');
-            if (storedHistory) {
-                conversationHistory = JSON.parse(storedHistory);
-                conversationHistory.forEach(message => {
-                    addMessage(message.role, message.content);
-                });
-            }
+                const storedHistory = localStorage.getItem('chatHistory');
+                if (storedHistory) {
+                    conversationHistory = JSON.parse(storedHistory);
+                    conversationHistory.forEach(message => {
+                        addMessage(message.role, message.content);
+                    });
+                }
             });
-            
+
             function formatMessage(content) {
-            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            content = content.replace(/`(.*?)`/g, '<code>$1</code>');
-            content = content.replace(/^(#{1,6})\s(.*)$/gm, (match, hashes, text) => `<h${hashes.length}>${text}</h${hashes.length}>`);
-            content = content.replace(/^\s*[-*+]\s(.*)$/gm, '<li>$1</li>');
-            content = content.replace(/^\d+\.\s(.*)$/gm, '<li>$1</li>');
-            
-            const orderedList = content.match(/<li>.*<\/li>/g);
-            if (orderedList) {
-                content = content.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
-            }
-            
-            const unorderedList = content.match(/<li>.*<\/li>/g);
-            if (unorderedList) {
-                content = content.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-            }
-            
-            // Add link formatting
-            content = content.replace(/\[([^\]]+)\]$$([^$$]+)\)/g, (match, text, url) => {
-                return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${text}</a>`;
-            });
-            
-            // Add link preview
-            const links = content.match(/https?:\/\/[^\s]+/g);
-            if (links) {
-                links.forEach(link => {
-                    content += `
-                    <div class="link-preview">
-                        <a href="${link}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${link}</a>
-                    </div>`;
+                content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1');
+                content = content.replace(/\*(.*?)\*/g, '<em>$1');
+                content = content.replace(/`(.*?)`/g, '<code>$1');
+                content = content.replace(/^(#{1,6})\s(.*)$/gm, (match, hashes, text) => `<h${hashes.length}>${text}`);
+                content = content.replace(/^\s*[-*+]\s(.*)$/gm, '<li>$1');
+                content = content.replace(/^\d+\.\s(.*)$/gm, '<li>$1');
+
+                const orderedList = content.match(/<li>.*<\/li>/g);
+                if (orderedList) {
+                    content = content.replace(/(<li>.*<\/li>)/s, '<ol>$1');
+                }
+
+                const unorderedList = content.match(/<li>.*<\/li>/g);
+                if (unorderedList) {
+                    content = content.replace(/(<li>.*<\/li>)/s, '<ul>$1');
+                }
+
+                // Add link formatting
+                content = content.replace(/\[([^\]]+)\]$$([^$$]+)\)/g, (match, text, url) => {
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${text}`;
                 });
+
+                // Add link preview
+                const links = content.match(/https?:\/\/[^\s]+/g);
+                if (links) {
+                    links.forEach(link => {
+                        content += `
+                    <div class="link-preview">
+                        <a href="${link}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${link}
+                    `;
+                    });
+                }
+
+                return content;
             }
-            
-            return content;
-            }
-            
+
             function escapeHtml(unsafe) {
                 return unsafe
-                     .replace(/&/g, "&amp;")
-                     .replace(/</g, "&lt;")
-                     .replace(/>/g, "&gt;")
-                     .replace(/"/g, "&quot;")
-                     .replace(/'/g, "&#039;");
-            }
-            
-            function setThinking(thinking) {
-            const existingThinkingElement = chatContainer.querySelector('.thinking-indicator');
-            if (thinking) {
-                if (!existingThinkingElement) {
-                    const thinkingElement = document.createElement('div');
-                    thinkingElement.className = 'flex justify-start animate-fade-in-up thinking-indicator';
-                    thinkingElement.innerHTML = `
+                    .replace(/&/g, "&amp;")
+                    .replace( //g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                    }
+
+                function setThinking(thinking) {
+                    const existingThinkingElement = chatContainer.querySelector('.thinking-indicator');
+                    if (thinking) {
+                        if (!existingThinkingElement) {
+                            const thinkingElement = document.createElement('div');
+                            thinkingElement.className = 'flex justify-start animate-fade-in-up thinking-indicator';
+                            thinkingElement.innerHTML = `
                         <div class="flex items-end space-x-2 max-w-[80%]">
                             <div class="w-8 h-8 bg-transparent rounded-full">
                                 <img src="src/dharam.jpg" alt="AI" class="ai-logo">
-                            </div>
+                            
                             <div class="p-3 rounded-lg bg-blue-100 text-sm md:text-base shadow-md">
                                 <div class="flex space-x-2">
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-                                </div>
-                            </div>
-                        </div>
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.4s">
+                                
+                            
+                        
                     `;
-                    chatContainer.appendChild(thinkingElement);
-                }
-                setGenerating(true);
-            } else {
-                if (existingThinkingElement) {
-                    existingThinkingElement.remove();
-                }
-                setGenerating(false);
-            }
-            scrollToBottom();
-            }
-            
-            function setGenerating(generating) {
-                isGenerating = generating;
-                if (generating) {
-                    sendIcon.className = 'fas fa-stop h-4 w-4 md:mr-2';
-                    sendText.textContent = 'Stop';
-                    sendButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-                    sendButton.classList.add('bg-red-500', 'hover:bg-red-600');
-                } else {
-                    sendIcon.className = 'fas fa-paper-plane h-4 w-4 md:mr-2';
-                    sendText.textContent = 'Send';
-                    sendButton.classList.remove('bg-red-500', 'hover:bg-red-600');
-                    sendButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
-                }
-            }
-            
-            function scrollToBottom() {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
-            
-            async function sendMessage(message) {
-            if (message.trim()) {
-                addMessage('user', message);
-                setThinking(true);
-                try {
-                    currentRequest = axios.CancelToken.source();
-                    const response = await axios.post('https://api.qewertyy.dev/models', {
-                        messages: [
-                            { role: "system", content: schoolData },
-                            ...conversationHistory.map(msg => ({ role: msg.role, content: msg.content })),
-                            { role: "user", content: message }
-                        ],
-                        model_id: 23
-                    }, {
-                        cancelToken: currentRequest.token
-                    });
-                    if (response.data.content && response.data.content[0] && response.data.content[0].text) {
-                        const aiResponse = response.data.content[0].text;
-                        addMessage('assistant', aiResponse);
+                            chatContainer.appendChild(thinkingElement);
+                        }
+                        setGenerating(true);
                     } else {
-                        throw new Error('Unexpected response structure');
+                        if (existingThinkingElement) {
+                            existingThinkingElement.remove();
+                        }
+                        setGenerating(false);
                     }
-                } catch (error) {
-                    if (axios.isCancel(error)) {
-                        console.log('Request canceled:', error.message);
-                    } else {
-                        console.error('Error:', error);
-                        addNotification('error', 'Failed to get response. Please try again.');
-                    }
-                } finally {
-                    setThinking(false);
-                    currentRequest = null;
+                    scrollToBottom();
                 }
-            }
-            }
-            
-            function addNotification(type, message) {
-                const notification = document.createElement('div');
-                notification.className = `bg-white p-4 rounded-lg shadow-lg flex items-center space-x-3 ${
+
+                function setGenerating(generating) {
+                    isGenerating = generating;
+                    if (generating) {
+                        sendIcon.className = 'fas fa-stop h-4 w-4 md:mr-2';
+                        sendText.textContent = 'Stop';
+                        sendButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                        sendButton.classList.add('bg-red-500', 'hover:bg-red-600');
+                    } else {
+                        sendIcon.className = 'fas fa-paper-plane h-4 w-4 md:mr-2';
+                        sendText.textContent = 'Send';
+                        sendButton.classList.remove('bg-red-500', 'hover:bg-red-600');
+                        sendButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                    }
+                }
+
+                function updateClearHistoryButton() {
+                    if (messages.length > 0) {
+                        clearHistoryBtn.classList.remove('hidden');
+                    } else {
+                        clearHistoryBtn.classList.add('hidden');
+                    }
+                }
+
+                function loadStoredHistory() {
+                    try {
+                        const storedHistory = localStorage.getItem('chatHistory');
+                        if (storedHistory) {
+                            conversationHistory = JSON.parse(storedHistory);
+                            conversationHistory.forEach(message => {
+                                addMessage(message.role, message.content);
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error loading chat history:', error);
+                        localStorage.removeItem('chatHistory');
+                    }
+                }
+
+                function scrollToBottom() {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+
+                function showModal() {
+                    clearHistoryModal.classList.add('show');
+                }
+
+                function hideModal() {
+                    clearHistoryModal.classList.remove('show');
+                }
+
+
+                async function sendMessage(message) {
+                    if (message.trim()) {
+                        addMessage('user', message);
+                        setThinking(true);
+                        try {
+                            currentRequest = axios.CancelToken.source();
+                            const response = await axios.post('https://api.qewertyy.dev/models', {
+                                messages: [{
+                                        role: "system",
+                                        content: schoolData
+                                    },
+                                    ...conversationHistory.map(msg => ({
+                                        role: msg.role,
+                                        content: msg.content
+                                    })),
+                                    {
+                                        role: "user",
+                                        content: message
+                                    }
+                                ],
+                                model_id: 23
+                            }, {
+                                cancelToken: currentRequest.token,
+                                timeout: 30000 // 30 seconds timeout
+                            });
+                            if (response.data.content && response.data.content[0] && response.data.content[0].text) {
+                                const aiResponse = response.data.content[0].text;
+                                addMessage('assistant', aiResponse);
+                            } else {
+                                throw new Error('Unexpected response structure');
+                            }
+                        } catch (error) {
+                            if (axios.isCancel(error)) {
+                                console.log('Request canceled:', error.message);
+                            } else if (error.code === 'ECONNABORTED') {
+                                addNotification('error', 'Request timed out. Please try again.');
+                            } else {
+                                console.error('Error:', error);
+                                addNotification('error', 'Failed to get response. Please try again.');
+                            }
+                        } finally {
+                            setThinking(false);
+                            currentRequest = null;
+                        }
+                    }
+                }
+
+                function addNotification(type, message) {
+                    const notification = document.createElement('div');
+                    notification.className = `bg-white p-4 rounded-lg shadow-lg flex items-center space-x-3 ${
                     type === 'error' ? 'border-l-4 border-red-500' :
                     type === 'report' ? 'border-l-4 border-green-500' :
                     type === 'info' ? 'border-l-4 border-yellow-500' :
                     'border-l-4 border-blue-500'
                 }`;
-               
-                const iconClass = type === 'error' ? 'fa-exclamation-triangle text-red-500' :
-                                  type === 'report' ? 'fa-file-alt text-green-500' :
-                                  type === 'info' ? 'fa-info-circle text-yellow-500' :
-                                  'fa-bell text-blue-500';
-               
-                notification.innerHTML = `
+
+                    const iconClass = type === 'error' ? 'fa-exclamation-triangle text-red-500' :
+                        type === 'report' ? 'fa-file-alt text-green-500' :
+                        type === 'info' ? 'fa-info-circle text-yellow-500' :
+                        'fa-bell text-blue-500';
+
+                    notification.innerHTML = `
                     <div class="animate-bounce">
-                        <i class="fas ${iconClass} h-6 w-6"></i>
-                    </div>
+                        <i class="fas ${iconClass} h-6 w-6">
+                    
                     <div>
                         <h3 class="font-semibold ${
                             type === 'error' ? 'text-red-800' :
                             type === 'report' ? 'text-green-800' :
                             type === 'info' ? 'text-yellow-800' :
                             'text-blue-800'
-                        }">${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                        }">${type.charAt(0).toUpperCase() + type.slice(1)}
                         <p class="text-sm ${
                             type === 'error' ? 'text-red-600' :
                             type === 'report' ? 'text-green-600' :
                             type === 'info' ? 'text-yellow-600' :
                             'text-blue-600'
-                        }">${message}</p>
-                    </div>
+                        }">${message}
+                    
                     <button onclick="this.parentElement.remove()" class="text-gray-500 hover:${
                         type === 'error' ? 'text-red-700' :
                         type === 'report' ? 'text-green-700' :
                         type === 'info' ? 'text-yellow-700' :
                         'text-blue-700'
                     }">
-                        <i class="fas fa-times h-4 w-4"></i>
-                    </button>
+                        <i class="fas fa-times h-4 w-4">
+                    
                 `;
-               
-               notificationsContainer.appendChild(notification);
-               
-                setTimeout(() => {
-                    notification.remove();
-                }, 5000);
-            }
-            
-            function handleCopy(content) {
-                navigator.clipboard.writeText(content).then(() => {
-                    addNotification('info', 'Response copied to clipboard!');
-                }).catch(err => {
-                    console.error('Failed to copy: ', err);
-                    addNotification('error', 'Failed to copy content.');
-                });
-            }
-            
-            function handleReport(content) {
-                reportDialog.classList.remove('hidden');
-                document.getElementById('reportEmail').value = '';
-                document.getElementById('reportProblem').value = '';
-                updateReportContent();
-            }
-            
-            async function handleAgain(content) {
-                const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-                if (lastUserMessage) {
-                    setThinking(true);
-                    try {
-                        currentRequest = axios.CancelToken.source();
-                        const response = await axios.post('https://api.qewertyy.dev/models', {
-                            messages: [
-                                { role: "system", content: schoolData },
-                                { role: "user", content: lastUserMessage.content }
-                            ],
-                            model_id: 23
-                        }, {
-                            cancelToken: currentRequest.token
-                        });
-            
-                        if (response.data.content && response.data.content[0] && response.data.content[0].text) {
-                            const aiResponse = response.data.content[0].text;
+
+                    notificationsContainer.appendChild(notification);
+
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 5000);
+                }
+
+                function handleCopy(content) {
+                    navigator.clipboard.writeText(content).then(() => {
+                        addNotification('info', 'Response copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        addNotification('error', 'Failed to copy content.');
+                    });
+                }
+
+                function handleReport(content) {
+                    reportDialog.classList.remove('hidden');
+                    document.getElementById('reportEmail').value = '';
+                    document.getElementById('reportProblem').value = '';
+                    updateReportContent();
+                }
+
+                async function handleAgain(content) {
+                    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+                    if (lastUserMessage) {
+                        setThinking(true);
+                        try {
+                            currentRequest = axios.CancelToken.source();
+                            const response = await axios.post('https://api.qewertyy.dev/models', {
+                                messages: [{
+                                        role: "system",
+                                        content: schoolData
+                                    },
+                                    {
+                                        role: "user",
+                                        content: lastUserMessage.content
+                                    }
+                                ],
+                                model_id: 23
+                            }, {
+                                cancelToken: currentRequest.token
+                            });
+
+                            if (response.data.content && response.data.content[0] && response.data.content[0].text) {
+                                const aiResponse = response.data.content[0].text;
+                                setThinking(false);
+                                addMessage('assistant', aiResponse);
+                            } else {
+                                throw new Error('Unexpected response structure');
+                            }
+                        } catch (error) {
+                            if (axios.isCancel(error)) {
+                                console.log('Request canceled:', error.message);
+                            } else {
+                                console.error('Error:', error);
+                                addNotification('error', 'Failed to regenerate  response. Please try again.');
+                            }
+                        } finally {
                             setThinking(false);
-                            addMessage('assistant', aiResponse);
+                            currentRequest = null;
+                        }
+                    } else {
+                        addNotification('error', 'No previous user message found to regenerate.');
+                    }
+                }
+
+                function updateReportContent() {
+                    const reportedContent = document.getElementById('reportedContent');
+                    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+                    const lastAIMessage = messages.filter(m => m.role === 'assistant').pop();
+
+                    if (lastUserMessage && lastAIMessage) {
+                        reportedContent.value = `User: ${lastUserMessage.content}\n\nAI: ${lastAIMessage.content}`;
+                    }
+                }
+
+                async function submitReport() {
+                    const email = document.getElementById('reportEmail').value;
+                    const problem = document.getElementById('reportProblem').value;
+                    const reportedContent = document.getElementById('reportedContent').value;
+
+                    if (!email || !problem) {
+                        addNotification('error', 'Please fill in both email and problem description.');
+                        return;
+                    }
+
+                    const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
+                    const CHAT_ID = '5629305049';
+                    const reportMessage = `Report from ${email}:\n\nProblem: ${problem}\n\nReported Content:\n${reportedContent}`;
+                    const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+                    try {
+                        const response = await axios.post(url, {
+                            chat_id: CHAT_ID,
+                            text: reportMessage,
+                        });
+
+                        if (response.status === 200) {
+                            addNotification('report', 'Report submitted successfully. Thank you for your feedback!');
+                            reportDialog.classList.add('hidden');
+                            document.getElementById('reportEmail').value = '';
+                            document.getElementById('reportProblem').value = '';
                         } else {
-                            throw new Error('Unexpected response structure');
+                            throw new Error('Failed to submit report');
                         }
                     } catch (error) {
-                        if (axios.isCancel(error)) {
-                            console.log('Request canceled:', error.message);
-                        } else {
-                            console.error('Error:', error);
-                            addNotification('error', 'Failed to regenerate  response. Please try again.');
+                        console.error('Error submitting report:', error);
+                        addNotification('error', 'Failed to submit report. Please try again.');
+                    }
+                }
+
+                chatForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const message = userInput.value.trim();
+                    if (isGenerating) {
+                        if (currentRequest) {
+                            currentRequest.cancel('Operation canceled by the user.');
                         }
-                    } finally {
                         setThinking(false);
-                        currentRequest = null;
+
+                        if (message) {
+                            sendMessage(message);
+                            userInput.value = '';
+                        }
+                    } else if (message) {
+                        sendMessage(message);
+                        userInput.value = '';
                     }
-                } else {
-                    addNotification('error', 'No previous user message found to regenerate.');
-                } 
-            }
-            
-            function updateReportContent() {
-                const reportedContent = document.getElementById('reportedContent');
-                const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-                const lastAIMessage = messages.filter(m => m.role === 'assistant').pop();
-                
-                if (lastUserMessage && lastAIMessage) {
-                    reportedContent.value = `User: ${lastUserMessage.content}\n\nAI: ${lastAIMessage.content}`;
-                }
-            }
-            
-            async function submitReport() {
-                const email = document.getElementById('reportEmail').value;
-                const problem = document.getElementById('reportProblem').value;
-                const reportedContent = document.getElementById('reportedContent').value;
-                
-                if (!email || !problem) {
-                    addNotification('error', 'Please fill in both email and problem description.');
-                    return;
-                }
-            
-                const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
-                const CHAT_ID = '5629305049';
-                const reportMessage = `Report from ${email}:\n\nProblem: ${problem}\n\nReported Content:\n${reportedContent}`;
-                const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-            
-                try {
-                    const response = await axios.post(url, {
-                        chat_id: CHAT_ID,
-                        text: reportMessage,
-                    });
-            
-                    if (response.status === 200) {
-                        addNotification('report', 'Report submitted successfully. Thank you for your feedback!');
-                        reportDialog.classList.add('hidden');
-                        document.getElementById('reportEmail').value = '';
-                        document.getElementById('reportProblem').value = '';
-                    } else {
-                        throw new Error('Failed to submit report');
-                    }
-                } catch (error) {
-                    console.error('Error submitting report:', error);
-                    addNotification('error', 'Failed to submit report. Please try again.');
-                }
-            }
-            
-            chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const message = userInput.value.trim();
-            if (isGenerating) {
-                if (currentRequest) {
-                    currentRequest.cancel('Operation canceled by the user.');
-                }
-                setThinking(false);
-            
-                if (message) {
-                    sendMessage(message);
-                    userInput.value = '';
-                }
-            } else if (message) {
-                sendMessage(message);
-                userInput.value = '';
-            }
-            });
-            
-            menuButton.addEventListener('click', () => navbar.classList.remove('hidden'));
-            closeNavButton.addEventListener('click', () => navbar.classList.add('hidden'));
-            
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => switchSection(button.dataset.section));
-            });
-            
-            submitReportButton.addEventListener('click', submitReport);
-            cancelReportButton.addEventListener('click', () => reportDialog.classList.add('hidden'));
-            
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('contactEmail').value;
-                const message = document.getElementById('contactMessage').value;
-            
-                if (!email || !message) {
-                    addNotification('error', 'Please fill in all fields.');
-                    return;
-                }
-            
-                const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
-                const CHAT_ID = '5629305049';
-                const contactMessage = `📬 New contact from ${email}:\n\n💬 ${message}`;
-                const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-            
-                try {
-                    const response = await axios.post(url, {
-                        chat_id: CHAT_ID,
-                        text: contactMessage,
-                    });
-            
-                    if (response.status === 200) {
-                        addNotification('info', "Message sent successfully! We'll reply as soon as possible.");
-                        document.getElementById('contactEmail').value = '';
-                        document.getElementById('contactMessage').value = '';
-                    }
-                } catch (error) {
-                    console.error('Error sending message:', error);
-                    addNotification('error', 'Failed to send message. Please try again later.');
-                }
-            });
-            
-            setTimeout(() => {
-                addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
-            }, 2000);
-            
-            window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').style.display = 'none';
-            }, 500);
-            
-            const storedHistory = localStorage.getItem('chatHistory');
-            if (storedHistory) {
-                conversationHistory = JSON.parse(storedHistory);
-                conversationHistory.forEach(message => {
-                    addMessage(message.role, message.content);
                 });
-            }
-            
-            const hash = window.location.hash.slice(1);
-            if (sections[hash]) {
-                switchSection(hash);
-            }
-            });
-            
-            chatContainer.addEventListener('click', (event) => {
-                if (event.target.closest('button')) {
-                    const button = event.target.closest('button');
-                    const action = button.getAttribute('data-action');
-                    const content = button.getAttribute('data-content');
-            
-                    if (action === 'copy') {
-                        handleCopy(content);
-                    } else if (action === 'report') {
-                        handleReport(content);
-                    } else if (action === 'again') {
-                        handleAgain(content);
+
+                menuButton.addEventListener('click', () => navbar.classList.remove('hidden'));
+                closeNavButton.addEventListener('click', () => navbar.classList.add('hidden'));
+
+                navButtons.forEach(button => {
+                    button.addEventListener('click', () => switchSection(button.dataset.section));
+                });
+
+                submitReportButton.addEventListener('click', submitReport);
+                cancelReportButton.addEventListener('click', () => reportDialog.classList.add('hidden'));
+
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('contactEmail').value;
+                    const message = document.getElementById('contactMessage').value;
+
+                    if (!email || !message) {
+                        addNotification('error', 'Please fill in all fields.');
+                        return;
                     }
+
+                    const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
+                    const CHAT_ID = '5629305049';
+                    const contactMessage = `&#128236; New contact from ${email}:\n\n&#128172; ${message}`;
+                    const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+                    try {
+                        const response = await axios.post(url, {
+                            chat_id: CHAT_ID,
+                            text: contactMessage,
+                        });
+
+                        if (response.status === 200) {
+                            addNotification('info', "Message sent successfully! We'll reply as soon as possible.");
+                            document.getElementById('contactEmail').value = '';
+                            document.getElementById('contactMessage').value = '';
+                        }
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                        addNotification('error', 'Failed to send message. Please try again later.');
+                    }
+                });
+
+                setTimeout(() => {
+                    addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
+                }, 2000);
+
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        const loadingScreen = document.getElementById('loadingScreen');
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.transition = 'opacity 0.5s ease-out';
+
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 500);
+
+                    clearHistoryBtn.addEventListener('click', showModal);
+                    modalCloseBtn.addEventListener('click', hideModal);
+                    modalCancelBtn.addEventListener('click', hideModal);
+                    modalClearBtn.addEventListener('click', clearHistory);
+
+                    const storedHistory = localStorage.getItem('chatHistory');
+                    if (storedHistory) {
+                        conversationHistory = JSON.parse(storedHistory);
+                        conversationHistory.forEach(message => {
+                            addMessage(message.role, message.content);
+                        });
+                    }
+
+                    const hash = window.location.hash.slice(1);
+                    if (sections[hash]) {
+                        switchSection(hash);
+                    }
+
+                    updateClearHistoryButton();
+                });
+                const storedHistory = localStorage.getItem('chatHistory');
+                if (storedHistory) {
+                    conversationHistory = JSON.parse(storedHistory);
+                    conversationHistory.forEach(message => {
+                        addMessage(message.role, message.content);
+                    });
+                }
+
+                const hash = window.location.hash.slice(1);
+                if (sections[hash]) {
+                    switchSection(hash);
                 }
             });
-        </script>
-    </body>
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedScrollToBottom = debounce(scrollToBottom, 100);
+
+        chatContainer.addEventListener('click', (event) => {
+            if (event.target.closest('button')) {
+                const button = event.target.closest('button');
+                const action = button.getAttribute('data-action');
+                const content = button.getAttribute('data-content');
+
+                if (action === 'copy') {
+                    handleCopy(content);
+                } else if (action === 'report') {
+                    handleReport(content);
+                } else if (action === 'again') {
+                    handleAgain(content);
+                }
+            }
+        });
+    </script>
+</body>
+
 </html>
