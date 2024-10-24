@@ -726,7 +726,7 @@
                         addNotification('error', 'Request timed out. Please try again.');
                     } else {
                         console.error('Error:', error);
-                        addNotification('error', 'Failed to get response. Please try again.');
+                        addNotification('error', `Failed to get response. Please try again. ${error}`);
                     }
                 } finally {
                     setThinking(false);
