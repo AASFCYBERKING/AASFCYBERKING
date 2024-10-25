@@ -27,7 +27,7 @@ const modalClearBtn = document.getElementById('modalClearBtn');
 
 let messages = [];
 let conversationHistory = [];
-let schoolData = 'none'; // Set to null as requested
+let schoolData = `none`;
 let isGenerating = false;
 let activeSection = 'home';
 let showWelcome = true;
@@ -83,6 +83,7 @@ function addMessage(role, content) {
     if (showWelcome) {
         welcomeMessage.classList.add('hidden');
         chatContainer.classList.remove('hidden');
+        showWelcome = false;
     }
     const messageElement = document.createElement('div');
     messageElement.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
@@ -124,19 +125,11 @@ function addMessage(role, content) {
     innerDiv.appendChild(messageContent);
     messageElement.appendChild(innerDiv);
     chatContainer.appendChild(messageElement);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
     scrollToBottom();
-    showWelcome = false;
     updateClearHistoryButton();
-    conversationHistory.push({
-        role,
-        content
-    });
+    conversationHistory.push({ role, content });
     localStorage.setItem('chatHistory', JSON.stringify(conversationHistory));
-    messages.push({
-        role,
-        content
-    });
+    messages.push({ role, content });
 }
 
 function formatMessage(content) {
@@ -216,9 +209,7 @@ function setThinking(thinking) {
 }
 
 function setGenerating(generating) {
-    is
-
-Generating = generating;
+    isGenerating = generating;
     if (generating) {
         sendIcon.className = 'fas fa-stop h-4 w-4 md:mr-2';
         sendText.textContent = 'Stop';
@@ -258,18 +249,13 @@ async function sendMessage(message) {
         try {
             currentRequest = axios.CancelToken.source();
             const response = await axios.post('https://api.qewertyy.dev/models', {
-                messages: [{
-                        role: "system",
-                        content: schoolData
-                    },
+                messages: [
+                    { role: "system", content: schoolData },
                     ...conversationHistory.map(msg => ({
                         role: msg.role,
                         content: msg.content
                     })),
-                    {
-                        role: "user",
-                        content: message
-                    }
+                    { role: "user", content: message }
                 ],
                 model_id: 23
             }, {
@@ -353,6 +339,7 @@ function handleCopy(content) {
         addNotification('info', 'Response copied to clipboard!');
     }).catch(err => {
         console.error('Failed to copy: ', err);
+        
         addNotification('error', 'Failed to copy content.');
     });
 }
@@ -371,14 +358,9 @@ async function handleAgain(content) {
         try {
             currentRequest = axios.CancelToken.source();
             const response = await axios.post('https://api.qewertyy.dev/models', {
-                messages: [{
-                        role: "system",
-                        content: schoolData
-                    },
-                    {
-                        role: "user",
-                        content: lastUserMessage.content
-                    }
+                messages: [
+                    { role: "system", content: schoolData },
+                    { role: "user", content: lastUserMessage.content }
                 ],
                 model_id: 23
             }, {
@@ -462,11 +444,6 @@ chatForm.addEventListener('submit', (e) => {
             currentRequest.cancel('Operation canceled by the user.');
         }
         setThinking(false);
-
-        if (message) {
-            sendMessage(message);
-            userInput.value = '';
-        }
     } else if (message) {
         sendMessage(message);
         userInput.value = '';
@@ -502,6 +479,7 @@ contactForm.addEventListener('submit', async (e) => {
         const response = await axios.post(url, {
             chat_id: CHAT_ID,
             text: contactMessage,
+            parse_mode: 'HTML'
         });
 
         if (response.status === 200) {
@@ -514,10 +492,6 @@ contactForm.addEventListener('submit', async (e) => {
         addNotification('error', 'Failed to send message. Please try again later.');
     }
 });
-
-setTimeout(() => {
-    addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
-}, 2000);
 
 window.addEventListener('load', () => {
     setTimeout(() => {
@@ -545,14 +519,6 @@ clearHistoryBtn.addEventListener('click', showModal);
 modalCloseBtn.addEventListener('click', hideModal);
 modalCancelBtn.addEventListener('click', hideModal);
 modalClearBtn.addEventListener('click', clearHistory);
-
-const storedHistory = localStorage.getItem('chatHistory');
-if (storedHistory) {
-    conversationHistory = JSON.parse(storedHistory);
-    conversationHistory.forEach(message => {
-        addMessage(message.role, message.content);
-    });
-}
 
 function debounce(func, wait) {
     let timeout;
@@ -590,3 +556,7 @@ window.addEventListener('hashchange', () => {
         switchSection(hash);
     }
 });
+
+setTimeout(() => {
+    addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
+}, 2000);
