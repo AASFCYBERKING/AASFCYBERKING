@@ -515,6 +515,12 @@
             }
         }
 
+        function showWelcomeMessage() {
+            welcomeMessage.classList.remove('hidden');
+            chatContainer.classList.add('hidden');
+            showWelcome = true;
+        }
+
         function scrollToBottom() {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
