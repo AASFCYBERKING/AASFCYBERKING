@@ -27,11 +27,29 @@ const modalClearBtn = document.getElementById('modalClearBtn');
 
 let messages = [];
 let conversationHistory = [];
-let schoolData = ``
-    let isGenerating = false;
+let isGenerating = false;
 let activeSection = 'home';
 let showWelcome = true;
 let currentRequest = null;
+
+let schoolData = '';
+
+fetch('data.txt')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        addNotification('error', `Due To Network Reponse I Wasn't Able To Get The Data`);
+        return response.text();
+    })
+    .then(data => {
+        schoolData = data; // Assign the text file data to schoolData variable
+        console.log(schoolData); // Output the data to the console
+    })
+    .catch(error => {
+        addNotification('error', `There was a problem with the fetch operation for data: ${error}`);
+        console.error('There was a problem with the fetch operation:', error);
+    });
 
 function switchSection(sectionName) {
     Object.values(sections).forEach(section => section.classList.add('hidden'));
