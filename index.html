@@ -37,9 +37,15 @@
                 <button id="closeNavButton" class="text-blue-900 hover:bg-blue-100 transition-colors duration-300"><i class="fas fa-times"></i></button>
             </div>
             <div class="space-y-4">
-                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="home">Home</button>
-                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="about">About</button>
-                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="contact">Contact</button>
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="home">
+                    <i class="fas fa-home mr-2"></i> Home
+                </button>
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="about">
+                    <i class="fas fa-info-circle mr-2"></i> About
+                </button>
+                <button class="nav-button w-full justify-start text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="contact">
+                    <i class="fas fa-envelope mr-2"></i> Contact
+                </button>
             </div>
         </div>
     </nav>
@@ -85,12 +91,17 @@
                     <h3 class="text-xl font-semibold mb-4 text-blue-800 flex items-center">Contact the Developer</h3>
                     <form id="contactForm" class="space-y-4" name="contactForm">
                         <div class="relative">
+                            <i class="fas fa-envelope absolute top-3 left-3 text-blue-400"></i>
                             <input type="email" id="contactEmail" placeholder="Your Email" class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
                         </div>
                         <div class="relative">
+                            <i class="fas fa-comment absolute top-3 left-3 text-blue-400"></i>
                             <textarea id="contactMessage" placeholder="Your message" class="w-full p-2 pl-10 bg-white border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">Send Message</button>
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Send Message
+                        </button>
                     </form>
                 </div>
             </div>
