@@ -30,8 +30,6 @@ body {
     animation: bounce 1s infinite;
 }
 
-
-
 .animate-spin {
     animation: spin 1s linear infinite;
 }
@@ -168,7 +166,8 @@ body {
     }
 }
 
-.user-avatar, .ai-avatar {
+.user-avatar,
+.ai-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -203,7 +202,8 @@ body {
     max-width: 100%;
 }
 
-pre, code {
+pre,
+code {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
@@ -215,20 +215,18 @@ pre, code {
 }
 
 .clear-history-btn {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background-color: #ef4444;
-    color: white;
+    display: none;
+    color: #1e40af;
+    background: none;
+    border: none;
+    cursor: pointer;
     padding: 0.5rem;
-    border-radius: 9999px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
+    border-radius: 0.375rem;
 }
 
 .clear-history-btn:hover {
-    background-color: #dc2626;
-    transform: scale(1.05);
+    background-color: #eff6ff;
 }
 
 .modal-overlay {
@@ -311,4 +309,12 @@ pre, code {
 
 .modal-btn-clear:hover {
     background-color: #dc2626;
+}
+
+#clearHistoryBtn {
+    display: none;
+}
+
+#clearHistoryBtn:hover {
+    background-color: #e5e7eb;
 }
