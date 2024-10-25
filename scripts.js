@@ -83,7 +83,6 @@ function addMessage(role, content) {
     if (showWelcome) {
         welcomeMessage.classList.add('hidden');
         chatContainer.classList.remove('hidden');
-        showWelcome = false;
     }
     const messageElement = document.createElement('div');
     messageElement.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
@@ -127,6 +126,7 @@ function addMessage(role, content) {
     chatContainer.appendChild(messageElement);
     chatContainer.scrollTop = chatContainer.scrollHeight;
     scrollToBottom();
+    showWelcome = false;
     updateClearHistoryButton();
     conversationHistory.push({
         role,
