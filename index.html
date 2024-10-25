@@ -541,6 +541,7 @@
             hideModal();
             addNotification('info', 'Chat history has been cleared.');
             updateClearHistoryButton();
+            showWelcomeMessage();
         }
 
         function addMessage(role, content) {
@@ -702,10 +703,14 @@
                     conversationHistory.forEach(message => {
                         addMessage(message.role, message.content);
                     });
+                    showWelcome = false;
+                } else {
+                    showWelcomeMessage();
                 }
             } catch (error) {
                 console.error('Error loading chat history:', error);
                 localStorage.removeItem('chatHistory');
+                showWelcomeMessage();
             }
         }
 
@@ -752,6 +757,7 @@
                 } finally {
                     setThinking(false);
                     currentRequest = null;
+                    scrollToBottom();
                 }
             }
         }
@@ -859,6 +865,7 @@
                 } finally {
                     setThinking(false);
                     currentRequest = null;
+                    scrollToBottom();
                 }
             } else {
                 addNotification('error', 'No previous user message found to regenerate.');
@@ -980,12 +987,23 @@
                 const loadingScreen = document.getElementById('loadingScreen');
                 loadingScreen.style.opacity = '0';
                 loadingScreen.style.transition = 'opacity 0.5s ease-out';
-
+                
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 500);
             }, 500);
 
+            loadStoredHistory();
+
+            const hash = window.location.hash.slice(1);
+            if (sections[hash]) {
+                switchSection(hash);
+            }
+
+            updateClearHistoryButton();
+            scrollToBottom();
+        });
+        
             clearHistoryBtn.addEventListener('click', showModal);
             modalCloseBtn.addEventListener('click', hideModal);
             modalCancelBtn.addEventListener('click', hideModal);
@@ -998,14 +1016,6 @@
                     addMessage(message.role, message.content);
                 });
             }
-
-            const hash = window.location.hash.slice(1);
-            if (sections[hash]) {
-                switchSection(hash);
-            }
-
-            updateClearHistoryButton();
-        });
 
         function debounce(func, wait) {
             let timeout;
