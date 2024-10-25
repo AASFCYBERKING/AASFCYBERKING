@@ -1,15 +1,15 @@
 <div align="center">
 
-  # 🤖💬 AI Chat Interface 🏫📚
+# 🤖💬 AI Chat Interface 🏫📚
 
 <img src="src/dharam.png" alt="Dharam Logo" width="200" height="200" />
 
-  ## Dharam Hinduja School Edition
-  > 💡 Empowering Minds, Igniting Futures, One Chat at a Time! 💬
+## Dharam Hinduja School Edition
+> 💡 Empowering Minds, Igniting Futures, One Chat at a Time! 💬
 
-  [![School Project](https://img.shields.io/badge/🏆-School_Project-brightgreen?style=for-the-badge)](https://dharamhindujaschool.org)
-  [![Made by Students](https://img.shields.io/badge/👨‍🎓-Made_by_Students-orange?style=for-the-badge)](https://github.com/Awesome-Prince)
-  [![Powered by AI](https://img.shields.io/badge/🧠-Powered_by_AI-blue?style=for-the-badge)](https://github.com/Awesome-Prince/DHS-Chatbot.github.io)
+[![School Project](https://img.shields.io/badge/🏆-School_Project-brightgreen?style=for-the-badge)](https://dharamhindujaschool.org)
+[![Made by Students](https://img.shields.io/badge/👨‍🎓-Made_by_Students-orange?style=for-the-badge)](https://github.com/Awesome-Prince)
+[![Powered by AI](https://img.shields.io/badge/🧠-Powered_by_AI-blue?style=for-the-badge)](https://github.com/Awesome-Prince/DHS-Chatbot.github.io)
 
 </div>
 
@@ -22,6 +22,7 @@
 - **🔒 User-Friendly Reporting**: Built-in system for reporting issues or inappropriate content.
 - **📋 One-Click Copying**: Instantly copy AI responses to your clipboard.
 - **🔄 Response Regeneration**: Not satisfied? Regenerate AI responses with a single click.
+- **💾 Local Message Storage**: User and AI messages are stored locally to improve AI responses. Clear your chat history anytime by clicking the delete icon in the header—your privacy matters! 🔏
 
 ## 🛠️ Technologies
 
@@ -54,19 +55,17 @@ This project leverages a powerful stack of modern web technologies:
 ## 💥 Blast Off: How to Use Our Chat
 
 1. **💬 Chat Interface:** Simply type your question or prompt in the input field and hit send.
-
 2. **🗺️ Navigation:** Use the menu button (top-left) to switch between different sections.
-
 3. **🚨 Reporting:** Found an issue? Use the flag icon to report problematic content.
-
 4. **📋 Copy & Regenerate:** Easily copy or regenerate AI responses using the provided buttons.
+5. **🗑️ Clear History:** Want to start fresh? Click the delete icon in the header to clear your chat history and protect your privacy.
 
 ---
 
 ## 📸 Project Showcase
 
 <p align="center">
-  <img src="src/screenshot_1.jpg" alt="Chat Interface" width="48%" />
+  <img src="src/screenshot_ 1.jpg" alt="Chat Interface" width="48%" />
   <img src="src/screenshot_2.jpg" alt="About Section" width="48%" />
 </p>
 
