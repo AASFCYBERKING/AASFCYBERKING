@@ -39,12 +39,11 @@ fetch('data.txt')
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        addNotification('error', `Due To Network Reponse I Wasn't Able To Get The Data`);
         return response.text();
     })
     .then(data => {
-        schoolData = data; // Assign the text file data to schoolData variable
-        console.log(schoolData); // Output the data to the console
+        schoolData = data;
+        console.log(schoolData);
     })
     .catch(error => {
         addNotification('error', `There was a problem with the fetch operation for data: ${error}`);
@@ -357,7 +356,6 @@ function handleCopy(content) {
         addNotification('info', 'Response copied to clipboard!');
     }).catch(err => {
         console.error('Failed to copy: ', err);
-        
         addNotification('error', 'Failed to copy content.');
     });
 }
@@ -546,7 +544,7 @@ function debounce(func, wait) {
             func(...args);
         };
         clearTimeout(timeout);
-        timeout = setTimeout(later, 100);
+        timeout = setTimeout(later, wait);
     };
 }
 
@@ -574,6 +572,23 @@ window.addEventListener('hashchange', () => {
         switchSection(hash);
     }
 });
+
+// Scroll to bottom when a new message is added
+const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            debouncedScrollToBottom();
+        }
+    });
+});
+
+observer.observe(chatContainer, { childList: true, subtree: true });
+
+// Scroll to bottom when the window is resized
+window.addEventListener('resize', debouncedScrollToBottom);
+
+// Scroll to bottom when the page is loaded or refreshed
+window.addEventListener('load', scrollToBottom);
 
 setTimeout(() => {
     addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
