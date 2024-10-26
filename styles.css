@@ -346,3 +346,75 @@ code {
         padding-right: 1rem;
     }
 }
+
+.fixed-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.fixed-layout header,
+.fixed-layout footer,
+.fixed-layout .message-input {
+    flex-shrink: 0;
+}
+
+.fixed-layout main {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#homeSection {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#homeSection header,
+#homeSection footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+#homeSection header {
+    top: 0;
+}
+
+#homeSection footer {
+    bottom: 0;
+}
+
+#homeSection main {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+#homeSection .message-input {
+    position: fixed;
+    bottom: 64px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+#aboutSection,
+#contactSection {
+    padding-top: 0;
+}
+
+#aboutSection header,
+#contactSection header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#aboutSection footer,
+#contactSection footer {
+    margin-top: auto;
+}
