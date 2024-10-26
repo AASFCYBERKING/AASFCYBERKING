@@ -344,6 +344,7 @@ function addNotification(type, message) {
                 'text-blue-600'
             }">${message}</p>
         </div>
+        
         <button onclick="this.parentElement.remove()" class="text-gray-500 hover:${
             type === 'error' ? 'text-red-700' :
             type === 'report' ? 'text-green-700' :
