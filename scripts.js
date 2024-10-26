@@ -25,6 +25,8 @@ const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const modalClearBtn = document.getElementById('modalClearBtn');
 const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+const micButton = document.getElementById('micButton');
+const micIcon = document.getElementById('micIcon');
 
 let messages = [];
 let conversationHistory = [];
@@ -32,6 +34,7 @@ let isGenerating = false;
 let activeSection = 'home';
 let showWelcome = true;
 let currentRequest = null;
+let recognition;
 
 let schoolData = '';
 
@@ -424,7 +427,9 @@ function updateReportContent() {
     const lastAIMessage = messages.filter(m => m.role === 'assistant').pop();
 
     if (lastUserMessage && lastAIMessage) {
-        reportedContent.value = `User: ${lastUserMessage.content}\n\nAI: ${lastAIMessage.content}`;
+        reportedContent.value = `User: ${lastUserMessage.content}
+
+AI: ${lastAIMessage.content}`;
     }
 }
 
@@ -440,7 +445,12 @@ async function submitReport() {
 
     const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
     const CHAT_ID = '5629305049';
-    const reportMessage = `Report from ${email}:\n\nProblem: ${problem}\n\nReported Content:\n${reportedContent}`;
+    const reportMessage = `Report from ${email}:
+
+Problem: ${problem}
+
+Reported Content:
+${reportedContent}`;
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     try {
@@ -462,10 +472,6 @@ async function submitReport() {
         addNotification('error', 'Failed to submit report. Please try again.');
     }
 }
-
-const micButton = document.getElementById('micButton');
-const micIcon = document.getElementById('micIcon');
-let recognition;
 
 if ('webkitSpeechRecognition' in window) {
     recognition = new webkitSpeechRecognition();
@@ -550,7 +556,9 @@ contactForm.addEventListener('submit', async (e) => {
 
     const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
     const CHAT_ID = '5629305049';
-    const contactMessage = `&#128236; New contact from ${email}:\n\n&#128172; ${message}`;
+    const contactMessage = `&#128236; New contact from ${email}:
+
+&#128172; ${message}`;
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     try {
@@ -686,20 +694,4 @@ document.addEventListener('DOMContentLoaded', () => {
         footer.style.right = '0';
         footer.style.zIndex = '1000';
     }
-});
-
-// Create and append the mic button to the chat form
-function createMicButton() {
-    const micButton = document.createElement('button');
-    micButton.id = 'micButton';
-    micButton.className = 'bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 ml-2';
-    micButton.innerHTML = '<i id="micIcon" class="fas fa-microphone"></i>';
-    
-    const sendButton = document.getElementById('sendButton');
-    sendButton.parentNode.insertBefore(micButton, sendButton);
-}
-
-// Call this function after the DOM is loaded
-window.addEventListener('DOMContentLoaded', (event) => {
-    createMicButton();
 });
