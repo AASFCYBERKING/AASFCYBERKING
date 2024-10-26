@@ -318,3 +318,31 @@ code {
 #clearHistoryBtn:hover {
     background-color: #e5e7eb;
 }
+
+#micButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#micButton i {
+    font-size: 1.25rem;
+}
+
+#sendButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    #sendButton {
+        width: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
