@@ -14,7 +14,7 @@
         <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
     </div>
 
-    <div id="homeSection" class="fixed-layout">
+    <div id="homeSection" class="fixed-layout hidden">
         <header class="flex items-center justify-between p-4 bg-white shadow-md">
             <div class="flex items-center">
                 <button id="menuButton" class="mr-2 text-blue-900 hover:bg-blue-100 transition-colors duration-300">
@@ -155,7 +155,7 @@
 
     <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white p-6 rounded-lg max-w-md w-full">
-            <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
+            <h2 class="text-xl font-bold  mb-4">Report a Problem</h2>
             <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded">
             <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border-blue-200 text-blue-900 focus:ring-2 focus:ring-blue-400 transition-all duration-300 rounded h-32"></textarea>
             <input type="hidden" id="reportedContent">
