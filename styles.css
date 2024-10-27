@@ -248,6 +248,7 @@ code {
 }
 
 .modal-content {
+    
     background-color: white;
     border-radius: 0.5rem;
     padding: 1.5rem;
@@ -311,10 +312,40 @@ code {
     background-color: #dc2626;
 }
 
+.modal-btn-accept {
+    background-color: #10b981;
+    color: white;
+}
+
+.modal-btn-accept:hover {
+    background-color: #059669;
+}
+
+.modal-btn-decline {
+    background-color: #ef4444;
+    color: white;
+}
+
+.modal-btn-decline:hover {
+    background-color: #dc2626;
+}
+
 #clearHistoryBtn {
     display: none;
 }
 
 #clearHistoryBtn:hover {
     background-color: #e5e7eb;
+}
+
+#micButton {
+    transition: background-color 0.3s ease;
+}
+
+#micButton.listening {
+    background-color: #ef4444;
+}
+
+#micButton.listening:hover {
+    background-color: #dc2626;
 }
