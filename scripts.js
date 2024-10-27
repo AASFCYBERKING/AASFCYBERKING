@@ -24,9 +24,6 @@ const clearHistoryModal = document.getElementById('clearHistoryModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const modalClearBtn = document.getElementById('modalClearBtn');
-const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
-const micButton = document.getElementById('micButton');
-const micIcon = document.getElementById('micIcon');
 
 let messages = [];
 let conversationHistory = [];
@@ -34,7 +31,6 @@ let isGenerating = false;
 let activeSection = 'home';
 let showWelcome = true;
 let currentRequest = null;
-let recognition;
 
 let schoolData = '';
 
@@ -79,15 +75,6 @@ function showWelcomeMessage() {
 
 function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
-    updateScrollToBottomButton();
-}
-
-function updateScrollToBottomButton() {
-    if (chatContainer.scrollTop + chatContainer.clientHeight < chatContainer.scrollHeight - 100) {
-        scrollToBottomBtn.classList.remove('hidden');
-    } else {
-        scrollToBottomBtn.classList.add('hidden');
-    }
 }
 
 function showModal() {
@@ -347,7 +334,6 @@ function addNotification(type, message) {
                 'text-blue-600'
             }">${message}</p>
         </div>
-        
         <button onclick="this.parentElement.remove()" class="text-gray-500 hover:${
             type === 'error' ? 'text-red-700' :
             type === 'report' ? 'text-green-700' :
@@ -427,9 +413,7 @@ function updateReportContent() {
     const lastAIMessage = messages.filter(m => m.role === 'assistant').pop();
 
     if (lastUserMessage && lastAIMessage) {
-        reportedContent.value = `User: ${lastUserMessage.content}
-
-AI: ${lastAIMessage.content}`;
+        reportedContent.value = `User: ${lastUserMessage.content}\n\nAI: ${lastAIMessage.content}`;
     }
 }
 
@@ -445,12 +429,7 @@ async function submitReport() {
 
     const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
     const CHAT_ID = '5629305049';
-    const reportMessage = `Report from ${email}:
-
-Problem: ${problem}
-
-Reported Content:
-${reportedContent}`;
+    const reportMessage = `Report from ${email}:\n\nProblem: ${problem}\n\nReported Content:\n${reportedContent}`;
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     try {
@@ -473,50 +452,6 @@ ${reportedContent}`;
     }
 }
 
-if ('webkitSpeechRecognition' in window) {
-    recognition = new webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.lang = 'en-US';
-
-    recognition.onstart = function() {
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-stop');
-        userInput.setAttribute('placeholder', 'Listening...');
-    };
-
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        userInput.value = transcript;
-    };
-
-    recognition.onend = function() {
-        micIcon.classList.remove('fa-stop');
-        micIcon.classList.add('fa-microphone');
-        userInput.setAttribute('placeholder', 'Type a message...');
-    };
-
-    recognition.onerror = function(event) {
-        console.error('Speech recognition error', event.error);
-        addNotification('error', 'Failed to recognize speech. Please try again.');
-        micIcon.classList.remove('fa-stop');
-        micIcon.classList.add('fa-microphone');
-        userInput.setAttribute('placeholder', 'Type a message...');
-    };
-} else {
-    console.log('Speech recognition not supported');
-    micButton.style.display = 'none';
-}
-
-function toggleSpeechRecognition() {
-    if (recognition) {
-        if (micIcon.classList.contains('fa-microphone')) {
-            recognition.start();
-        } else {
-            recognition.stop();
-        }
-    }
-}
-
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = userInput.value.trim();
@@ -528,9 +463,6 @@ chatForm.addEventListener('submit', (e) => {
     } else if (message) {
         sendMessage(message);
         userInput.value = '';
-        if (recognition && micIcon.classList.contains('fa-stop')) {
-            recognition.stop();
-        }
     }
 });
 
@@ -556,9 +488,7 @@ contactForm.addEventListener('submit', async (e) => {
 
     const TOKEN = '8188094426:AAHgwqlzOuNY8VckUrYL5sNkENsu-sCQOFQ';
     const CHAT_ID = '5629305049';
-    const contactMessage = `&#128236; New contact from ${email}:
-
-&#128172; ${message}`;
+    const contactMessage = `&#128236; New contact from ${email}:\n\n&#128172; ${message}`;
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     try {
@@ -643,6 +573,7 @@ window.addEventListener('hashchange', () => {
     }
 });
 
+// Scroll to bottom when a new message is added
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -653,45 +584,12 @@ const observer = new MutationObserver(mutations => {
 
 observer.observe(chatContainer, { childList: true, subtree: true });
 
+// Scroll to bottom when the window is resized
 window.addEventListener('resize', debouncedScrollToBottom);
 
+// Scroll to bottom when the page is loaded or refreshed
 window.addEventListener('load', scrollToBottom);
-
-micButton.addEventListener('click', toggleSpeechRecognition);
-
-scrollToBottomBtn.addEventListener('click', scrollToBottom);
-
-chatContainer.addEventListener('scroll', updateScrollToBottomButton);
 
 setTimeout(() => {
     addNotification('welcome', 'Welcome to AI Chat! Feel free to ask any questions.');
 }, 2000);
-
-// Fix header and footer
-document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('header');
-    const footer = document.querySelector('footer');
-    const main = document.querySelector('main');
-
-    if (header && footer && main) {
-        const headerHeight = header.offsetHeight;
-        const footerHeight = footer.offsetHeight;
-        
-        main.style.paddingTop = `${headerHeight}px`;
-        main.style.paddingBottom = `${footerHeight}px`;
-        main.style.height = `calc(100vh - ${headerHeight + footerHeight}px)`;
-        main.style.overflowY = 'auto';
-
-        header.style.position = 'fixed';
-        header.style.top = '0';
-        header.style.left = '0';
-        header.style.right = '0';
-        header.style.zIndex = '1000';
-
-        footer.style.position = 'fixed';
-        footer.style.bottom = '0';
-        footer.style.left = '0';
-        footer.style.right = '0';
-        footer.style.zIndex = '1000';
-    }
-});
