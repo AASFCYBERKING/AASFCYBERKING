@@ -13,7 +13,7 @@ const sections = {
     about: document.getElementById('aboutSection'),
     contact: document.getElementById('contactSection')
 };
-const notificationsContainer = document.getElementById('notifications');
+const notificationsContainer = document.getElementById('notificationsContainer');
 const contactForm = document.getElementById('contactForm');
 const welcomeMessage = document.getElementById('welcomeMessage');
 const sendButton = document.getElementById('sendButton');
@@ -24,6 +24,10 @@ const clearHistoryModal = document.getElementById('clearHistoryModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const modalClearBtn = document.getElementById('modalClearBtn');
+const micButton = document.getElementById('micButton');
+const micPermissionModal = document.getElementById('micPermissionModal');
+const micPermissionAcceptBtn = document.getElementById('micPermissionAcceptBtn');
+const micPermissionDeclineBtn = document.getElementById('micPermissionDeclineBtn');
 
 let messages = [];
 let conversationHistory = [];
@@ -31,6 +35,8 @@ let isGenerating = false;
 let activeSection = 'home';
 let showWelcome = true;
 let currentRequest = null;
+let recognition = null;
+let isListening = false;
 
 let schoolData = '';
 
@@ -452,6 +458,59 @@ async function submitReport() {
     }
 }
 
+function initSpeechRecognition() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            userInput.value = transcript;
+        };
+
+        recognition.onend = () => {
+            isListening = false;
+            micButton.classList.remove('listening');
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error', event.error);
+            isListening = false;
+            micButton.classList.remove('listening');
+            addNotification('error', 'Speech recognition error. Please try again.');
+        };
+    } else {
+        console.error('Speech recognition not supported');
+        micButton.style.display = 'none';
+        addNotification('error', 'Speech recognition is not supported in your browser.');
+    }
+}
+
+function toggleSpeechRecognition() {
+    if (!recognition) {
+        initSpeechRecognition();
+    }
+
+    if (isListening) {
+        recognition.stop();
+        isListening = false;
+        micButton.classList.remove('listening');
+    } else {
+        recognition.start();
+        isListening = true;
+        micButton.classList.add('listening');
+    }
+}
+
+function showMicPermissionModal() {
+    micPermissionModal.classList.add('show');
+}
+
+function hideMicPermissionModal() {
+    micPermissionModal.classList.remove('show');
+}
+
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = userInput.value.trim();
@@ -463,6 +522,9 @@ chatForm.addEventListener('submit', (e) => {
     } else if (message) {
         sendMessage(message);
         userInput.value = '';
+        if (isListening) {
+            toggleSpeechRecognition();
+        }
     }
 });
 
@@ -529,12 +591,51 @@ window.addEventListener('load', () => {
 
     updateClearHistoryButton();
     scrollToBottom();
+    initSpeechRecognition();
 });
 
 clearHistoryBtn.addEventListener('click', showModal);
 modalCloseBtn.addEventListener('click', hideModal);
 modalCancelBtn.addEventListener('click', hideModal);
 modalClearBtn.addEventListener('click', clearHistory);
+
+micButton.addEventListener('click', () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(() => {
+                toggleSpeechRecognition();
+            })
+            .catch(() => {
+                showMicPermissionModal();
+            });
+    } else {
+        console.error('getUserMedia not supported');
+        addNotification('error', 'Speech recognition is not supported in your browser.');
+    }
+});
+
+micPermissionAcceptBtn.addEventListener('click', () => {
+    hideMicPermissionModal();
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => {
+            toggleSpeechRecognition();
+        })
+        .catch((error) => {
+            console.error('Error accessing microphone:', error);
+            addNotification('error', 'Failed to access microphone. Please check your browser settings.');
+        });
+});
+
+micPermissionDeclineBtn.addEventListener('click', () => {
+    hideMicPermissionModal();
+    addNotification('info', 'Microphone access denied. You can still type your messages.');
+});
+
+userInput.addEventListener('input', () => {
+    if (isListening) {
+        toggleSpeechRecognition();
+    }
+});
 
 function debounce(func, wait) {
     let timeout;
@@ -573,7 +674,6 @@ window.addEventListener('hashchange', () => {
     }
 });
 
-// Scroll to bottom when a new message is added
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -584,10 +684,8 @@ const observer = new MutationObserver(mutations => {
 
 observer.observe(chatContainer, { childList: true, subtree: true });
 
-// Scroll to bottom when the window is resized
 window.addEventListener('resize', debouncedScrollToBottom);
 
-// Scroll to bottom when the page is loaded or refreshed
 window.addEventListener('load', scrollToBottom);
 
 setTimeout(() => {
