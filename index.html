@@ -3,158 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat Interface</title>
-    <link rel="icon" type="image/x-icon" href="src/dharam.png">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AI Chat</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-100 via-white to-blue-100">
-    <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+<body>
+    <div id="loadingScreen" class="fixed inset-0 bg-blue-500 flex items-center justify-center z-50">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
     </div>
 
     <div id="app" class="flex flex-col min-h-screen">
-        <header class="bg-white shadow-md p-4 z-10">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <button id="menuButton" class="text-blue-900 hover:bg-blue-100 p-2 rounded-full transition-colors duration-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <img src="src/dharam.png" alt="Website Logo" class="w-8 h-8 animate-pulse">
-                    <span class="text-xl font-semibold text-blue-900">AI Chat</span>
-                </div>
-                <button id="clearHistoryBtn" class="text-blue-900 hover:bg-blue-100 p-2 rounded-full transition-colors duration-300">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </div>
+        <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">AI Chat</h1>
+            <button id="menuButton" class="md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
         </header>
 
-        <main class="flex-grow">
-            <div id="homeSection" class="container mx-auto px-4 py-8 h-full flex flex-col">
-                <div id="welcomeMessage" class="flex-grow flex items-center justify-center">
-                    <h1 class="text-4xl font-bold text-blue-900 animate-pulse">Hello! How can I assist you today?</h1>
-                </div>
-                <div id="chatContainer" class="space-y-4 mb-8 hidden"></div>
-            </div>
+        <nav id="navbar" class="bg-blue-500 text-white p-4 hidden md:block">
+            <button id="closeNavButton" class="md:hidden float-right">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                <li><button class="nav-button" data-section="home">Home</button></li>
+                <li><button class="nav-button" data-section="about">About</button></li>
+                <li><button class="nav-button" data-section="contact">Contact</button></li>
+            </ul>
+        </nav>
 
-            <div id="aboutSection" class="hidden container mx-auto px-4 py-8">
-                <h2 class="text-3xl font-bold mb-6 text-center text-blue-900">Meet Your AI Companion</h2>
-                <div class="max-w-3xl mx-auto space-y-6 text-blue-800">
-                    <p class="text-lg leading-relaxed animate-fade-in">Welcome to the cutting-edge of educational technology! I'm not just any chatbot – I'm a personalized AI assistant crafted exclusively for the brilliant minds at DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL.</p>
-                    <p class="text-lg leading-relaxed animate-fade-in">Born from the innovative spirit of Harish, a visionary student at DHARAM HINDUJA, I represent the perfect fusion of youthful creativity and artificial intelligence. Harish poured his passion for technology and education into every line of my code, crafting an AI companion that understands the unique needs of his fellow students.</p>
-                    <p class="text-lg leading-relaxed animate-fade-in">I'm here to revolutionize your learning experience, providing instant assistance, thought-provoking discussions, and a touch of digital magic to your educational journey. Whether you're tackling complex math problems, exploring the depths of literature, or diving into scientific theories, I'm your round-the-clock study buddy and knowledge enhancer.</p>
-                    <div class="text-center mt-8">
-                        <span class="text-2xl font-semibold text-blue-900 animate-pulse">Empowering Minds, One Conversation at a Time</span>
-                    </div>
+        <main class="flex-grow p-4">
+            <section id="homeSection">
+                <div id="welcomeMessage" class="text-center py-8">
+                    <h2 class="text-3xl font-bold mb-4">Welcome to AI Chat</h2>
+                    <p class="text-xl">Start a conversation with our AI assistant!</p>
                 </div>
-            </div>
+                <div id="chatContainer" class="chat-container bg-gray-100 rounded-lg p-4 mb-4 hidden"></div>
+                <form id="chatForm" class="flex space-x-2">
+                    <input type="text" id="userInput" class="flex-grow border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
+                    <button type="submit" id="sendButton" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
+                        <i id="sendIcon" class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
+                        <span id="sendText" class="hidden md:inline">Send</span>
+                    </button>
+                    <button type="button" id="micButton" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </form>
+                <button id="clearHistoryBtn" class="clear-history-btn mt-4">Clear History</button>
+            </section>
 
-            <div id="contactSection" class="hidden container mx-auto px-4 py-8">
-                <h2 class="text-3xl font-bold mb-6 text-center text-blue-900">Get in Touch</h2>
-                <div class="max-w-2xl mx-auto space-y-8">
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-800">School Contact Information</h3>
-                        <p class="text-blue-700 mb-2">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-                        <p class="text-blue-700 mb-2">No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
-                        <p class="text-blue-700 mb-2">Phone: (044) 2572-7553, +91 9025218724</p>
-                        <p class="text-blue-700">Email: dharam_hinduja@yahoo.com</p>
+            <section id="aboutSection" class="hidden">
+                <h2 class="text-2xl font-bold mb-4">About AI Chat</h2>
+                <p>AI Chat is an advanced conversational AI platform designed to provide intelligent and helpful responses to your queries.</p>
+            </section>
+
+            <section id="contactSection" class="hidden">
+                <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+                <form id="contactForm" class="space-y-4">
+                    <div>
+                        <label for="contactEmail" class="block mb-1">Email:</label>
+                        <input type="email" id="contactEmail" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-800">Contact the Developer</h3>
-                        <form id="contactForm" class="space-y-4">
-                            <div class="relative">
-                                <i class="fas fa-envelope absolute top-3 left-3 text-blue-400"></i>
-                                <input type="email" id="contactEmail" placeholder="Your Email" class="w-full p-2 pl-10 bg-white border border-blue-200 text-blue-900 rounded">
-                            </div>
-                            <div class="relative">
-                                <i class="fas fa-comment absolute top-3 left-3 text-blue-400"></i>
-                                <textarea id="contactMessage" placeholder="Your message" class="w-full p-2 pl-10 bg-white border border-blue-200 text-blue-900 rounded h-32"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-                                <i class="fas fa-paper-plane mr-2"></i>Send Message
-                            </button>
-                        </form>
+                    <div>
+                        <label for="contactMessage" class="block mb-1">Message:</label>
+                        <textarea id="contactMessage" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
                     </div>
-                </div>
-            </div>
+                    <button type="submit" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Send</button>
+                </form>
+            </section>
         </main>
 
-        <footer class="bg-white shadow-md p-4 z-10">
-            <div class="container mx-auto text-center text-sm text-blue-900">
-                <p class="font-semibold">DHARAM HINDUJA MATRICULATION HIGHER SECONDARY SCHOOL</p>
-                <p>No.19, Poonthottam Street, Tiruvottiyur, Chennai - 600 019, Tamilnadu</p>
-                <p>P: (044) 2572-7553, +91 9025218724 | E: dharam_hinduja@yahoo.com</p>
-            </div>
+        <footer class="bg-blue-600 text-white p-4 text-center">
+            <p>&copy; 2023 AI Chat. All rights reserved.</p>
         </footer>
+    </div>
 
-        <div id="chatInputContainer" class="fixed bottom-0 left-0 right-0 bg-white shadow-md p-4 z-20">
-            <form id="chatForm" class="container mx-auto flex space-x-2">
-                <input id="userInput" class="flex-grow bg-blue-50 border border-blue-200 text-blue-900 rounded-full px-4 py-2" placeholder="Type your message here...">
-                <button id="micButton" type="button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 w-10 h-10 flex items-center justify-center transition-colors duration-300">
-                    <i id="micIcon" class="fas fa-microphone"></i>
-                </button>
-                <button id="sendButton" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 transition-colors duration-300">
-                    <i class="fas fa-paper-plane mr-2"></i>
-                    <span class="hidden md:inline">Send</span>
-                </button>
+    <div id="notificationsContainer" class="fixed bottom-4 right-4 space-y-2"></div>
+
+    <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Report an Issue</h2>
+            <form id="reportForm" class="space-y-4">
+                <div>
+                    <label for="reportEmail" class="block mb-1">Your Email:</label>
+                    <input type="email" id="reportEmail" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="reportProblem" class="block mb-1">Describe the Problem:</label>
+                    <textarea id="reportProblem" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+                </div>
+                <input type="hidden" id="reportedContent">
+                <div class="flex justify-end space-x-2">
+                    <button type="button" id="cancelReport" class="bg-gray-300 text-gray-800 rounded-lg px-4 py-2 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+                    <button type="submit" id="submitReport" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <nav id="navbar" class="fixed inset-0 bg-blue-100 bg-opacity-50 backdrop-filter backdrop-blur-sm z-50 hidden">
-        <div class="w-64 h-full bg-white p-4 flex flex-col animate-slide-in-left">
-            <div class="flex justify-between items-center mb-8">
-                <span class="text-xl font-semibold text-blue-900">Menu</span>
-                <button id="closeNavButton" class="text-blue-900 hover:bg-blue-100 p-2 rounded-full transition-colors duration-300">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <button class="nav-button w-full text-left py-2 px-4 rounded text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="home">
-                    <i class="fas fa-home mr-2"></i> Home
-                </button>
-                <button class="nav-button w-full text-left py-2 px-4 rounded text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="about">
-                    <i class="fas fa-info-circle mr-2"></i> About
-                </button>
-                <button class="nav-button w-full text-left py-2 px-4 rounded text-blue-900 hover:bg-blue-100 transition-colors duration-300" data-section="contact">
-                    <i class="fas fa-envelope mr-2"></i> Contact
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <button id="scrollToBottomBtn" class="fixed bottom-20 right-4 bg-blue-500 text-white rounded-full p-2 hidden z-30">
-        <i class="fas fa-arrow-down"></i>
-    </button>
-
-    <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full">
-            <h2 class="text-xl font-bold mb-4">Report a Problem</h2>
-            <input type="email" id="reportEmail" placeholder="Your Email" class="w-full p-2 mb-4 bg-blue-50 border border-blue-200 text-blue-900 rounded">
-            <textarea id="reportProblem" placeholder="Describe the problem" class="w-full p-2 mb-4 bg-blue-50 border border-blue-200 text-blue-900 rounded h-32"></textarea>
-            <input type="hidden" id="reportedContent">
-            <div class="flex justify-end">
-                <button id="cancelReport" class="mr-2 px-4 py-2 bg-gray-200 rounded">Cancel</button>
-                <button id="submitReport" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="notifications" class="fixed bottom-4 right-4 space-y-4 z-50"></div>
-
-    <div id="clearHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+    <div id="clearHistoryModal" class="modal-overlay">
+        <div class="modal-content">
             <h2 class="text-2xl font-bold mb-4">Clear Chat History</h2>
-            <p class="mb-6 text-gray-600">Are you sure you want to clear your chat history? This action cannot be undone.</p>
-            <div class="flex justify-end space-x-4">
-                <button id="modalCancelBtn" class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-                <button id="modalClearBtn" class="px-4 py-2 bg-red-500 text-white rounded">Clear History</button>
+            <p>Are you sure you want to clear the chat history? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Cancel</button>
+                <button id="modalClearBtn" class="modal-btn modal-btn-clear">Clear</button>
+            </div>
+            <button id="modalCloseBtn" class="modal-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="micPermissionModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">Microphone Access Required</h2>
+            <p>To use the speech-to-text feature, we need access to your microphone. Please allow microphone access when prompted.</p>
+            <div class="modal-actions">
+                <button id="micPermissionAcceptBtn" class="modal-btn modal-btn-accept">Accept</button>
+                <button id="micPermissionDeclineBtn" class="modal-btn modal-btn-decline">Decline</button>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
