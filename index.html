@@ -3,129 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat</title>
+    <title>Cool Digital Services</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
-    <div id="loadingScreen" class="fixed inset-0 bg-blue-500 flex items-center justify-center z-50">
-        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
-    </div>
-
-    <div id="app" class="flex flex-col min-h-screen">
-        <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">AI Chat</h1>
-            <button id="menuButton" class="md:hidden">
-                <i class="fas fa-bars"></i>
-            </button>
-        </header>
-
-        <nav id="navbar" class="bg-blue-500 text-white p-4 hidden md:block">
-            <button id="closeNavButton" class="md:hidden float-right">
-                <i class="fas fa-times"></i>
-            </button>
-            <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
-                <li><button class="nav-button" data-section="home">Home</button></li>
-                <li><button class="nav-button" data-section="about">About</button></li>
-                <li><button class="nav-button" data-section="contact">Contact</button></li>
-            </ul>
-        </nav>
-
-        <main class="flex-grow p-4">
-            <section id="homeSection">
-                <div id="welcomeMessage" class="text-center py-8">
-                    <h2 class="text-3xl font-bold mb-4">Welcome to AI Chat</h2>
-                    <p class="text-xl">Start a conversation with our AI assistant!</p>
-                </div>
-                <div id="chatContainer" class="chat-container bg-gray-100 rounded-lg p-4 mb-4 hidden"></div>
-                <form id="chatForm" class="flex space-x-2">
-                    <input type="text" id="userInput" class="flex-grow border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
-                    <button type="submit" id="sendButton" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
-                        <i id="sendIcon" class="fas fa-paper-plane h-4 w-4 md:mr-2"></i>
-                        <span id="sendText" class="hidden md:inline">Send</span>
-                    </button>
-                    <button type="button" id="micButton" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                </form>
-                <button id="clearHistoryBtn" class="clear-history-btn mt-4">Clear History</button>
-            </section>
-
-            <section id="aboutSection" class="hidden">
-                <h2 class="text-2xl font-bold mb-4">About AI Chat</h2>
-                <p>AI Chat is an advanced conversational AI platform designed to provide intelligent and helpful responses to your queries.</p>
-            </section>
-
-            <section id="contactSection" class="hidden">
-                <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
-                <form id="contactForm" class="space-y-4">
-                    <div>
-                        <label for="contactEmail" class="block mb-1">Email:</label>
-                        <input type="email" id="contactEmail" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <div id="app" class="min-h-screen">
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-200 transition-colors duration-500 relative">
+            <div class="paw-background"></div>
+            <header class="sticky top-0 bg-white dark:bg-gray-900 bg-opacity-90 dark:bg-opacity-90 backdrop-blur-sm z-10 shadow-md">
+                <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-cat text-orange-500 dark:text-orange-300 text-2xl"></i>
+                        <h1 class="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">Cool Digital Services</h1>
                     </div>
-                    <div>
-                        <label for="contactMessage" class="block mb-1">Message:</label>
-                        <textarea id="contactMessage" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+                    <button id="darkModeToggle" class="text-orange-600 dark:text-orange-400">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </nav>
+            </header>
+
+            <main class="container mx-auto px-4 sm:px-6 py-8 space-y-8 relative z-10">
+                <div class="card overflow-hidden">
+                    <div class="card-header bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                        <h2 class="text-xl sm:text-2xl flex items-center">
+                            <i class="fas fa-cat mr-2"></i>
+                            Kishore's Digital Services
+                        </h2>
                     </div>
-                    <button type="submit" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Send</button>
-                </form>
-            </section>
-        </main>
-
-        <footer class="bg-blue-600 text-white p-4 text-center">
-            <p>&copy; 2023 AI Chat. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <div id="notificationsContainer" class="fixed bottom-4 right-4 space-y-2"></div>
-
-    <div id="reportDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full">
-            <h2 class="text-2xl font-bold mb-4">Report an Issue</h2>
-            <form id="reportForm" class="space-y-4">
-                <div>
-                    <label for="reportEmail" class="block mb-1">Your Email:</label>
-                    <input type="email" id="reportEmail" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="card-content p-4 sm:p-6">
+                        <div class="flex flex-col sm:flex-row items-center sm:space-x-4">
+                            <div class="avatar w-20 h-20 sm:w-24 sm:h-24 border-4 border-orange-500 mb-4 sm:mb-0">
+                                <img src="/placeholder.svg?height=96&width=96" alt="@kishoredxd" />
+                            </div>
+                            <div class="text-center sm:text-left">
+                                <h2 class="text-xl sm:text-2xl font-bold">Kishore</h2>
+                                <p class="text-gray-600 dark:text-gray-400">@kishoredxd</p>
+                                <p class="mt-2">Digital services provider. Contact for custom solutions!</p>
+                                <button class="btn bg-[#E1306C] hover:bg-[#C13584] text-white mt-4">
+                                    <i class="fab fa-instagram mr-2"></i>
+                                    Follow on Instagram
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="reportProblem" class="block mb-1">Describe the Problem:</label>
-                    <textarea id="reportProblem" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+
+                <div class="card">
+                    <div class="card-header bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        <h2 class="flex items-center">
+                            <i class="fab fa-instagram mr-2"></i>
+                            Instagram Followers
+                        </h2>
+                    </div>
+                    <div class="card-content p-4 sm:p-6">
+                        <form id="instagramForm" class="space-y-4">
+                            <div>
+                                <label for="instagram-username" class="block text-sm font-medium mb-1">Instagram Username</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">@</span>
+                                    <input id="instagram-username" type="text" placeholder="username" class="input pl-8" />
+                                </div>
+                            </div>
+                            <div>
+                                <label for="follower-count" class="block text-sm font-medium mb-1">Follower Count (100-1000)</label>
+                                <input id="follower-count" type="number" min="100" max="1000" value="100" class="input" />
+                            </div>
+                            <p id="instagramPrice" class="text-sm text-gray-600 dark:text-gray-400">
+                                Price: ₹50 (includes service fee)
+                            </p>
+                            <button type="submit" class="btn w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                                Generate Order
+                            </button>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-sm text-gray-500">
+                            Note: Instagram has introduced a feature to verify suspicious followers. To ensure you receive all followers, go to Settings → Follow and Invite Friends or Settings → Followers and Contacts, and uncheck the "Flag for review" option.
+                        </p>
+                    </div>
                 </div>
-                <input type="hidden" id="reportedContent">
-                <div class="flex justify-end space-x-2">
-                    <button type="button" id="cancelReport" class="bg-gray-300 text-gray-800 rounded-lg px-4 py-2 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
-                    <button type="submit" id="submitReport" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
+
+                <div class="card">
+                    <div class="card-header bg-gradient-to-r from-blue-500 to-green-500 text-white">
+                        <h2 class="flex items-center">
+                            <i class="fab fa-google mr-2"></i>
+                            Google Play Gift Cards
+                        </h2>
+                    </div>
+                    <div class="card-content p-4 sm:p-6">
+                        <form id="googlePlayForm" class="space-y-4">
+                            <div>
+                                <label for="google-play-amount" class="block text-sm font-medium mb-1">Amount (₹100 - ₹1000)</label>
+                                <div class="relative">
+                                    <i class="fas fa-rupee-sign absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 text-xl"></i>
+                                    <input id="google-play-amount" type="number" min="100" max="1000" step="100" value="100" class="input pl-10" />
+                                </div>
+                            </div>
+                            <p id="googlePlayPrice" class="text-sm text-gray-600 dark:text-gray-400">
+                                Total Price: ₹120 (includes service fee)
+                            </p>
+                            <button type="submit" class="btn w-full bg-gradient-to-r from-blue-500 to-green-500 text-white">
+                                Generate Order
+                            </button>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-sm text-gray-500">
+                            Note: Due to limited availability of physical cards, we now offer UPI transactions. After payment, you'll receive the Google Play redeem code (including our commission).
+                        </p>
+                    </div>
                 </div>
-            </form>
+
+                <div id="orderDetailsDialog" class="dialog">
+                    <div class="dialog-content">
+                        <div class="dialog-header">
+                            <h2>Order Details</h2>
+                            <button id="closeDialog" class="btn-close">&times;</button>
+                        </div>
+                        <div class="mt-4">
+                            <pre id="generatedText" class="bg-gray-100 dark:bg-gray-800 p-4 rounded-md whitespace-pre-wrap text-sm"></pre>
+                            <button id="copyToClipboard" class="btn mt-4">
+                                <i class="far fa-copy mr-2"></i>
+                                Copy to Clipboard
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-semibold mb-2">Payment Instructions:</h3>
+                            <p>1. Scan the QR code or use the UPI ID below for payment.</p>
+                            <p>2. After payment, wait for the service to be delivered.</p>
+                            <div class="flex items-center space-x-4 mt-2">
+                                <i class="fas fa-qrcode text-8xl"></i>
+                                <div>
+                                    <p>UPI ID: example@upi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="flex items-center">
+                            <i class="far fa-clock mr-2"></i>
+                            Service Details
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Our services will be provided within 24-48 hours after the payment is confirmed. If for any reason we are unable to fulfill your order within this timeframe, we will promptly refund your payment.</p>
+                    </div>
+                </div>
+
+                <div id="disclaimerModal" class="modal">
+                    <div class="modal-content">
+                        <button id="closeDisclaimer" class="btn-close">&times;</button>
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-center mb-4">Legal Disclaimer</h2>
+                        <div class="space-y-4 text-sm">
+                            <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
+                            <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
+                            <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
+                            <p>We reserve the right to refuse service to anyone for any reason.</p>
+                        </div>
+                        <button id="agreeDisclaimer" class="btn w-full mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                            I Agree and Understand
+                        </button>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="bg-white dark:bg-gray-900 py-6 text-center relative z-10">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <p>© 2024 Cool Digital Services. All rights reserved.</p>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        This website is for entertainment purposes only. We do not guarantee any specific results from using our services.
+                    </p>
+                </div>
+            </footer>
         </div>
     </div>
-
-    <div id="clearHistoryModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 class="text-2xl font-bold mb-4">Clear Chat History</h2>
-            <p>Are you sure you want to clear the chat history? This action cannot be undone.</p>
-            <div class="modal-actions">
-                <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Cancel</button>
-                <button id="modalClearBtn" class="modal-btn modal-btn-clear">Clear</button>
-            </div>
-            <button id="modalCloseBtn" class="modal-close-btn">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
-
-    <div id="micPermissionModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 class="text-2xl font-bold mb-4">Microphone Access Required</h2>
-            <p>To use the speech-to-text feature, we need access to your microphone. Please allow microphone access when prompted.</p>
-            <div class="modal-actions">
-                <button id="micPermissionAcceptBtn" class="modal-btn modal-btn-accept">Accept</button>
-                <button id="micPermissionDeclineBtn" class="modal-btn modal-btn-decline">Decline</button>
-            </div>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="script.js"></script>
 </body>
 </html>
