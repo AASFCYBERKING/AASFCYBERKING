@@ -2,7 +2,7 @@ const username = "kishoredxd";
 const upiId = "kishoredxd@ybl";
 const instagramProfileName = ".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀";
 const instagramBio = "- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂 Contact for custom solutions!";
-const upiQrCode = "qrcode.jpg"; 
+const upiQrCode = "./qrcode.png"; 
 
 // React component
 function CoolDigitalServices() {
