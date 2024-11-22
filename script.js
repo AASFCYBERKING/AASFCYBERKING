@@ -1,9 +1,8 @@
-// Customizable variables
 const username = "kishoredxd";
-const upiId = "example@upi";
-const instagramProfileName = "Kishore";
-const instagramBio = "Digital services provider. Contact for custom solutions!";
-const upiQrCode = "/placeholder.svg?height=300&width=300"; // Replace with actual QR code image URL
+const upiId = "kishoredxd@ybl";
+const instagramProfileName = ".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀";
+const instagramBio = "- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂 Contact for custom solutions!";
+const upiQrCode = "qrcode.jpg"; 
 
 // React component
 function CoolDigitalServices() {
