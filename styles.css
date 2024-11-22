@@ -1,61 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-body {
-    font-family: 'Inter', sans-serif;
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 .card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden;
 }
 
 .dark {
-    background-color: #1a202c;
-    color: #e2e8f0;
+  @apply bg-gray-900 text-white;
 }
 
 .dark .card {
-    background-color: #2d3748;
+  @apply bg-gray-800 text-white;
 }
 
-.dark .bg-white {
-    background-color: #2d3748;
+#notification {
+  @apply bg-green-500 dark:bg-green-600;
 }
 
-.dark .text-gray-600 {
-    color: #a0aec0;
+#notification.error {
+  @apply bg-red-500 dark:bg-red-600;
 }
 
-.dark .text-gray-800 {
-    color: #e2e8f0;
+#notification.info {
+  @apply bg-blue-500 dark:bg-blue-600;
 }
 
-.dark .border-gray-200 {
-    border-color: #4a5568;
+.bg-gradient-to-br {
+  @apply bg-gradient-to-br;
 }
 
-.dark .bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, #2d3748, #1a202c);
+.from-orange-50 {
+  @apply from-orange-50;
 }
 
-.notification-enter {
-    opacity: 0;
-    transform: translateY(-50px);
+.to-orange-100 {
+  @apply to-orange-100;
 }
 
-.notification-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 300ms, transform 300ms;
+.dark .from-gray-900 {
+  @apply from-gray-900;
 }
 
-.notification-exit {
-    opacity: 1;
-}
-
-.notification-exit-active {
-    opacity: 0;
-    transform: translateY(-50px);
-    transition: opacity 300ms, transform 300ms;
+.dark .to-gray-800 {
+  @apply to-gray-800;
 }
