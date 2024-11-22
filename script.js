@@ -1,195 +1,146 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lucide icons
+  const username = "kishoredxd";
+  const upiId = "kishoredxd@ybl";
+  const instagramProfileName = ".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀";
+  const instagramBio = "- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂\nContact for custom solutions!";
+  const upiQrCode = "./qrcode.png";
+
+  const app = document.getElementById('app');
+  const disclaimer = document.getElementById('disclaimer');
+  const agreeButton = document.getElementById('agreeButton');
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const instagramForm = document.getElementById('instagramForm');
+  const googlePlayForm = document.getElementById('googlePlayForm');
+  const orderDetails = document.getElementById('orderDetails');
+  const generatedOrderText = document.getElementById('generatedOrderText');
+  const copyOrderText = document.getElementById('copyOrderText');
+  const openInstagram = document.getElementById('openInstagram');
+  const closeOrderDetails = document.getElementById('closeOrderDetails');
+  const notification = document.getElementById('notification');
+  const notificationMessage = document.getElementById('notificationMessage');
+  const closeNotification = document.getElementById('closeNotification');
+
+  let isDarkMode = false;
+
+  function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    darkModeToggle.innerHTML = isDarkMode
+      ? '<i data-lucide="sun" class="h-6 w-6"></i>'
+      : '<i data-lucide="moon" class="h-6 w-6"></i>';
     lucide.createIcons();
+  }
 
-    // Dark mode toggle
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-    const moonIcon = `<i data-lucide="moon" class="h-6 w-6"></i>`;
-    const sunIcon = `<i data-lucide="sun" class="h-6 w-6"></i>`;
+  function showNotification(type, message) {
+    notification.classList.remove('hidden', 'bg-green-500', 'bg-red-500', 'bg-blue-500');
+    notification.classList.add(`bg-${type}-500`);
+    notificationMessage.textContent = message;
+    notification.classList.remove('hidden');
+    setTimeout(() => {
+      notification.classList.add('hidden');
+    }, 3000);
+  }
 
-    function toggleDarkMode() {
-        body.classList.toggle('dark');
-        darkModeToggle.innerHTML = body.classList.contains('dark') ? sunIcon : moonIcon;
-        lucide.createIcons();
+  function calculateInstagramPrice(count) {
+    const basePrice = 50;
+    const additionalFollowers = Math.max(0, count - 500);
+    const additionalCost = Math.ceil(additionalFollowers / 100) * 15;
+    return basePrice + additionalCost;
+  }
+
+  function calculateGooglePlayPrice(amount) {
+    return amount + Math.ceil(amount / 10) * 2;
+  }
+
+  function handleInstagramSubmit(e) {
+    e.preventDefault();
+    const username = document.getElementById('instagram-username').value;
+    const followerCount = parseInt(document.getElementById('follower-count').value);
+    if (!username || followerCount < 100 || followerCount > 1000) {
+      showNotification('error', 'Please enter a valid username and follower count (100-1000)');
+      return;
     }
-
-    darkModeToggle.addEventListener('click', toggleDarkMode);
-
-    // Disclaimer
-    const disclaimer = document.getElementById('disclaimer');
-    const agreeButton = document.getElementById('agreeButton');
-
-    function handleAgreeTerms() {
-        disclaimer.style.display = 'none';
-        showNotification('info', 'Welcome to Cool Digital Services!');
-    }
-
-    agreeButton.addEventListener('click', handleAgreeTerms);
-
-    // Instagram form
-    const instagramForm = document.getElementById('instagramForm');
-    const instagramUsername = document.getElementById('instagram-username');
-    const followerCount = document.getElementById('follower-count');
-    const followerCountDisplay = document.getElementById('follower-count-display');
-    const instagramPrice = document.getElementById('instagram-price');
-    const instagramFee = document.getElementById('instagram-fee');
-
-    function calculateInstagramPrice(count) {
-        const basePrice = 50;
-        const additionalFollowers = Math.max(0, count - 500);
-        const additionalCost = Math.ceil(additionalFollowers / 100) * 15;
-        return basePrice + additionalCost;
-    }
-
-    function updateInstagramPrice() {
-        const count = parseInt(followerCount.value);
-        followerCountDisplay.textContent = count;
-        const price = calculateInstagramPrice(count);
-        const fee = price - count * 0.1;
-        instagramPrice.textContent = price;
-        instagramFee.textContent = fee.toFixed(2);
-    }
-
-    followerCount.addEventListener('input', updateInstagramPrice);
-
-    function handleInstagramSubmit(e) {
-        e.preventDefault();
-        if (!instagramUsername.value || followerCount.value < 100 || followerCount.value > 1000) {
-            showNotification('error', 'Please enter a valid username and follower count (100-1000)');
-            return;
-        }
-        const price = parseInt(instagramPrice.textContent);
-        const generatedText = `Instagram Followers Order:
-Username: @${instagramUsername.value}
-Followers: ${followerCount.value}
-Total Price: ₹${price} (includes ₹${instagramFee.textContent} service fee)
+    const price = calculateInstagramPrice(followerCount);
+    generatedOrderText.textContent = `Instagram Followers Order:
+Username: @${username}
+Followers: ${followerCount}
+Total Price: ₹${price} (includes ₹${price - followerCount * 0.1} service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-        showOrderDetails(generatedText);
-        showNotification('success', 'Order generated successfully!');
+    orderDetails.classList.remove('hidden');
+    showNotification('success', 'Order generated successfully!');
+  }
+
+  function handleGooglePlaySubmit(e) {
+    e.preventDefault();
+    const amount = parseInt(document.getElementById('google-play-amount').value);
+    if (amount < 10 || amount > 1000) {
+      showNotification('error', 'Please enter a valid amount (10-1000)');
+      return;
     }
-
-    instagramForm.addEventListener('submit', handleInstagramSubmit);
-
-    // Google Play form
-    const googlePlayForm = document.getElementById('googlePlayForm');
-    const googlePlayAmount = document.getElementById('google-play-amount');
-    const googlePlayPrice = document.getElementById('google-play-price');
-    const googlePlayFee = document.getElementById('google-play-fee');
-
-    function calculateGooglePlayPrice(amount) {
-        return amount + Math.ceil(amount / 10) * 2;
-    }
-
-    function updateGooglePlayPrice() {
-        const amount = parseInt(googlePlayAmount.value);
-        const price = calculateGooglePlayPrice(amount);
-        const fee = price - amount;
-        googlePlayPrice.textContent = price;
-        googlePlayFee.textContent = fee;
-    }
-
-    googlePlayAmount.addEventListener('input', updateGooglePlayPrice);
-
-    function handleGooglePlaySubmit(e) {
-        e.preventDefault();
-        if (googlePlayAmount.value < 10 || googlePlayAmount.value > 1000) {
-            showNotification('error', 'Please enter a valid amount (10-1000)');
-            return;
-        }
-        const price = parseInt(googlePlayPrice.textContent);
-        const generatedText = `Google Play Gift Card Order:
-Amount: ₹${googlePlayAmount.value}
-Total Price: ₹${price} (includes ₹${googlePlayFee.textContent} service fee)
+    const price = calculateGooglePlayPrice(amount);
+    generatedOrderText.textContent = `Google Play Gift Card Order:
+Amount: ₹${amount}
+Total Price: ₹${price} (includes ₹${price - amount} service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-        showOrderDetails(generatedText);
-        showNotification('success', 'Order generated successfully!');
-    }
+    orderDetails.classList.remove('hidden');
+    showNotification('success', 'Order generated successfully!');
+  }
 
-    googlePlayForm.addEventListener('submit', handleGooglePlaySubmit);
+  function copyToClipboard() {
+    navigator.clipboard.writeText(generatedOrderText.textContent);
+    showNotification('success', 'Copied to clipboard!');
+  }
 
-    // Order details
-    const orderDetails = document.getElementById('orderDetails');
-    const generatedOrderText = document.getElementById('generatedOrderText');
-    const closeOrderDetails = document.getElementById('closeOrderDetails');
-    const copyOrderText = document.getElementById('copyOrderText');
-    const openInstagram = document.getElementById('openInstagram');
+  agreeButton.addEventListener('click', () => {
+    disclaimer.classList.add('hidden');
+    app.classList.remove('hidden');
+    showNotification('info', 'Welcome to Cool Digital Services!');
+  });
 
-    function showOrderDetails(text) {
-        generatedOrderText.textContent = text;
-        orderDetails.style.display = 'flex';
-    }
+  darkModeToggle.addEventListener('click', toggleDarkMode);
+  instagramForm.addEventListener('submit', handleInstagramSubmit);
+  googlePlayForm.addEventListener('submit', handleGooglePlaySubmit);
+  copyOrderText.addEventListener('click', copyToClipboard);
+  openInstagram.addEventListener('click', () => window.open(`https://www.instagram.com/${username}`, '_blank'));
+  closeOrderDetails.addEventListener('click', () => orderDetails.classList.add('hidden'));
+  closeNotification.addEventListener('click', () => notification.classList.add('hidden'));
 
-    function closeOrderDetailsModal() {
-        orderDetails.style.display = 'none';
-    }
+  // Update profile information
+  document.querySelector('.card h2.text-xl.sm\\:text-2xl.font-bold').textContent = instagramProfileName;
+  document.querySelector('.card p.text-gray-600.dark\\:text-gray-400').textContent = `@${username}`;
+  document.querySelector('.card p.mt-2.whitespace-pre-line').textContent = instagramBio;
+  document.querySelector('.card img[alt="@kishoredxd"]').src = "later.kh";
+  document.querySelector('.bg-gradient-to-br.from-blue-100.to-green-100 img[alt="UPI QR Code"]').src = upiQrCode;
+  document.querySelector('.bg-gradient-to-br.from-blue-100.to-green-100 p.text-gray-700.dark\\:text-gray-300.font-semibold').textContent = `UPI ID: ${upiId}`;
 
-    closeOrderDetails.addEventListener('click', closeOrderDetailsModal);
+  // Initialize Lucide icons
+  lucide.createIcons();
 
-    function copyToClipboard() {
-        navigator.clipboard.writeText(generatedOrderText.textContent);
-        showNotification('success', 'Copied to clipboard!');
-    }
+  // Initialize follower count slider
+  const followerCountSlider = document.getElementById('follower-count');
+  const followerCountDisplay = document.getElementById('follower-count-display');
+  const instagramPrice = document.getElementById('instagram-price');
+  const instagramFee = document.getElementById('instagram-fee');
 
-    copyOrderText.addEventListener('click', copyToClipboard);
+  followerCountSlider.addEventListener('input', () => {
+    const count = parseInt(followerCountSlider.value);
+    followerCountDisplay.textContent = count;
+    const price = calculateInstagramPrice(count);
+    instagramPrice.textContent = price;
+    instagramFee.textContent = (price - count * 0.1).toFixed(2);
+  });
 
-    function openInstagramProfile() {
-        window.open('https://www.instagram.com/kishoredxd', '_blank');
-    }
+  // Initialize Google Play amount input
+  const googlePlayAmount = document.getElementById('google-play-amount');
+  const googlePlayPrice = document.getElementById('google-play-price');
+  const googlePlayFee = document.getElementById('google-play-fee');
 
-    openInstagram.addEventListener('click', openInstagramProfile);
-
-    // Notification system
-    const notification = document.getElementById('notification');
-    const notificationMessage = document.getElementById('notificationMessage');
-    const closeNotification = document.getElementById('closeNotification');
-    let notificationTimeout;
-
-    function showNotification(type, message) {
-        const notificationColors = {
-            success: 'bg-gradient-to-r from-green-400 to-green-600',
-            error: 'bg-gradient-to-r from-red-400 to-red-600',
-            info: 'bg-gradient-to-r from-blue-400 to-blue-600',
-        };
-
-        const notificationIcons = {
-            success: 'check-circle',
-            error: 'x-circle',
-            info: 'alert-circle',
-        };
-
-        notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white flex items-center space-x-3 max-w-md backdrop-blur-sm bg-opacity-90 ${notificationColors[type]}`;
-        notificationMessage.textContent = message;
-        notification.querySelector('.flex-shrink-0').setAttribute('data-lucide', notificationIcons[type]);
-        lucide.createIcons();
-
-        notification.style.display = 'flex';
-        gsap.fromTo(notification, 
-            { opacity: 0, y: -50, scale: 0.9 }, 
-            { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(1.7)" }
-        );
-
-        clearTimeout(notificationTimeout);
-        notificationTimeout = setTimeout(() => {
-            gsap.to(notification, { 
-                opacity: 0, y: -50, scale: 0.9, duration: 0.3, ease: "back.in(1.7)",
-                onComplete: () => { notification.style.display = 'none'; }
-            });
-        }, 3000);
-    }
-
-    function closeNotificationManually() {
-        gsap.to(notification, { 
-            opacity: 0, y: -50, scale: 0.9, duration: 0.3, ease: "back.in(1.7)",
-            onComplete: () => { notification.style.display = 'none'; }
-        });
-    }
-
-    closeNotification.addEventListener('click', closeNotificationManually);
-
-    // Initialize prices
-    updateInstagramPrice();
-    updateGooglePlayPrice();
+  googlePlayAmount.addEventListener('input', () => {
+    const amount = parseInt(googlePlayAmount.value);
+    const price = calculateGooglePlayPrice(amount);
+    googlePlayPrice.textContent = price;
+    googlePlayFee.textContent = price - amount;
+  });
 });
