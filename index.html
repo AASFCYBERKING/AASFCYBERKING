@@ -5,12 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Digital Services</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 transition-colors duration-500">
     <div id="app">
+        <!-- Disclaimer Modal -->
+        <div id="disclaimerModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative flex flex-col max-h-[90vh]">
+                <div class="flex items-center justify-center mb-4">
+                    <i data-lucide="alert-triangle" class="w-12 h-12 text-yellow-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-center mb-4">Legal Disclaimer</h2>
+                <div class="overflow-y-auto flex-grow pr-2">
+                    <div class="space-y-4 text-sm">
+                        <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
+                        <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
+                        <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
+                        <p>We reserve the right to refuse service to anyone for any reason.</p>
+                        <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
+                        <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
+                        <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
+                        <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
+                        <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
+                    </div>
+                </div>
+                <button id="agreeButton" class="w-full mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-md">
+                    I Agree and Understand
+                </button>
+            </div>
+        </div>
+
         <header class="sticky top-0 bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-md">
             <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
@@ -35,14 +60,14 @@
                 <div class="p-4 sm:p-6">
                     <div class="flex flex-col sm:flex-row items-center sm:space-x-4">
                         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-orange-500 mb-4 sm:mb-0">
-                            <img src="/lmao.jpg" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="w-full h-full object-cover">
+                            <img src="https://placekitten.com/200/200" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="w-full h-full object-cover">
                         </div>
                         <div class="text-center sm:text-left">
                             <h2 class="text-xl sm:text-2xl font-bold">.𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀</h2>
                             <p class="text-gray-600">@kishoredxd</p>
                             <p class="mt-2 whitespace-pre-line">- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂
 Contact for custom solutions!</p>
-                            <button class="bg-[#E1306C] hover:bg-[#C13584] text-white mt-4 px-4 py-2 rounded-md flex items-center">
+                            <button id="followInstagram" class="bg-[#E1306C] hover:bg-[#C13584] text-white mt-4 px-4 py-2 rounded-md flex items-center">
                                 <i data-lucide="instagram" class="w-4 h-4 mr-2"></i>
                                 Follow on Instagram
                             </button>
@@ -172,7 +197,7 @@ Contact for custom solutions!</p>
                         </ol>
                         <div class="flex items-center justify-center space-x-4 mt-4">
                             <div class="relative">
-                                <img src="/qrcode.png" alt="QR Code" class="w-24 h-24 cursor-pointer" id="qrCodeImage">
+                                <img src="https://placekitten.com/200/200" alt="QR Code" class="w-24 h-24 cursor-pointer" id="qrCodeImage">
                                 <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-xs opacity-0 hover:opacity-100 transition-opacity duration-300">
                                     Click to enlarge
                                 </div>
@@ -202,7 +227,7 @@ Contact for custom solutions!</p>
         <!-- QR Code Overlay -->
         <div id="qrCodeOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="relative max-w-full max-h-full">
-                <img src="/qrcode2.png" alt="Large QR Code" class="max-w-full max-h-[90vh] w-auto h-auto object-contain">
+                <img src="https://placekitten.com/621/1280" alt="Large QR Code" class="max-w-full max-h-[90vh] w-auto h-auto object-contain">
                 <button id="closeQRCodeOverlay" class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
@@ -218,6 +243,6 @@ Contact for custom solutions!</p>
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
