@@ -493,7 +493,7 @@ height: 2rem;
 }
 
 .close-overlay-button:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .notification {
@@ -558,3 +558,4 @@ height: 2rem;
         width: 100%;
     }
 }
+
