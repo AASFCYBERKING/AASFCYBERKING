@@ -71,3 +71,12 @@ input[type="range"]::-moz-range-thumb {
     background: #4CAF50;
     cursor: pointer;
 }
+
+/* Disclaimer Modal */
+#disclaimerModal {
+    display: flex;
+}
+
+#disclaimerModal.hidden {
+    display: none;
+}
