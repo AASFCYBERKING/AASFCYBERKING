@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Digital Services</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@latest/dist/framer-motion.min.js"></script>
 </head>
 <body>
     <div id="app" class="min-h-screen">
-        <div id="content" class="hidden">
+        <div id="content" style="display: none;">
             <header class="sticky-header">
                 <nav class="container">
                     <div class="flex-header">
@@ -22,201 +21,201 @@
                         <button id="darkModeToggle" class="icon-button">
                             <i data-lucide="sun" class="dark-mode-icon"></i>
                         </button>
-                    </nav>
-                </header>
+                    </div>
+                </nav>
+            </header>
 
-                <main class="container main-content">
-                    <div class="card service-card">
-                        <div class="card-header gradient-header">
-                            <h2 class="card-title">
-                                <i data-lucide="cat" class="card-icon"></i>
-                                Kishore's Digital Services
-                            </h2>
-                        </div>
-                        <div class="card-content">
-                            <div class="profile-container">
-                                <div class="avatar">
-                                    <img src="/lmao.jpg" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="avatar-image">
-                                </div>
-                                <div class="profile-info">
-                                    <h2 class="profile-name">.𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀</h2>
-                                    <p class="profile-handle">@kishoredxd</p>
-                                    <p class="profile-bio">- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂<br>Contact for custom solutions!</p>
-                                    <button class="bg-[#E1306C] hover:bg-[#C13584]">
-                                        <i class="fab fa-instagram"></i>
-                                        Follow on Instagram
-                                    </button>
-                                </div>
+            <main class="container main-content">
+                <div class="card service-card">
+                    <div class="card-header gradient-header">
+                        <h2 class="card-title">
+                            <i data-lucide="cat" class="card-icon"></i>
+                            Kishore's Digital Services
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="profile-container">
+                            <div class="avatar">
+                                <img src="/lmao.jpg" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="avatar-image">
+                            </div>
+                            <div class="profile-info">
+                                <h2 class="profile-name">.𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀</h2>
+                                <p class="profile-handle">@kishoredxd</p>
+                                <p class="profile-bio">- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂<br>Contact for custom solutions!</p>
+                                <button class="instagram-button">
+                                    <i class="fab fa-instagram"></i>
+                                    Follow on Instagram
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card">
-                        <div class="card-header bg-gradient-to-r from-purple-500 to-pink-500">
-                            <h2 class="card-title">
-                                <i class="fab fa-instagram"></i>
-                                Instagram Followers
-                            </h2>
-                        </div>
-                        <div class="card-content">
-                            <form id="instagramForm" class="form-container">
-                                <div class="form-group">
-                                    <label for="instagram-username">Instagram Username</label>
-                                    <div class="input-container">
-                                        <span class="input-prefix">@</span>
-                                        <input id="instagram-username" type="text" placeholder="username" class="form-input">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="follower-count">Follower Count</label>
-                                    <input id="follower-count" type="range" min="100" max="1000" step="10" class="slider">
-                                    <div class="slider-labels">
-                                        <span>100</span>
-                                        <span id="followerCountValue">550</span>
-                                        <span>1000</span>
-                                    </div>
-                                </div>
-                                <p id="instagramPrice" class="price-text"></p>
-                                <button type="submit" class="submit-button bg-gradient-to-r from-purple-500 to-pink-500">Generate Order</button>
-                            </form>
-                        </div>
-                        <div class="card-footer">
-                            <p class="footer-note">
-                                Note: Instagram has introduced a feature to verify suspicious followers. To ensure you receive all followers, go to Settings → Follow and Invite Friends or Settings → Followers and Contacts, and uncheck the "Flag for review" option.
-                            </p>
-                        </div>
+                <div class="card">
+                    <div class="card-header gradient-header-instagram">
+                        <h2 class="card-title">
+                            <i class="fab fa-instagram"></i>
+                            Instagram Followers
+                        </h2>
                     </div>
-
-                    <div class="card">
-                        <div class="card-header bg-gradient-to-r from-blue-500 to-green-500">
-                            <h2 class="card-title">
-                                <i class="fab fa-google"></i>
-                                Google Play Gift Cards
-                            </h2>
-                        </div>
-                        <div class="card-content">
-                            <form id="googlePlayForm" class="form-container">
-                                <div class="form-group">
-                                    <label for="google-play-amount">Amount</label>
-                                    <div class="input-container">
-                                        <span class="input-prefix">₹</span>
-                                        <input id="google-play-amount" type="number" min="10" max="1000" value="100" class="form-input">
-                                    </div>
+                    <div class="card-content">
+                        <form id="instagramForm" class="form-container">
+                            <div class="form-group">
+                                <label for="instagram-username">Instagram Username</label>
+                                <div class="input-container">
+                                    <span class="input-prefix">@</span>
+                                    <input id="instagram-username" type="text" placeholder="username" class="form-input">
                                 </div>
-                                <p id="googlePlayPrice" class="price-text"></p>
-                                <button type="submit" class="submit-button bg-gradient-to-r from-blue-500 to-green-500">Generate Order</button>
-                            </form>
-                        </div>
-                        <div class="card-footer">
-                            <p class="footer-note">
-                                Note: Due to limited availability of physical cards, we now offer UPI transactions. After payment, you'll receive the Google Play redeem code (including our commission).
-                            </p>
-                        </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="follower-count">Follower Count</label>
+                                <input id="follower-count" type="range" min="100" max="1000" step="10" class="slider">
+                                <div class="slider-labels">
+                                    <span>100</span>
+                                    <span id="followerCountValue">550</span>
+                                    <span>1000</span>
+                                </div>
+                            </div>
+                            <p id="instagramPrice" class="price-text"></p>
+                            <button type="submit" class="submit-button gradient-button-instagram">Generate Order</button>
+                        </form>
                     </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <i data-lucide="clock"></i>
-                                Service Details
-                            </h2>
-                        </div>
-                        <div class="card-content">
-                            <p>Our services will be provided within 24-48 hours after the payment is confirmed. If for any reason we are unable to fulfill your order within this timeframe, we will promptly refund your payment.</p>
-                        </div>
-                    </div>
-                </main>
-
-                <footer class="site-footer">
-                    <div class="container">
-                        <p>© 2024 Cool Digital Services. All rights reserved.</p>
-                        <p class="footer-disclaimer">
-                            This website is for entertainment purposes only. We do not guarantee any specific results from using our services.
+                    <div class="card-footer">
+                        <p class="footer-note">
+                            Note: Instagram has introduced a feature to verify suspicious followers. To ensure you receive all followers, go to Settings → Follow and Invite Friends or Settings → Followers and Contacts, and uncheck the "Flag for review" option.
                         </p>
                     </div>
-                </footer>
-            </div>
-
-            <div id="disclaimer" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <i data-lucide="alert-triangle" class="warning-icon"></i>
-                        <h2>Legal Disclaimer</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
-                        <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
-                        <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
-                        <p>We reserve the right to refuse service to anyone for any reason.</p>
-                        <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
-                        <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
-                        <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
-                        <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
-                        <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
-                    </div>
-                    <button id="agreeButton" class="agree-button">I Agree and Understand</button>
                 </div>
-            </div>
 
-            <div id="orderDetails" class="modal">
-                <div class="modal-content">
-                    <h2 class="order-title">
-                        <i class="fas fa-paw"></i>
-                        Order Details
-                    </h2>
-                    <div class="order-text-container">
-                        <h3>Generated Order Text:</h3>
-                        <pre id="generatedOrderText"></pre>
+                <div class="card">
+                    <div class="card-header gradient-header-google">
+                        <h2 class="card-title">
+                            <i class="fab fa-google"></i>
+                            Google Play Gift Cards
+                        </h2>
                     </div>
-                    <div class="payment-instructions">
-                        <h3>
-                            <i class="fas fa-qrcode"></i>
-                            Payment Instructions
-                        </h3>
-                        <ol>
-                            <li>Scan the QR code or use the UPI ID below for payment.</li>
-                            <li>Take a screenshot of your payment confirmation.</li>
-                            <li>Send the screenshot along with the generated order text to @kishoredxd on Instagram.</li>
-                            <li>Wait for your order to be processed (usually within 24-48 hours).</li>
-                        </ol>
-                        <div class="qr-code-container">
-                            <img src="/qrcode.png" alt="QR Code" id="qrCodeImage" class="qr-code">
-                            <p><strong>UPI ID:</strong> kishoredxd@ybl</p>
-                        </div>
+                    <div class="card-content">
+                        <form id="googlePlayForm" class="form-container">
+                            <div class="form-group">
+                                <label for="google-play-amount">Amount</label>
+                                <div class="input-container">
+                                    <span class="input-prefix">₹</span>
+                                    <input id="google-play-amount" type="number" min="10" max="1000" value="100" class="form-input">
+                                </div>
+                            </div>
+                            <p id="googlePlayPrice" class="price-text"></p>
+                            <button type="submit" class="submit-button gradient-button-google">Generate Order</button>
+                        </form>
                     </div>
-                    <div class="order-actions">
-                        <button id="copyOrderText" class="action-button copy-button">
-                            <i data-lucide="copy"></i>
-                            Copy Order Text
-                        </button>
-                        <button id="openInstagram" class="action-button bg-[#E1306C] hover:bg-[#C13584]">
-                            <i class="fab fa-instagram"></i>
-                            Open @kishoredxd on Instagram
-                        </button>
+                    <div class="card-footer">
+                        <p class="footer-note">
+                            Note: Due to limited availability of physical cards, we now offer UPI transactions. After payment, you'll receive the Google Play redeem code (including our commission).
+                        </p>
                     </div>
-                    <button id="closeOrderDetails" class="close-button">Close</button>
                 </div>
-            </div>
 
-            <div id="qrCodeOverlay" class="modal">
-                <div class="modal-content qr-overlay">
-                    <img src="/qrcode2.png" alt="Large QR Code" class="large-qr-code">
-                    <button id="closeQrCodeOverlay" class="close-overlay-button bg-black bg-opacity-50 hover:bg-opacity-75">
-                        <i data-lucide="x"></i>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="clock"></i>
+                            Service Details
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Our services will be provided within 24-48 hours after the payment is confirmed. If for any reason we are unable to fulfill your order within this timeframe, we will promptly refund your payment.</p>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="site-footer">
+                <div class="container">
+                    <p>© 2024 Cool Digital Services. All rights reserved.</p>
+                    <p class="footer-disclaimer">
+                        This website is for entertainment purposes only. We do not guarantee any specific results from using our services.
+                    </p>
+                </div>
+            </footer>
+        </div>
+
+        <div id="disclaimer" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i data-lucide="alert-triangle" class="warning-icon"></i>
+                    <h2>Legal Disclaimer</h2>
+                </div>
+                <div class="modal-body">
+                    <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
+                    <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
+                    <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
+                    <p>We reserve the right to refuse service to anyone for any reason.</p>
+                    <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
+                    <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
+                    <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
+                    <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
+                    <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
+                </div>
+                <button id="agreeButton" class="agree-button">I Agree and Understand</button>
+            </div>
+        </div>
+
+        <div id="orderDetails" class="modal">
+            <div class="modal-content">
+                <h2 class="order-title">
+                    <i class="fas fa-paw"></i>
+                    Order Details
+                </h2>
+                <div class="order-text-container">
+                    <h3>Generated Order Text:</h3>
+                    <pre id="generatedOrderText"></pre>
+                </div>
+                <div class="payment-instructions">
+                    <h3>
+                        <i class="fas fa-qrcode"></i>
+                        Payment Instructions
+                    </h3>
+                    <ol>
+                        <li>Scan the QR code or use the UPI ID below for payment.</li>
+                        <li>Take a screenshot of your payment confirmation.</li>
+                        <li>Send the screenshot along with the generated order text to @kishoredxd on Instagram.</li>
+                        <li>Wait for your order to be processed (usually within 24-48 hours).</li>
+                    </ol>
+                    <div class="qr-code-container">
+                        <img src="/qrcode.png" alt="QR Code" id="qrCodeImage" class="qr-code">
+                        <p><strong>UPI ID:</strong> kishoredxd@ybl</p>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <button id="copyOrderText" class="action-button copy-button">
+                        <i data-lucide="copy"></i>
+                        Copy Order Text
+                    </button>
+                    <button id="openInstagram" class="action-button instagram-button">
+                        <i class="fab fa-instagram"></i>
+                        Open @kishoredxd on Instagram
                     </button>
                 </div>
+                <button id="closeOrderDetails" class="close-button">Close</button>
             </div>
+        </div>
 
-            <div id="notification" class="notification">
-                <i id="notificationIcon"></i>
-                <p id="notificationMessage"></p>
-                <button id="closeNotification">
-                    <i data-lucide="x-circle"></i>
+        <div id="qrCodeOverlay" class="modal">
+            <div class="modal-content qr-overlay">
+                <img src="/qrcode2.png" alt="Large QR Code" class="large-qr-code">
+                <button id="closeQrCodeOverlay" class="close-overlay-button">
+                    <i data-lucide="x"></i>
                 </button>
             </div>
         </div>
 
-        <script src="./script.js"></script>
-    </body>
-</html>
+        <div id="notification" class="notification">
+            <i id="notificationIcon"></i>
+            <p id="notificationMessage"></p>
+            <button id="closeNotification">
+                <i data-lucide="x-circle"></i>
+            </button>
+        </div>
+    </div>
 
+    <script src="script.js"></script>
+</body>
+</html>
