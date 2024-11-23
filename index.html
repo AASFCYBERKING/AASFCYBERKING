@@ -4,215 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Digital Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@latest"></script>
 </head>
-<body>
-    <div id="app" class="min-h-screen">
-        <div id="content" style="display: none;">
-            <header class="sticky-header">
-                <nav class="container">
-                    <div class="flex-header">
-                        <div class="logo-container">
-                            <i data-lucide="cat" class="logo-icon"></i>
-                            <h1 class="logo-text">Cool Digital Services</h1>
+<body class="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 transition-colors duration-500">
+    <div id="app">
+        <header class="sticky top-0 bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-md">
+            <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="cat" class="w-8 h-8 text-orange-500"></i>
+                    <h1 class="text-xl sm:text-2xl font-bold text-orange-600">Cool Digital Services</h1>
+                </div>
+                <button id="darkModeToggle" class="text-orange-600">
+                    <i data-lucide="sun" class="h-6 w-6"></i>
+                </button>
+            </nav>
+        </header>
+
+        <main class="container mx-auto px-4 sm:px-6 py-8 space-y-8 relative z-10">
+            <!-- Profile Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4">
+                    <h2 class="text-xl sm:text-2xl flex items-center">
+                        <i data-lucide="cat" class="w-6 h-6 sm:w-8 sm:h-8 mr-2"></i>
+                        Kishore's Digital Services
+                    </h2>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row items-center sm:space-x-4">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-orange-500 mb-4 sm:mb-0">
+                            <img src="/lmao.jpg" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="w-full h-full object-cover">
                         </div>
-                        <button id="darkModeToggle" class="icon-button">
-                            <i data-lucide="sun" class="dark-mode-icon"></i>
+                        <div class="text-center sm:text-left">
+                            <h2 class="text-xl sm:text-2xl font-bold">.𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀</h2>
+                            <p class="text-gray-600">@kishoredxd</p>
+                            <p class="mt-2 whitespace-pre-line">- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂
+Contact for custom solutions!</p>
+                            <button class="bg-[#E1306C] hover:bg-[#C13584] text-white mt-4 px-4 py-2 rounded-md flex items-center">
+                                <i data-lucide="instagram" class="w-4 h-4 mr-2"></i>
+                                Follow on Instagram
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram Followers Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4">
+                    <h2 class="text-xl flex items-center">
+                        <i data-lucide="instagram" class="w-6 h-6 mr-2"></i>
+                        Instagram Followers
+                    </h2>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <form id="instagramForm" class="space-y-4">
+                        <div>
+                            <label for="instagram-username" class="block text-sm font-medium mb-1">Instagram Username</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">@</span>
+                                <input id="instagram-username" type="text" placeholder="username" class="pl-8 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="follower-count" class="block text-sm font-medium mb-1">Follower Count</label>
+                            <input id="follower-count" type="range" min="100" max="1000" step="10" value="100" class="w-full">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>100</span>
+                                <span id="follower-count-display">100</span>
+                                <span>1000</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            Total Price: ₹<span id="instagram-price">65</span> (includes ₹15 service fee)
+                        </p>
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-md">
+                            Generate Order
                         </button>
-                    </div>
-                </nav>
-            </header>
-
-            <main class="container main-content">
-                <div class="card service-card">
-                    <div class="card-header gradient-header">
-                        <h2 class="card-title">
-                            <i data-lucide="cat" class="card-icon"></i>
-                            Kishore's Digital Services
-                        </h2>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile-container">
-                            <div class="avatar">
-                                <img src="/lmao.jpg" alt=".𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀" class="avatar-image">
-                            </div>
-                            <div class="profile-info">
-                                <h2 class="profile-name">.𝐊𝐈𝐒𝐇𝐎𝐑𝐄.👀</h2>
-                                <p class="profile-handle">@kishoredxd</p>
-                                <p class="profile-bio">- 𝚜𝚞𝚙, 𝙸'𝚖 𝚊𝚠𝚔𝚠𝚊𝚛𝚍...🥂<br>Contact for custom solutions!</p>
-                                <button class="instagram-button">
-                                    <i class="fab fa-instagram"></i>
-                                    Follow on Instagram
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-                <div class="card">
-                    <div class="card-header gradient-header-instagram">
-                        <h2 class="card-title">
-                            <i class="fab fa-instagram"></i>
-                            Instagram Followers
-                        </h2>
-                    </div>
-                    <div class="card-content">
-                        <form id="instagramForm" class="form-container">
-                            <div class="form-group">
-                                <label for="instagram-username">Instagram Username</label>
-                                <div class="input-container">
-                                    <span class="input-prefix">@</span>
-                                    <input id="instagram-username" type="text" placeholder="username" class="form-input">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="follower-count">Follower Count</label>
-                                <input id="follower-count" type="range" min="100" max="1000" step="10" class="slider">
-                                <div class="slider-labels">
-                                    <span>100</span>
-                                    <span id="followerCountValue">550</span>
-                                    <span>1000</span>
-                                </div>
-                            </div>
-                            <p id="instagramPrice" class="price-text"></p>
-                            <button type="submit" class="submit-button gradient-button-instagram">Generate Order</button>
-                        </form>
-                    </div>
-                    <div class="card-footer">
-                        <p class="footer-note">
-                            Note: Instagram has introduced a feature to verify suspicious followers. To ensure you receive all followers, go to Settings → Follow and Invite Friends or Settings → Followers and Contacts, and uncheck the "Flag for review" option.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header gradient-header-google">
-                        <h2 class="card-title">
-                            <i class="fab fa-google"></i>
-                            Google Play Gift Cards
-                        </h2>
-                    </div>
-                    <div class="card-content">
-                        <form id="googlePlayForm" class="form-container">
-                            <div class="form-group">
-                                <label for="google-play-amount">Amount</label>
-                                <div class="input-container">
-                                    <span class="input-prefix">₹</span>
-                                    <input id="google-play-amount" type="number" min="10" max="1000" value="100" class="form-input">
-                                </div>
-                            </div>
-                            <p id="googlePlayPrice" class="price-text"></p>
-                            <button type="submit" class="submit-button gradient-button-google">Generate Order</button>
-                        </form>
-                    </div>
-                    <div class="card-footer">
-                        <p class="footer-note">
-                            Note: Due to limited availability of physical cards, we now offer UPI transactions. After payment, you'll receive the Google Play redeem code (including our commission).
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i data-lucide="clock"></i>
-                            Service Details
-                        </h2>
-                    </div>
-                    <div class="card-content">
-                        <p>Our services will be provided within 24-48 hours after the payment is confirmed. If for any reason we are unable to fulfill your order within this timeframe, we will promptly refund your payment.</p>
-                    </div>
-                </div>
-            </main>
-
-            <footer class="site-footer">
-                <div class="container">
-                    <p>© 2024 Cool Digital Services. All rights reserved.</p>
-                    <p class="footer-disclaimer">
-                        This website is for entertainment purposes only. We do not guarantee any specific results from using our services.
+                <div class="p-4 border-t border-gray-200">
+                    <p class="text-sm text-gray-500">
+                        Note: Instagram has introduced a feature to verify suspicious followers. To ensure you receive all followers, go to Settings → Follow and Invite Friends or Settings → Followers and Contacts, and uncheck the "Flag for review" option.
                     </p>
                 </div>
-            </footer>
-        </div>
-
-        <div id="disclaimer" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <i data-lucide="alert-triangle" class="warning-icon"></i>
-                    <h2>Legal Disclaimer</h2>
-                </div>
-                <div class="modal-body">
-                    <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
-                    <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
-                    <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
-                    <p>We reserve the right to refuse service to anyone for any reason.</p>
-                    <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
-                    <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
-                    <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
-                    <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
-                    <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
-                </div>
-                <button id="agreeButton" class="agree-button">I Agree and Understand</button>
             </div>
-        </div>
 
-        <div id="orderDetails" class="modal">
-            <div class="modal-content">
-                <h2 class="order-title">
-                    <i class="fas fa-paw"></i>
+            <!-- Google Play Gift Cards Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-green-500 text-white p-4">
+                    <h2 class="text-xl flex items-center">
+                        <i data-lucide="gift" class="w-6 h-6 mr-2"></i>
+                        Google Play Gift Cards
+                    </h2>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <form id="googlePlayForm" class="space-y-4">
+                        <div>
+                            <label for="google-play-amount" class="block text-sm font-medium mb-1">Amount</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">₹</span>
+                                <input id="google-play-amount" type="number" min="10" max="1000" value="100" class="pl-8 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            Total Price: ₹<span id="google-play-price">120</span> (includes ₹20 service fee)
+                        </p>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-2 rounded-md">
+                            Generate Order
+                        </button>
+                    </form>
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <p class="text-sm text-gray-500">
+                        Note: Due to limited availability of physical cards, we now offer UPI transactions. After payment, you'll receive the Google Play redeem code (including our commission).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service Details Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i data-lucide="clock" class="w-6 h-6 mr-2"></i>
+                        Service Details
+                    </h2>
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <p>Our services will be provided within 24-48 hours after the payment is confirmed. If for any reason we are unable to fulfill your order within this timeframe, we will promptly refund your payment.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-white py-6 text-center relative z-10">
+            <div class="container mx-auto px-4 sm:px-6">
+                <p>© 2024 Cool Digital Services. All rights reserved.</p>
+                <p class="mt-2 text-sm text-gray-600">
+                    This website is for entertainment purposes only. We do not guarantee any specific results from using our services.
+                </p>
+            </div>
+        </footer>
+
+        <!-- Order Details Modal -->
+        <div id="orderDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative flex flex-col max-h-[90vh]">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900 flex items-center">
+                    <i data-lucide="paw" class="mr-2 text-orange-500"></i>
                     Order Details
                 </h2>
-                <div class="order-text-container">
-                    <h3>Generated Order Text:</h3>
-                    <pre id="generatedOrderText"></pre>
-                </div>
-                <div class="payment-instructions">
-                    <h3>
-                        <i class="fas fa-qrcode"></i>
-                        Payment Instructions
-                    </h3>
-                    <ol>
-                        <li>Scan the QR code or use the UPI ID below for payment.</li>
-                        <li>Take a screenshot of your payment confirmation.</li>
-                        <li>Send the screenshot along with the generated order text to @kishoredxd on Instagram.</li>
-                        <li>Wait for your order to be processed (usually within 24-48 hours).</li>
-                    </ol>
-                    <div class="qr-code-container">
-                        <img src="/qrcode.png" alt="QR Code" id="qrCodeImage" class="qr-code">
-                        <p><strong>UPI ID:</strong> kishoredxd@ybl</p>
+                <div class="overflow-y-auto flex-grow">
+                    <div class="bg-gradient-to-br from-orange-100 to-pink-100 p-4 rounded-md shadow-inner mb-4">
+                        <h3 class="font-semibold mb-2 text-gray-900">Generated Order Text:</h3>
+                        <pre id="generatedOrderText" class="whitespace-pre-wrap text-sm text-gray-800"></pre>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-100 to-green-100 p-4 rounded-md shadow-inner">
+                        <h3 class="font-semibold mb-2 text-gray-900 flex items-center">
+                            <i data-lucide="qr-code" class="mr-2 text-blue-500"></i>
+                            Payment Instructions
+                        </h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li>Scan the QR code or use the UPI ID below for payment.</li>
+                            <li>Take a screenshot of your payment confirmation.</li>
+                            <li>Send the screenshot along with the generated order text to @kishoredxd on Instagram.</li>
+                            <li>Wait for your order to be processed (usually within 24-48 hours).</li>
+                        </ol>
+                        <div class="flex items-center justify-center space-x-4 mt-4">
+                            <div class="relative">
+                                <img src="/qrcode.png" alt="QR Code" class="w-24 h-24 cursor-pointer" id="qrCodeImage">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-xs opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                    Click to enlarge
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 font-semibold">UPI ID: kishoredxd@ybl</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <button id="copyOrderText" class="w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white transition-all duration-300 px-4 py-2 rounded-md flex items-center justify-center">
+                            <i data-lucide="copy" class="w-4 h-4 mr-2"></i>
+                            Copy Order Text
+                        </button>
+                        <button id="openInstagram" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-300 px-4 py-2 rounded-md flex items-center justify-center">
+                            <i data-lucide="instagram" class="w-4 h-4 mr-2"></i>
+                            Open @kishoredxd on Instagram
+                        </button>
                     </div>
                 </div>
-                <div class="order-actions">
-                    <button id="copyOrderText" class="action-button copy-button">
-                        <i data-lucide="copy"></i>
-                        Copy Order Text
-                    </button>
-                    <button id="openInstagram" class="action-button instagram-button">
-                        <i class="fab fa-instagram"></i>
-                        Open @kishoredxd on Instagram
-                    </button>
-                </div>
-                <button id="closeOrderDetails" class="close-button">Close</button>
-            </div>
-        </div>
-
-        <div id="qrCodeOverlay" class="modal">
-            <div class="modal-content qr-overlay">
-                <img src="/qrcode2.png" alt="Large QR Code" class="large-qr-code">
-                <button id="closeQrCodeOverlay" class="close-overlay-button">
-                    <i data-lucide="x"></i>
+                <button id="closeOrderDetails" class="mt-6 w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white transition-all duration-300 px-4 py-2 rounded-md">
+                    Close
                 </button>
             </div>
         </div>
 
-        <div id="notification" class="notification">
-            <i id="notificationIcon"></i>
-            <p id="notificationMessage"></p>
-            <button id="closeNotification">
-                <i data-lucide="x-circle"></i>
-            </button>
+        <!-- QR Code Overlay -->
+        <div id="qrCodeOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="relative max-w-full max-h-full">
+                <img src="/qrcode2.png" alt="Large QR Code" class="max-w-full max-h-[90vh] w-auto h-auto object-contain">
+                <button id="closeQRCodeOverlay" class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification -->
+        <div id="notification" class="fixed bottom-4 right-4 p-4 rounded-md shadow-lg transition-all duration-300 transform translate-y-full opacity-0">
+            <div class="flex items-center">
+                <i id="notificationIcon" class="w-6 h-6 mr-2"></i>
+                <p id="notificationMessage"></p>
+            </div>
         </div>
     </div>
 
