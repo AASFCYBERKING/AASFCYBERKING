@@ -1,56 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const app = document.getElementById('app');
-    const content = document.getElementById('content');
-    const disclaimer = document.getElementById('disclaimer');
-    const agreeButton = document.getElementById('agreeButton');
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Dark mode toggle
     const darkModeToggle = document.getElementById('darkModeToggle');
-    const instagramForm = document.getElementById('instagramForm');
-    const googlePlayForm = document.getElementById('googlePlayForm');
-    const followerCountSlider = document.getElementById('follower-count');
-    const followerCountValue = document.getElementById('followerCountValue');
-    const instagramPriceElement = document.getElementById('instagramPrice');
-    const googlePlayPriceElement = document.getElementById('googlePlayPrice');
-    const orderDetails = document.getElementById('orderDetails');
-    const generatedOrderText = document.getElementById('generatedOrderText');
-    const copyOrderTextButton = document.getElementById('copyOrderText');
-    const openInstagramButton = document.getElementById('openInstagram');
-    const closeOrderDetailsButton = document.getElementById('closeOrderDetails');
-    const qrCodeOverlay = document.getElementById('qrCodeOverlay');
-    const qrCodeImage = document.getElementById('qrCodeImage');
-    const closeQrCodeOverlayButton = document.getElementById('closeQrCodeOverlay');
-    const notification = document.getElementById('notification');
-    const notificationIcon = document.getElementById('notificationIcon');
-    const notificationMessage = document.getElementById('notificationMessage');
-    const closeNotificationButton = document.getElementById('closeNotification');
-
-    let isDarkMode = false;
-
-    function generateOrderId() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const randomStr = Math.random().toString(36).substring(2, 7).toUpperCase();
-
-        return `${year}${month}${day}-${hours}${minutes}${seconds}-${randomStr}`;
-    }
-
-    function showContent() {
-        disclaimer.style.display = 'none';
-        content.style.display = 'block';
-    }
+    const sunIcon = `<i data-lucide="sun" class="h-6 w-6"></i>`;
+    const moonIcon = `<i data-lucide="moon" class="h-6 w-6"></i>`;
 
     function toggleDarkMode() {
-        isDarkMode = !isDarkMode;
-        app.classList.toggle('dark-mode', isDarkMode);
-        darkModeToggle.innerHTML = isDarkMode
-            ? '<i data-lucide="moon" class="dark-mode-icon"></i>'
-            : '<i data-lucide="sun" class="dark-mode-icon"></i>';
+        document.documentElement.classList.toggle('dark');
+        darkModeToggle.innerHTML = document.documentElement.classList.contains('dark') ? sunIcon : moonIcon;
         lucide.createIcons();
     }
+
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // Instagram form
+    const instagramForm = document.getElementById('instagramForm');
+    const instagramUsername = document.getElementById('instagram-username');
+    const followerCount = document.getElementById('follower-count');
+    const followerCountDisplay = document.getElementById('follower-count-display');
+    const instagramPrice = document.getElementById('instagram-price');
 
     function calculateInstagramPrice(count) {
         const basePrice = 50;
@@ -58,103 +28,114 @@ document.addEventListener('DOMContentLoaded', () => {
         return basePrice + serviceFee;
     }
 
+    followerCount.addEventListener('input', () => {
+        followerCountDisplay.textContent = followerCount.value;
+        instagramPrice.textContent = calculateInstagramPrice(parseInt(followerCount.value));
+    });
+
+    instagramForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!instagramUsername.value || followerCount.value < 100 || followerCount.value > 1000) {
+            showNotification('error', 'Please enter a valid username and follower count (100-1000)');
+            return;
+        }
+        const price = calculateInstagramPrice(parseInt(followerCount.value));
+        const orderText = `Instagram Followers Order:
+Username: @${instagramUsername.value}
+Followers: ${followerCount.value}
+Total Price: ₹${price} (includes ₹15 service fee)
+
+I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
+        showOrderDetails(orderText);
+        showNotification('success', 'Order generated successfully!');
+    });
+
+    // Google Play form
+    const googlePlayForm = document.getElementById('googlePlayForm');
+    const googlePlayAmount = document.getElementById('google-play-amount');
+    const googlePlayPrice = document.getElementById('google-play-price');
+
     function calculateGooglePlayPrice(amount) {
         return amount + Math.ceil(amount / 10) * 2;
     }
 
-    function updateInstagramPrice() {
-        const count = parseInt(followerCountSlider.value);
-        const price = calculateInstagramPrice(count);
-        followerCountValue.textContent = count;
-        instagramPriceElement.textContent = `Total Price: ₹${price} (includes ₹15 service fee)`;
-    }
-
-    function updateGooglePlayPrice() {
-        const amount = parseInt(document.getElementById('google-play-amount').value);
-        const price = calculateGooglePlayPrice(amount);
-        googlePlayPriceElement.textContent = `Total Price: ₹${price} (includes ₹${price - amount} service fee)`;
-    }
-
-    function showNotification(type, message) {
-        notification.className = `notification ${type}`;
-        notificationIcon.className = type === 'success' ? 'fas fa-check-circle' :
-                                     type === 'error' ? 'fas fa-exclamation-circle' :
-                                     'fas fa-info-circle';
-        notificationMessage.textContent = message;
-        notification.style.display = 'flex';
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 3000);
-    }
-
-    agreeButton.addEventListener('click', showContent);
-    darkModeToggle.addEventListener('click', toggleDarkMode);
-
-    followerCountSlider.addEventListener('input', updateInstagramPrice);
-    document.getElementById('google-play-amount').addEventListener('input', updateGooglePlayPrice);
-
-    instagramForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const username = document.getElementById('instagram-username').value;
-        const count = parseInt(followerCountSlider.value);
-        const price = calculateInstagramPrice(count);
-        const orderId = generateOrderId();
-
-        generatedOrderText.textContent = `Order ID: ${orderId}
-Instagram Followers Order:
-Username: @${username}
-Followers: ${count}
-Total Price: ₹${price} (includes ₹15 service fee)
-
-I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-
-        orderDetails.style.display = 'block';
-        showNotification('success', 'Order generated successfully!');
+    googlePlayAmount.addEventListener('input', () => {
+        const amount = parseInt(googlePlayAmount.value);
+        googlePlayPrice.textContent = calculateGooglePlayPrice(amount);
     });
 
     googlePlayForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const amount = parseInt(document.getElementById('google-play-amount').value);
+        const amount = parseInt(googlePlayAmount.value);
+        if (amount < 10 || amount > 1000) {
+            showNotification('error', 'Please enter a valid amount (10-1000)');
+            return;
+        }
         const price = calculateGooglePlayPrice(amount);
-        const orderId = generateOrderId();
-
-        generatedOrderText.textContent = `Order ID: ${orderId}
-Google Play Gift Card Order:
+        const orderText = `Google Play Gift Card Order:
 Amount: ₹${amount}
 Total Price: ₹${price} (includes ₹${price - amount} service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-
-        orderDetails.style.display = 'block';
+        showOrderDetails(orderText);
         showNotification('success', 'Order generated successfully!');
     });
 
-    copyOrderTextButton.addEventListener('click', () => {
+    // Order details modal
+    const orderDetailsModal = document.getElementById('orderDetailsModal');
+    const generatedOrderText = document.getElementById('generatedOrderText');
+    const closeOrderDetails = document.getElementById('closeOrderDetails');
+    const copyOrderText = document.getElementById('copyOrderText');
+    const openInstagram = document.getElementById('openInstagram');
+
+    function showOrderDetails(orderText) {
+        generatedOrderText.textContent = orderText;
+        orderDetailsModal.classList.remove('hidden');
+    }
+
+    closeOrderDetails.addEventListener('click', () => {
+        orderDetailsModal.classList.add('hidden');
+    });
+
+    copyOrderText.addEventListener('click', () => {
         navigator.clipboard.writeText(generatedOrderText.textContent);
         showNotification('success', 'Copied to clipboard!');
     });
 
-    openInstagramButton.addEventListener('click', () => {
+    openInstagram.addEventListener('click', () => {
         window.open('https://www.instagram.com/kishoredxd', '_blank');
     });
 
-    closeOrderDetailsButton.addEventListener('click', () => {
-        orderDetails.style.display = 'none';
-    });
+    // QR Code overlay
+    const qrCodeImage = document.getElementById('qrCodeImage');
+    const qrCodeOverlay = document.getElementById('qrCodeOverlay');
+    const closeQRCodeOverlay = document.getElementById('closeQRCodeOverlay');
 
     qrCodeImage.addEventListener('click', () => {
-        qrCodeOverlay.style.display = 'block';
+        qrCodeOverlay.classList.remove('hidden');
     });
 
-    closeQrCodeOverlayButton.addEventListener('click', () => {
-        qrCodeOverlay.style.display = 'none';
+    closeQRCodeOverlay.addEventListener('click', () => {
+        qrCodeOverlay.classList.add('hidden');
     });
 
-    closeNotificationButton.addEventListener('click', () => {
-        notification.style.display = 'none';
-    });
+    // Notification
+    const notification = document.getElementById('notification');
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationMessage = document.getElementById('notificationMessage');
 
-    updateInstagramPrice();
-    updateGooglePlayPrice();
-    lucide.createIcons();
+    function showNotification(type, message) {
+        const iconName = type === 'success' ? 'check-circle' : type === 'error' ? 'alert-circle' : 'info';
+        const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+
+        notificationIcon.setAttribute('data-lucide', iconName);
+        notificationMessage.textContent = message;
+        notification.className = `fixed bottom-4 right-4 p-4 rounded-md shadow-lg ${bgColor} text-white`;
+        notification.classList.add('show');
+        lucide.createIcons();
+
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
 });
