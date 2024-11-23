@@ -2,6 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lucide icons
     lucide.createIcons();
 
+    // Disclaimer Modal
+    const disclaimerModal = document.getElementById('disclaimerModal');
+    const agreeButton = document.getElementById('agreeButton');
+    const app = document.getElementById('app');
+
+    agreeButton.addEventListener('click', () => {
+        disclaimerModal.classList.add('hidden');
+        app.classList.remove('hidden');
+        showNotification('info', 'Welcome to Cool Digital Services!');
+    });
+
     // Dark mode toggle
     const darkModeToggle = document.getElementById('darkModeToggle');
     const sunIcon = `<i data-lucide="sun" class="h-6 w-6"></i>`;
@@ -138,4 +149,10 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
             notification.classList.remove('show');
         }, 3000);
     }
+
+    // Follow Instagram button
+    const followInstagram = document.getElementById('followInstagram');
+    followInstagram.addEventListener('click', () => {
+        window.open('https://www.instagram.com/kishoredxd', '_blank');
+    });
 });
