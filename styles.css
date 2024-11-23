@@ -59,12 +59,12 @@ body {
     --tw-gradient-to: #ffedd5;
 }
 
-.dark .from-gray-900 {
+.dark.from-gray-900 {
     --tw-gradient-from: #111827;
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(17, 24, 39, 0));
 }
 
-.dark .to-gray-800 {
+.dark.to-gray-800 {
     --tw-gradient-to: #1f2937;
 }
 
