@@ -87,35 +87,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    agreeButton.addEventListener('click', () => {
-        showContent();
-        showNotification('info', 'Welcome to Cool Digital Services!');
-    });
-
+    agreeButton.addEventListener('click', showContent);
     darkModeToggle.addEventListener('click', toggleDarkMode);
 
     followerCountSlider.addEventListener('input', updateInstagramPrice);
-
     document.getElementById('google-play-amount').addEventListener('input', updateGooglePlayPrice);
 
     instagramForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const username = document.getElementById('instagram-username').value;
         const count = parseInt(followerCountSlider.value);
-        if (!username || count < 100 || count > 1000) {
-            showNotification('error', 'Please enter a valid username and follower count (100-1000)');
-            return;
-        }
         const price = calculateInstagramPrice(count);
         const orderId = generateOrderId();
-        generatedOrderText.textContent = `Order ID: #${orderId}
 
+        generatedOrderText.textContent = `Order ID: ${orderId}
 Instagram Followers Order:
 Username: @${username}
 Followers: ${count}
 Total Price: ₹${price} (includes ₹15 service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
+
         orderDetails.style.display = 'block';
         showNotification('success', 'Order generated successfully!');
     });
@@ -123,19 +115,16 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
     googlePlayForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const amount = parseInt(document.getElementById('google-play-amount').value);
-        if (amount < 10 || amount > 1000) {
-            showNotification('error', 'Please enter a valid amount (10-1000)');
-            return;
-        }
         const price = calculateGooglePlayPrice(amount);
         const orderId = generateOrderId();
-        generatedOrderText.textContent = `Order ID: #${orderId}
 
+        generatedOrderText.textContent = `Order ID: ${orderId}
 Google Play Gift Card Order:
 Amount: ₹${amount}
 Total Price: ₹${price} (includes ₹${price - amount} service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
+
         orderDetails.style.display = 'block';
         showNotification('success', 'Order generated successfully!');
     });
@@ -165,7 +154,6 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
         notification.style.display = 'none';
     });
 
-    // Initialize
     updateInstagramPrice();
     updateGooglePlayPrice();
     lucide.createIcons();
