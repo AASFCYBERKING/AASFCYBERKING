@@ -25,6 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isDarkMode = false;
 
+    function generateOrderId() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const randomStr = Math.random().toString(36).substring(2, 7).toUpperCase();
+
+        return `${year}${month}${day}-${hours}${minutes}${seconds}-${randomStr}`;
+    }
+
     function showContent() {
         disclaimer.style.display = 'none';
         content.style.display = 'block';
@@ -94,7 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const price = calculateInstagramPrice(count);
-        generatedOrderText.textContent = `Instagram Followers Order:
+        const orderId = generateOrderId();
+        generatedOrderText.textContent = `Order ID: #${orderId}
+
+Instagram Followers Order:
 Username: @${username}
 Followers: ${count}
 Total Price: ₹${price} (includes ₹15 service fee)
@@ -112,7 +128,10 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
             return;
         }
         const price = calculateGooglePlayPrice(amount);
-        generatedOrderText.textContent = `Google Play Gift Card Order:
+        const orderId = generateOrderId();
+        generatedOrderText.textContent = `Order ID: #${orderId}
+
+Google Play Gift Card Order:
 Amount: ₹${amount}
 Total Price: ₹${price} (includes ₹${price - amount} service fee)
 
