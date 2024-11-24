@@ -20,17 +20,17 @@
 .dark-mode {
     --primary-color: #ff9e00;
     --secondary-color: #ff6600;
-    --background-color: #1a1a1a;
-    --text-color: #f0f0f0;
-    --card-background: #2a2a2a;
-    --card-border: #444;
-    --input-background: #333;
-    --input-border: #555;
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --card-background: #1e1e1e;
+    --card-border: #333;
+    --input-background: #2a2a2a;
+    --input-border: #444;
     --button-text: #fff;
-    --footer-background: #2a2a2a;
-    --footer-text: #aaa;
+    --footer-background: #1a1a1a;
+    --footer-text: #bbb;
     --modal-background: rgba(0, 0, 0, 0.8);
-    --modal-content-background: #2a2a2a;
+    --modal-content-background: #1e1e1e;
 }
 
 body {
@@ -70,7 +70,7 @@ body {
 
 .logo-icon {
     width: 2rem;
-    height: 2rem;
+height: 2rem;
     color: var(--primary-color);
     margin-right: 0.5rem;
 }
@@ -88,8 +88,7 @@ body {
     color: var(--text-color);
 }
 
-.
-dark-mode-icon {
+.dark-mode-icon {
     width: 1.5rem;
     height: 1.5rem;
 }
@@ -504,22 +503,25 @@ dark-mode-icon {
     right: 1rem;
     padding: 1rem;
     border-radius: 4px;
-    color: white;
+    background-color: var(--card-background);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
     z-index: 1000;
     max-width: 300px;
 }
 
 .notification.success {
-    background-color: var(--notification-success);
+    border-left: 4px solid var(--notification-success);
 }
 
 .notification.error {
-    background-color: var(--notification-error);
+    border-left: 4px solid var(--notification-error);
 }
 
 .notification.info {
-    background-color: var(--notification-info);
+    border-left: 4px solid var(--notification-info);
 }
 
 .notification i {
@@ -532,6 +534,12 @@ dark-mode-icon {
     color: white;
     cursor: pointer;
     margin-left: 0.5rem;
+}
+
+.dark-mode .card-content,
+.dark-mode .modal-content,
+.dark-mode .form-input {
+    color: var(--text-color);
 }
 
 @media (max-width: 768px) {
