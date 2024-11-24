@@ -1,44 +1,54 @@
 :root {
-    --primary-color: #ff7e00;
-    --secondary-color: #ff4500;
-    --background-color: #fff;
-    --text-color: #333;
-    --card-background: #fff;
-    --card-border: #e0e0e0;
-    --input-background: #f5f5f5;
-    --input-border: #ccc;
-    --button-text: #fff;
-    --footer-background: #f5f5f5;
-    --footer-text: #666;
-    --modal-background: rgba(0, 0, 0, 0.5);
-    --modal-content-background: #fff;
-    --notification-success: #4caf50;
-    --notification-error: #f44336;
-    --notification-info: #2196f3;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 24 96% 50%;
+  --primary-foreground: 60 9.1% 97.8%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
 }
 
 .dark-mode {
-    --primary-color: #ff9e00;
-    --secondary-color: #ff6600;
-    --background-color: #121212;
-    --text-color: #e0e0e0;
-    --card-background: #1e1e1e;
-    --card-border: #333;
-    --input-background: #2a2a2a;
-    --input-border: #444;
-    --button-text: #fff;
-    --footer-background: #1a1a1a;
-    --footer-text: #bbb;
-    --modal-background: rgba(0, 0, 0, 0.8);
-    --modal-content-background: #1e1e1e;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 24 96% 50%;
+  --primary-foreground: 60 9.1% 97.8%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
 }
 
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -51,7 +61,7 @@ body {
 .sticky-header {
     position: sticky;
     top: 0;
-    background-color: var(--background-color);
+    background-color: hsl(var(--background));
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -71,21 +81,21 @@ body {
 .logo-icon {
     width: 2rem;
 height: 2rem;
-    color: var(--primary-color);
+    color: hsl(var(--primary));
     margin-right: 0.5rem;
 }
 
 .logo-text {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: hsl(var(--primary));
 }
 
 .icon-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--text-color);
+    color: hsl(var(--foreground));
 }
 
 .dark-mode-icon {
@@ -98,8 +108,8 @@ height: 2rem;
 }
 
 .card {
-    background-color: var(--card-background);
-    border: 1px solid var(--card-border);
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 2rem;
@@ -108,8 +118,8 @@ height: 2rem;
 
 .card-header {
     padding: 1rem;
-    background-color: var(--primary-color);
-    color: var(--button-text);
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
 }
 
 .gradient-header {
@@ -152,7 +162,7 @@ height: 2rem;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid var(--primary-color);
+    border: 4px solid hsl(var(--primary));
     margin-right: 1rem;
     margin-bottom: 1rem;
 }
@@ -174,7 +184,7 @@ height: 2rem;
 }
 
 .profile-handle {
-    color: var(--footer-text);
+    color: hsl(var(--muted-foreground));
     margin: 0.25rem 0;
 }
 
@@ -223,17 +233,17 @@ height: 2rem;
 .input-prefix {
     position: absolute;
     left: 0.75rem;
-    color: var(--footer-text);
+    color: hsl(var(--muted-foreground));
 }
 
 .form-input {
     width: 100%;
     padding: 0.5rem;
     padding-left: 2rem;
-    border: 1px solid var(--input-border);
+    border: 1px solid hsl(var(--border));
     border-radius: 4px;
-    background-color: var(--input-background);
-    color: var(--text-color);
+    background-color: hsl(var(--input));
+    color: hsl(var(--foreground));
 }
 
 .slider {
@@ -244,13 +254,13 @@ height: 2rem;
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    color: var(--footer-text);
+    color: hsl(var(--muted-foreground));
     font-size: 0.875rem;
 }
 
 .price-text {
     font-size: 0.875rem;
-    color: var(--footer-text);
+    color: hsl(var(--muted-foreground));
 }
 
 .submit-button {
@@ -277,18 +287,18 @@ height: 2rem;
 
 .card-footer {
     padding: 1rem;
-    border-top: 1px solid var(--card-border);
+    border-top: 1px solid hsl(var(--border));
 }
 
 .footer-note {
     font-size: 0.875rem;
-    color: var(--footer-text);
+    color: hsl(var(--muted-foreground));
     margin: 0;
 }
 
 .site-footer {
-    background-color: var(--footer-background);
-    color: var(--footer-text);
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
     padding: 2rem 0;
     text-align: center;
 }
@@ -310,7 +320,7 @@ height: 2rem;
 }
 
 .modal-content {
-    background-color: var(--modal-content-background);
+    background-color: hsl(var(--background));
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
@@ -360,7 +370,7 @@ height: 2rem;
 
 .order-title i {
     margin-right: 0.5rem;
-    color: var(--primary-color);
+    color: hsl(var(--primary));
 }
 
 .order-text-container {
@@ -503,9 +513,9 @@ height: 2rem;
     right: 1rem;
     padding: 1rem;
     border-radius: 4px;
-    background-color: var(--card-background);
-    border: 1px solid var(--card-border);
-    color: var(--text-color);
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--card-foreground));
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
     z-index: 1000;
@@ -536,10 +546,29 @@ height: 2rem;
     margin-left: 0.5rem;
 }
 
+.dark-mode .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .dark-mode .card-content,
-.dark-mode .modal-content,
+.dark-mode .modal-content {
+    color: hsl(var(--foreground));
+}
+
 .dark-mode .form-input {
-    color: var(--text-color);
+    color: hsl(var(--foreground));
+}
+
+.dark-mode .footer-note,
+.dark-mode .price-text,
+.dark-mode .slider-labels {
+    color: hsl(var(--muted-foreground));
+}
+
+.dark-mode .notification {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border));
+    color: hsl(var(--card-foreground));
 }
 
 @media (max-width: 768px) {
