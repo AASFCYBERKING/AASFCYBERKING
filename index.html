@@ -4,38 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Digital Services</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/framer-motion@latest/dist/framer-motion.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app" class="min-h-screen">
-        <div id="disclaimer" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative flex flex-col max-h-[90vh]">
-                <div class="flex items-center justify-center mb-4">
-                    <i data-lucide="alert-triangle" class="w-12 h-12 text-yellow-500"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-center mb-4">Legal Disclaimer</h2>
-                <div class="overflow-y-auto flex-grow pr-2">
-                    <div class="space-y-4 text-sm">
-                        <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
-                        <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
-                        <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
-                        <p>We reserve the right to refuse service to anyone for any reason.</p>
-                        <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
-                        <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
-                        <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
-                        <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
-                        <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
-                    </div>
-                </div>
-                <button id="agreeButton" class="w-full mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-2 rounded-md">
-                    I Agree and Understand
-                </button>
+        <div id="content" class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-200 transition-colors duration-500 relative">
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <!-- Paw prints will be added dynamically via JavaScript -->
             </div>
-        </div>
-
-        <div id="content" class="hidden">
             <header class="sticky top-0 bg-white dark:bg-gray-900 bg-opacity-90 dark:bg-opacity-90 backdrop-blur-sm z-50 shadow-md">
                 <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
                     <div class="flex items-center space-x-2">
@@ -165,6 +144,31 @@ Contact for custom solutions!</p>
             </footer>
         </div>
 
+        <div id="disclaimer" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative flex flex-col max-h-[90vh]">
+                <div class="flex items-center justify-center mb-4">
+                    <i data-lucide="alert-triangle" class="w-12 h-12 text-yellow-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-center mb-4">Legal Disclaimer</h2>
+                <div class="overflow-y-auto flex-grow pr-2">
+                    <div class="space-y-4 text-sm">
+                        <p>This service is provided for entertainment purposes only. We are not affiliated with or endorsed by Instagram, Google, or any other mentioned platforms.</p>
+                        <p>Use of our services may violate the terms of service of these platforms. By using our services, you agree to take full responsibility for any consequences that may arise.</p>
+                        <p>We do not condone or support any illegal activities, including the unauthorized use of accounts or payment methods. Users are responsible for ensuring they have the right to make purchases and use the services provided.</p>
+                        <p>We reserve the right to refuse service to anyone for any reason.</p>
+                        <p>By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services.</p>
+                        <p>The information provided through our services is for general informational purposes only and should not be considered as professional advice. We make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on our website or provided through our services.</p>
+                        <p>Any reliance you place on such information is strictly at your own risk. We will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our services.</p>
+                        <p>Through our website, you may be able to link to other websites which are not under our control. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
+                        <p>Every effort is made to keep the website up and running smoothly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
+                    </div>
+                </div>
+                <button id="agreeButton" class="w-full mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-2 rounded-md">
+                    I Agree and Understand
+                </button>
+            </div>
+        </div>
+
         <div id="orderDetails" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative flex flex-col max-h-[90vh]">
                 <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white flex items-center">
@@ -180,10 +184,10 @@ Contact for custom solutions!</p>
                         <h3 class="font-semibold mb-2 text-gray-900 dark:text-white flex items-center">
                             <i data-lucide="qr-code" class="mr-2 text-blue-500"></i>
                             Payment Instructions
-                        </h3>
+                
+</h3>
                         <ol class="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                            <li>Scan the QR code or use the UPI ID below for
-payment.</li>
+                            <li>Scan the QR code or use the UPI ID below for payment.</li>
                             <li>Take a screenshot of your payment confirmation.</li>
                             <li>Send the screenshot along with the generated order text to @kishoredxd on Instagram.</li>
                             <li>Wait for your order to be processed (usually within 24-48 hours).</li>
@@ -235,6 +239,6 @@ payment.</li>
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
