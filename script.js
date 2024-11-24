@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleDarkMode() {
         isDarkMode = !isDarkMode;
-        document.documentElement.classList.toggle('dark-mode', isDarkMode);
+        document.documentElement.classList.toggle('dark', isDarkMode);
         darkModeToggle.innerHTML = isDarkMode
-            ? '<i data-lucide="moon" class="dark-mode-icon"></i>'
-            : '<i data-lucide="sun" class="dark-mode-icon"></i>';
+            ? '<i data-lucide="moon" class="h-6 w-6"></i>'
+            : '<i data-lucide="sun" class="h-6 w-6"></i>';
         lucide.createIcons();
     }
 
@@ -63,20 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showNotification(type, message) {
-        notification.className = `notification ${type}`;
-        notificationIcon.className = type === 'success' ? 'fas fa-check-circle' :
-                                     type === 'error' ? 'fas fa-exclamation-circle' :
-                                     'fas fa-info-circle';
+        notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white flex items-center space-x-3 max-w-md notification-${type}`;
+        notificationIcon.setAttribute('data-lucide', type === 'success' ? 'check-circle' : type === 'error' ? 'alert-circle' : 'info');
         notificationMessage.textContent = message;
         notification.style.display = 'flex';
+        lucide.createIcons();
         setTimeout(() => {
             notification.style.display = 'none';
         }, 3000);
     }
-
-    // Show disclaimer when the page loads
-    disclaimer.style.display = 'block';
-    content.style.display = 'none';
 
     agreeButton.addEventListener('click', () => {
         showContent();
@@ -104,7 +99,7 @@ Followers: ${count}
 Total Price: ₹${price} (includes ₹15 service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-        orderDetails.style.display = 'block';
+        orderDetails.style.display = 'flex';
         showNotification('success', 'Order generated successfully!');
     });
 
@@ -121,7 +116,7 @@ Amount: ₹${amount}
 Total Price: ₹${price} (includes ₹${price - amount} service fee)
 
 I agree to all terms and conditions. I am responsible for my actions, and I confirm that this money belongs to me and was not obtained through illegal means.`;
-        orderDetails.style.display = 'block';
+        orderDetails.style.display = 'flex';
         showNotification('success', 'Order generated successfully!');
     });
 
@@ -139,7 +134,7 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
     });
 
     qrCodeImage.addEventListener('click', () => {
-        qrCodeOverlay.style.display = 'block';
+        qrCodeOverlay.style.display = 'flex';
     });
 
     closeQrCodeOverlayButton.addEventListener('click', () => {
@@ -155,3 +150,4 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
     updateGooglePlayPrice();
     lucide.createIcons();
 });
+
