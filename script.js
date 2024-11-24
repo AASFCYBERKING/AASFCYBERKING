@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleDarkMode() {
         isDarkMode = !isDarkMode;
-        app.classList.toggle('dark-mode', isDarkMode);
+        document.documentElement.classList.toggle('dark-mode', isDarkMode);
         darkModeToggle.innerHTML = isDarkMode
             ? '<i data-lucide="moon" class="dark-mode-icon"></i>'
             : '<i data-lucide="sun" class="dark-mode-icon"></i>';
@@ -73,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
             notification.style.display = 'none';
         }, 3000);
     }
+
+    // Show disclaimer when the page loads
+    disclaimer.style.display = 'block';
+    content.style.display = 'none';
 
     agreeButton.addEventListener('click', () => {
         showContent();
@@ -151,4 +155,3 @@ I agree to all terms and conditions. I am responsible for my actions, and I conf
     updateGooglePlayPrice();
     lucide.createIcons();
 });
-
