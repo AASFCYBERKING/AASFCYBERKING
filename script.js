@@ -1,380 +1,303 @@
-class ChatApp {
-    constructor() {
-        this.messages = [];
-        this.isLoading = false;
-        this.recognition = null;
-        this.isRecording = false;
+document.addEventListener('DOMContentLoaded', () => {
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const themeToggle = document.getElementById('themeToggle');
+    const clearChat = document.getElementById('clearChat');
+    const downloadChat = document.getElementById('downloadChat');
+    const importChat = document.getElementById('importChat');
+    const speechToText = document.getElementById('speechToText');
 
-        // DOM Elements
-        this.elements = {
-            app: document.getElementById('app'),
-            welcomeScreen: document.getElementById('welcomeScreen'),
-            chatContainer: document.getElementById('chatContainer'),
-            messageInput: document.getElementById('messageInput'),
-            chatForm: document.getElementById('chatForm'),
-            sendButton: document.getElementById('sendMessage'),
-            voiceButton: document.getElementById('voiceInput'),
-            themeToggle: document.getElementById('themeToggle'),
-            clearChat: document.getElementById('clearChat'),
-            downloadChat: document.getElementById('downloadChat'),
-            importChat: document.getElementById('importChat'),
-            suggestionBtns: document.querySelectorAll('.suggestion-btn')
-        };
+    let storedMessages = [];
+    let isLoading = false;
 
-        // Templates
-        this.templates = {
-            message: document.getElementById('messageTemplate'),
-            loading: document.getElementById('loadingTemplate')
-        };
+    // Initialize Lucide icons
+    lucide.createIcons();
 
-        this.initializeApp();
-    }
+    // Load stored messages
+    const loadStoredMessages = () => {
+        const storedData = localStorage.getItem('kvvnm-chat-data');
+        if (storedData) {
+            storedMessages = JSON.parse(storedData).messages || [];
+            renderMessages();
+        }
+    };
 
-    initializeApp() {
-        this.setupEventListeners();
-        this.loadChatHistory();
-        this.setupSpeechRecognition();
-        this.loadTheme();
-        this.adjustTextareaHeight();
-    }
+    // Save messages to local storage
+    const saveMessages = () => {
+        localStorage.setItem('kvvnm-chat-data', JSON.stringify({ messages: storedMessages }));
+    };
 
-    setupEventListeners() {
-        // Form submission
-        this.elements.chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleSubmit();
+    // Render messages
+    const renderMessages = () => {
+        chatMessages.innerHTML = '';
+        storedMessages.forEach(message => {
+            const messageElement = createMessageElement(message);
+            chatMessages.appendChild(messageElement);
         });
+        scrollToBottom();
+    };
 
-        // Input handling
-        this.elements.messageInput.addEventListener('input', () => {
-            this.adjustTextareaHeight();
-            this.toggleSendButton();
-        });
+    // Create message element
+    const createMessageElement = (message) => {
+        const template = document.getElementById('messageTemplate');
+        const messageElement = template.content.cloneNode(true);
 
-        this.elements.messageInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.handleSubmit();
-            }
-        });
+        const messageIcon = messageElement.querySelector('.message-icon');
+        const messageSender = messageElement.querySelector('.message-sender');
+        const messageTimestamp = messageElement.querySelector('.message-timestamp');
+        const messageText = messageElement.querySelector('.message-text');
+        const messageActions = messageElement.querySelector('.message-actions');
 
-        // Voice input
-        this.elements.voiceButton.addEventListener('click', () => {
-            this.toggleVoiceInput();
-        });
+        messageIcon.innerHTML = message.role === 'assistant' ? '<i data-lucide="bot"></i>' : '<i data-lucide="user"></i>';
+        messageSender.textContent = message.role === 'assistant' ? 'AI Assistant' : 'You';
+        messageTimestamp.textContent = new Date(message.timestamp).toLocaleString();
+        messageText.textContent = message.content;
 
-        // Theme toggle
-        this.elements.themeToggle.addEventListener('click', () => {
-            this.toggleTheme();
-        });
+        if (message.role === 'assistant') {
+            const regenerateButton = messageActions.querySelector('.regenerate');
+            regenerateButton.addEventListener('click', () => regenerateMessage(message));
 
-        // Chat management
-        this.elements.clearChat.addEventListener('click', () => {
-            this.clearChat();
-        });
+            const shareButton = messageActions.querySelector('.share');
+            shareButton.addEventListener('click', () => shareMessage(message));
 
-        this.elements.downloadChat.addEventListener('click', () => {
-            this.downloadChat();
-        });
+            const reportButton = messageActions.querySelector('.report');
+            reportButton.addEventListener('click', () => reportMessage(message));
 
-        this.elements.importChat.addEventListener('change', (e) => {
-            this.importChat(e);
-        });
+            const dropdownToggle = messageActions.querySelector('.dropdown-toggle');
+            const dropdownMenu = messageActions.querySelector('.dropdown-menu');
+            dropdownToggle.addEventListener('click', () => dropdownMenu.classList.toggle('show'));
 
-        // Suggestions
-        this.elements.suggestionBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.handleSuggestion(btn.textContent);
-            });
-        });
+            const copyButton = dropdownMenu.querySelector('.copy');
+            copyButton.addEventListener('click', () => copyToClipboard(message.content));
 
-        // Handle message actions delegation
-        this.elements.chatContainer.addEventListener('click', (e) => {
-            this.handleMessageActions(e);
-        });
-    }
+            const speakButton = dropdownMenu.querySelector('.speak');
+            speakButton.addEventListener('click', () => speakMessage(message.content));
 
-    async handleSubmit() {
-        const message = this.elements.messageInput.value.trim();
-        if (!message || this.isLoading) return;
+            const deleteButton = dropdownMenu.querySelector('.delete');
+            deleteButton.addEventListener('click', () => deleteMessage(message));
+        } else {
+            messageActions.style.display = 'none';
+        }
 
-        this.elements.messageInput.value = '';
-        this.adjustTextareaHeight();
-        this.toggleSendButton();
-        await this.sendMessage(message);
-    }
+        lucide.createIcons(messageElement);
+        return messageElement;
+    };
 
-    async sendMessage(content) {
-        this.hideWelcomeScreen();
-        this.addMessage('user', content);
-        this.showLoadingIndicator();
+    // Send message
+    const sendMessage = async (content) => {
+        const userMessage = { role: 'user', content, timestamp: Date.now() };
+        storedMessages.push(userMessage);
+        renderMessages();
+        saveMessages();
+
+        isLoading = true;
+        renderLoadingIndicator();
 
         try {
-            const response = await this.fetchAIResponse(content);
-            this.addMessage('ai', response);
-        } catch (error) {
-            console.error('Error:', error);
-            this.addMessage('ai', 'Sorry, I encountered an error. Please try again.');
-        } finally {
-            this.hideLoadingIndicator();
-        }
-    }
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: storedMessages.map(m => ({ role: m.role, content: m.content })),
+                }),
+            });
 
-    async fetchAIResponse(content) {
-        // Simulate API call - Replace with your actual API endpoint
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(`This is a simulated response to: "${content}"`);
-            }, 1000);
-        });
-    }
-
-    addMessage(role, content) {
-        const message = {
-            role,
-            content,
-            timestamp: new Date().toISOString()
-        };
-
-        this.messages.push(message);
-        this.renderMessage(message);
-        this.saveChatHistory();
-        this.scrollToBottom();
-    }
-
-    renderMessage(message) {
-        const messageElement = this.templates.message.content.cloneNode(true);
-        const messageDiv = messageElement.querySelector('.message');
-        
-        messageDiv.classList.add(`${message.role}-message`);
-        messageDiv.querySelector('.message-content').textContent = message.content;
-
-        if (message.role === 'ai') {
-            this.setupMessageActions(messageDiv);
-        } else {
-            messageDiv.querySelector('.message-actions').remove();
-        }
-
-        this.elements.chatContainer.appendChild(messageDiv);
-    }
-
-    setupMessageActions(messageDiv) {
-        const copyBtn = messageDiv.querySelector('.copy-btn');
-        const regenerateBtn = messageDiv.querySelector('.regenerate-btn');
-        const reportBtn = messageDiv.querySelector('.report-btn');
-        const dropdownToggle = messageDiv.querySelector('.dropdown-toggle');
-
-        copyBtn.addEventListener('click', () => {
-            this.copyToClipboard(messageDiv.querySelector('.message-content').textContent);
-        });
-
-        regenerateBtn.addEventListener('click', () => {
-            const lastUserMessage = this.messages.findLast(m => m.role === 'user');
-            if (lastUserMessage) {
-                this.sendMessage(lastUserMessage.content);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        });
 
-        reportBtn.addEventListener('click', () => {
-            this.reportMessage(messageDiv.querySelector('.message-content').textContent);
-        });
+            const data = await response.json();
+            const aiMessage = { role: 'assistant', content: data.content, timestamp: Date.now() };
+            storedMessages.push(aiMessage);
+            renderMessages();
+            saveMessages();
+        } catch (error) {
+            console.error('Error sending message:', error);
+            alert('Failed to send message. Please try again.');
+        } finally {
+            isLoading = false;
+            removeLoadingIndicator();
+        }
+    };
 
-        dropdownToggle.addEventListener('click', () => {
-            dropdownToggle.closest('.dropdown').classList.toggle('active');
-        });
-    }
+    // Regenerate message
+    const regenerateMessage = (message) => {
+        const userMessageIndex = storedMessages.findIndex(m => m.role === 'user' && m.timestamp < message.timestamp);
+        if (userMessageIndex !== -1) {
+            const userMessage = storedMessages[userMessageIndex];
+            storedMessages = storedMessages.slice(0, userMessageIndex + 1);
+            sendMessage(userMessage.content);
+        }
+    };
 
-    setupSpeechRecognition() {
-        if ('webkitSpeechRecognition' in window) {
-            this.recognition = new webkitSpeechRecognition();
-            this.recognition.continuous = true;
-            this.recognition.interimResults = true;
+    // Share message
+    const shareMessage = (message) => {
+        const shareText = `Check out this AI response from KVVNM AI:
 
-            this.recognition.onresult = (event) => {
-                const transcript = Array.from(event.results)
-                    .map(result => result[0].transcript)
-                    .join('');
-                this.elements.messageInput.value = transcript;
-                this.adjustTextareaHeight();
-                this.toggleSendButton();
-            };
+"${message.content}"
 
-            this.recognition.onerror = () => {
-                this.isRecording = false;
-                this.updateVoiceButton();
-            };
+Generate your own responses at https://kvvnm-ai.com`;
 
-            this.recognition.onend = () => {
-                this.isRecording = false;
-                this.updateVoiceButton();
-            };
+        if (navigator.share) {
+            navigator.share({
+                title: 'KVVNM AI Response',
+                text: shareText,
+            }).catch(console.error);
         } else {
-            this.elements.voiceButton.style.display = 'none';
+            copyToClipboard(shareText);
         }
-    }
+    };
 
-    toggleVoiceInput() {
-        if (!this.recognition) return;
+    // Report message
+    const reportMessage = (message) => {
+        console.log('Report message:', message.content);
+        alert('Message reported. Thank you for your feedback.');
+    };
 
-        if (this.isRecording) {
-            this.recognition.stop();
+    // Copy to clipboard
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied to clipboard!');
+        }, (err) => {
+            console.error('Could not copy text: ', err);
+        });
+    };
+
+    // Speak message
+    const speakMessage = (text) => {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = speechSynthesis.getVoices();
+            utterance.voice = voices.find(voice => voice.name.includes('Male')) || null;
+            speechSynthesis.speak(utterance);
         } else {
-            this.recognition.start();
+            alert('Text-to-speech is not supported in your browser.');
         }
+    };
 
-        this.isRecording = !this.isRecording;
-        this.updateVoiceButton();
-    }
+    // Delete message
+    const deleteMessage = (message) => {
+        storedMessages = storedMessages.filter(m => m.timestamp !== message.timestamp);
+        renderMessages();
+        saveMessages();
+    };
 
-    updateVoiceButton() {
-        const icon = this.elements.voiceButton.querySelector('i');
-        icon.className = this.isRecording ? 'fas fa-stop' : 'fas fa-microphone';
-        this.elements.voiceButton.classList.toggle('recording', this.isRecording);
-    }
+    // Render loading indicator
+    const renderLoadingIndicator = () => {
+        const loadingElement = document.createElement('div');
+        loadingElement.className = 'message loading';
+        loadingElement.innerHTML = `
+            <div class="message-icon"><i data-lucide="loader"></i></div>
+            <div class="message-content">
+                <div class="message-text">Generating response...</div>
+            </div>
+        `;
+        chatMessages.appendChild(loadingElement);
+        lucide.createIcons(loadingElement);
+        scrollToBottom();
+    };
 
-    adjustTextareaHeight() {
-        const textarea = this.elements.messageInput;
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
-    }
-
-    toggleSendButton() {
-        this.elements.sendButton.disabled = !this.elements.messageInput.value.trim();
-    }
-
-    toggleTheme() {
-        const isDark = document.body.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        
-        const icon = this.elements.themeToggle.querySelector('i');
-        icon.className = `fas fa-${isDark ? 'sun' : 'moon'}`;
-    }
-
-    loadTheme() {
-        const theme = localStorage.getItem('theme') || 'light';
-        if (theme === 'dark') {
-            document.body.classList.add('dark');
-            this.elements.themeToggle.querySelector('i').className = 'fas fa-sun';
+    // Remove loading indicator
+    const removeLoadingIndicator = () => {
+        const loadingElement = chatMessages.querySelector('.loading');
+        if (loadingElement) {
+            loadingElement.remove();
         }
-    }
+    };
 
-    clearChat() {
-        if (confirm('Are you sure you want to clear the chat history?')) {
-            this.messages = [];
-            this.elements.chatContainer.innerHTML = '';
-            localStorage.removeItem('chatHistory');
-            this.showWelcomeScreen();
+    // Scroll to bottom
+    const scrollToBottom = () => {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    // Event listeners
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (message && !isLoading) {
+            sendMessage(message);
+            userInput.value = '';
         }
-    }
+    });
 
-    downloadChat() {
-        const data = JSON.stringify(this.messages, null, 2);
-        const blob = new Blob([data], { type: 'application/json' });
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    });
+
+    clearChat.addEventListener('click', () => {
+        storedMessages = [];
+        renderMessages();
+        saveMessages();
+    });
+
+    downloadChat.addEventListener('click', () => {
+        const chatContent = storedMessages
+            .map(m => `${m.role} (${new Date(m.timestamp).toLocaleString()}): ${m.content}`)
+            .join('\n\n');
+        const blob = new Blob([chatContent], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'chat-history.json';
+        a.download = 'kvvnm-chat-history.txt';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-    }
+    });
 
-    importChat(event) {
-        const file = event.target.files[0];
+    importChat.addEventListener('change', (e) => {
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                try {
-                    const messages = JSON.parse(e.target.result);
-                    this.messages = messages;
-                    this.elements.chatContainer.innerHTML = '';
-                    messages.forEach(message => this.renderMessage(message));
-                    this.hideWelcomeScreen();
-                    this.saveChatHistory();
-                } catch (error) {
-                    console.error('Error importing chat:', error);
-                    alert('Invalid chat history file');
-                }
+                const content = e.target.result;
+                const importedMessages = content.split('\n\n').map(messageStr => {
+                    const [rolePart, contentPart] = messageStr.split(': ');
+                    const [role, timestampStr] = rolePart.split(' (');
+                    return {
+                        role: role as 'user' | 'assistant',
+                        content: contentPart,
+                        timestamp: new Date(timestampStr.slice(0, -1)).getTime()
+                    };
+                });
+                storedMessages = importedMessages;
+                renderMessages();
+                saveMessages();
             };
             reader.readAsText(file);
         }
-    }
+    });
 
-    loadChatHistory() {
-        const savedMessages = localStorage.getItem('chatHistory');
-        if (savedMessages) {
-            this.messages = JSON.parse(savedMessages);
-            this.hideWelcomeScreen();
-            this.messages.forEach(message => this.renderMessage(message));
+    speechToText.addEventListener('click', () => {
+        if ('webkitSpeechRecognition' in window) {
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error', event.error);
+                alert('Speech recognition failed. Please try again.');
+            };
+
+            recognition.start();
+        } else {
+            alert('Speech recognition is not supported in your browser.');
         }
-    }
+    });
 
-    saveChatHistory() {
-        localStorage.setItem('chatHistory', JSON.stringify(this.messages));
+    // Initialize
+    loadStoredMessages();
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
     }
-
-    showLoadingIndicator() {
-        this.isLoading = true;
-        const loadingElement = this.templates.loading.content.cloneNode(true);
-        this.elements.chatContainer.appendChild(loadingElement);
-        this.scrollToBottom();
-    }
-
-    hideLoadingIndicator() {
-        this.isLoading = false;
-        const loadingElement = this.elements.chatContainer.querySelector('.typing-indicator')?.parentElement;
-        if (loadingElement) {
-            loadingElement.remove();
-        }
-    }
-
-    async copyToClipboard(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            this.showToast('Copied to clipboard!');
-        } catch (error) {
-            console.error('Failed to copy:', error);
-            this.showToast('Failed to copy text');
-        }
-    }
-
-    reportMessage(content) {
-        console.log('Reporting message:', content);
-        this.showToast('Message reported');
-        // Implement your report logic here
-    }
-
-    showToast(message) {
-        // Simple toast implementation - you might want to use a library
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    hideWelcomeScreen() {
-        this.elements.welcomeScreen.classList.add('hidden');
-        this.elements.chatContainer.classList.remove('hidden');
-    }
-
-    showWelcomeScreen() {
-        this.elements.welcomeScreen.classList.remove('hidden');
-        this.elements.chatContainer.classList.add('hidden');
-    }
-
-    scrollToBottom() {
-        this.elements.chatContainer.scrollTop = this.elements.chatContainer.scrollHeight;
-    }
-
-    handleSuggestion(text) {
-        this.elements.messageInput.value = text;
-        this.handleSubmit();
-    }
-}
-
-// Initialize the app
-document.addEventListener('DOMContentLoaded', () => {
-    new ChatApp();
 });
