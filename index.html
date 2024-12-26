@@ -4,116 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KVVNM AI Chat</title>
-    <link rel="icon" type="image/png" href="assets/kvvnm-logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="light">
-    <div id="app">
-        <header id="mainHeader">
-            <div class="container header-content">
-                <div class="logo-section">
-                    <img src="assets/kvvnm-logo.png" alt="KVVNM Logo" class="logo">
-                    <h1>KVVNM AI</h1>
-                </div>
-                <div class="header-actions">
-                    <button id="themeToggle" class="icon-button" aria-label="Toggle theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <label for="importChat" class="icon-button" role="button" aria-label="Import chat">
-                        <i class="fas fa-upload"></i>
-                    </label>
-                    <input type="file" id="importChat" accept=".json" hidden>
-                    <button id="downloadChat" class="icon-button" aria-label="Download chat">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button id="clearChat" class="icon-button" aria-label="Clear chat">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <div class="logo-container">
+                <img src="https://www.kvkathmandu.net/images/logo.png" alt="KVVNM Logo" class="logo">
+                <h1 class="title">KVVNM AI</h1>
+            </div>
+            <div class="header-actions">
+                <button id="themeToggle" class="icon-button">
+                    <i data-lucide="sun" class="theme-icon sun"></i>
+                    <i data-lucide="moon" class="theme-icon moon"></i>
+                </button>
+                <label for="importChat" class="icon-button">
+                    <i data-lucide="upload"></i>
+                </label>
+                <input type="file" id="importChat" accept=".txt" class="hidden">
+                <button id="downloadChat" class="icon-button">
+                    <i data-lucide="download"></i>
+                </button>
+                <button id="clearChat" class="icon-button">
+                    <i data-lucide="trash-2"></i>
+                </button>
             </div>
         </header>
 
-        <main id="mainContent">
-            <div class="container">
-                <div id="welcomeScreen" class="welcome-screen">
-                    <div class="welcome-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h2>Welcome to KVVNM AI</h2>
-                    <p>How can I assist you today?</p>
-                    <div class="suggestions">
-                        <button class="suggestion-btn">Tell me about KVVNM</button>
-                        <button class="suggestion-btn">What services do you offer?</button>
-                        <button class="suggestion-btn">How can you help me?</button>
-                    </div>
-                </div>
-
-                <div id="chatContainer" class="chat-container hidden">
-                    <!-- Chat messages will be inserted here -->
-                </div>
-            </div>
+        <main class="chat-main">
+            <div id="chatMessages" class="chat-messages"></div>
         </main>
 
-        <footer id="mainFooter">
-            <div class="container">
-                <form id="chatForm" class="chat-form">
-                    <button type="button" id="voiceInput" class="icon-button" aria-label="Voice input">
-                        <i class="fas fa-microphone"></i>
+        <footer class="chat-footer">
+            <form id="chatForm" class="chat-form">
+                <div class="input-container">
+                    <button type="button" id="speechToText" class="icon-button">
+                        <i data-lucide="mic"></i>
                     </button>
-                    <div class="input-wrapper">
-                        <textarea 
-                            id="messageInput" 
-                            placeholder="Type your message..." 
-                            rows="1"
-                            aria-label="Message input"
-                        ></textarea>
-                    </div>
-                    <button type="submit" id="sendMessage" class="icon-button" disabled aria-label="Send message">
-                        <i class="fas fa-paper-plane"></i>
+                    <input type="text" id="userInput" placeholder="Type your message..." required>
+                    <button type="submit" id="sendMessage" class="icon-button">
+                        <i data-lucide="send"></i>
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
         </footer>
     </div>
 
-    <!-- Message Template -->
     <template id="messageTemplate">
         <div class="message">
-            <div class="message-content"></div>
-            <div class="message-actions">
-                <button class="icon-button copy-btn" aria-label="Copy message">
-                    <i class="fas fa-copy"></i>
-                </button>
-                <button class="icon-button regenerate-btn" aria-label="Regenerate response">
-                    <i class="fas fa-redo"></i>
-                </button>
-                <div class="dropdown">
-                    <button class="icon-button dropdown-toggle" aria-label="More options">
-                        <i class="fas fa-ellipsis-v"></i>
+            <div class="message-icon"></div>
+            <div class="message-content">
+                <div class="message-header">
+                    <span class="message-sender"></span>
+                    <span class="message-timestamp"></span>
+                </div>
+                <div class="message-text"></div>
+                <div class="message-actions">
+                    <button class="icon-button regenerate">
+                        <i data-lucide="rotate-ccw"></i>
                     </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item report-btn">
-                            <i class="fas fa-flag"></i> Report message
+                    <button class="icon-button share">
+                        <i data-lucide="share"></i>
+                    </button>
+                    <button class="icon-button report">
+                        <i data-lucide="flag"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="icon-button dropdown-toggle">
+                            <i data-lucide="more-horizontal"></i>
                         </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item copy">Copy</button>
+                            <button class="dropdown-item speak">Speak</button>
+                            <button class="dropdown-item delete">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- Loading Indicator Template -->
-    <template id="loadingTemplate">
-        <div class="message ai-message">
-            <div class="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </template>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
