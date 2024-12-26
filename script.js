@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadChat = document.getElementById('downloadChat');
     const importChat = document.getElementById('importChat');
     const speechToText = document.getElementById('speechToText');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const suggestions = document.getElementById('suggestions');
 
     let storedMessages = [];
     let isLoading = false;
@@ -20,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (storedData) {
             storedMessages = JSON.parse(storedData).messages || [];
             renderMessages();
+            welcomeMessage.style.display = 'none';
+        } else {
+            fetchSuggestions();
         }
     };
 
@@ -42,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const createMessageElement = (message) => {
         const template = document.getElementById('messageTemplate');
         const messageElement = template.content.cloneNode(true);
+        const messageContainer = messageElement.querySelector('.message');
+
+        messageContainer.classList.add(message.role);
 
         const messageIcon = messageElement.querySelector('.message-icon');
         const messageSender = messageElement.querySelector('.message-sender');
@@ -52,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageIcon.innerHTML = message.role === 'assistant' ? '<i data-lucide="bot"></i>' : '<i data-lucide="user"></i>';
         messageSender.textContent = message.role === 'assistant' ? 'AI Assistant' : 'You';
         messageTimestamp.textContent = new Date(message.timestamp).toLocaleString();
-        messageText.textContent = message.content;
+        messageText.innerHTML = formatMessageContent(message.content);
 
         if (message.role === 'assistant') {
             const regenerateButton = messageActions.querySelector('.regenerate');
@@ -82,6 +90,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lucide.createIcons(messageElement);
         return messageElement;
+    };
+
+    // Format message content
+    const formatMessageContent = (content) => {
+        // Convert markdown-like syntax to HTML
+        let formattedContent = content
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`(.*?)`/g, '<code>$1</code>')
+            .replace(/\[(.*?)\]$$(.*?)$$/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+        // Handle special content types
+        formattedContent = formattedContent.replace(/!(pdf|img|vid)\[(.*?)\]\$\$(.*?)\$\$/g, (match, type, name, url) => {
+            switch (type) {
+                case 'pdf':
+                    return `<div class="content-preview pdf" data-url="${url}">${name}</div>`;
+                case 'img':
+                    return `<img src="${url}" alt="${name}" class="content-preview image">`;
+                case 'vid':
+                    return `<div class="content-preview video" data-url="${url}">${name}</div>`;
+                default:
+                    return match;
+            }
+        });
+
+        return formattedContent;
     };
 
     // Send message
@@ -213,6 +247,41 @@ Generate your own responses at https://kvvnm-ai.com`;
         chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
+    // Fetch suggestions
+    const fetchSuggestions = async () => {
+        try {
+            const response = await fetch('/api/suggestions');
+            const data = await response.json();
+            if (Array.isArray(data.suggestions)) {
+                renderSuggestions(data.suggestions);
+            } else {
+                renderSuggestions(data.suggestions.split('¥').filter(Boolean).map(s => s.trim()));
+            }
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+            renderSuggestions([
+                "What are the school's academic achievements?",
+                "Tell me about the admission process",
+                "What extracurricular activities are offered?"
+            ]);
+        }
+    };
+
+    // Render suggestions
+    const renderSuggestions = (suggestionList) => {
+        suggestions.innerHTML = '';
+        suggestionList.forEach(suggestion => {
+            const button = document.createElement('button');
+            button.className = 'suggestion-button';
+            button.textContent = suggestion;
+            button.addEventListener('click', () => {
+                userInput.value = suggestion;
+                chatForm.dispatchEvent(new Event('submit'));
+            });
+            suggestions.appendChild(button);
+        });
+    };
+
     // Event listeners
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -220,6 +289,7 @@ Generate your own responses at https://kvvnm-ai.com`;
         if (message && !isLoading) {
             sendMessage(message);
             userInput.value = '';
+            welcomeMessage.style.display = 'none';
         }
     });
 
@@ -232,6 +302,8 @@ Generate your own responses at https://kvvnm-ai.com`;
         storedMessages = [];
         renderMessages();
         saveMessages();
+        welcomeMessage.style.display = 'block';
+        fetchSuggestions();
     });
 
     downloadChat.addEventListener('click', () => {
@@ -259,7 +331,7 @@ Generate your own responses at https://kvvnm-ai.com`;
                     const [rolePart, contentPart] = messageStr.split(': ');
                     const [role, timestampStr] = rolePart.split(' (');
                     return {
-                        role: role as 'user' | 'assistant',
+                        role: role,
                         content: contentPart,
                         timestamp: new Date(timestampStr.slice(0, -1)).getTime()
                     };
@@ -267,6 +339,7 @@ Generate your own responses at https://kvvnm-ai.com`;
                 storedMessages = importedMessages;
                 renderMessages();
                 saveMessages();
+                welcomeMessage.style.display = 'none';
             };
             reader.readAsText(file);
         }
